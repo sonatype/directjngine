@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Dev_All" verbose="2" parallel="false">
+
+  <test name="All">
+    <packages>
+      <package name="com.softwarementors.extjs.djn.test.java"/>    
+    </packages>
+  </test>
+  
+</suite>
+

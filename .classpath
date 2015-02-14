@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="lib/commons-fileupload-1.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/compiletimeonly/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/runtimeonly/jargs-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/runtimeonly/rhino-1.6R7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/yuicompressor-2.4.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/compiletimeonly/testng-5.7-jdk15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/compiletimeonly/annotations.jar"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (1)"/>
+	<classpathentry kind="src" output="workdir/build_test" path="src/test"/>
+	<classpathentry kind="src" output="workdir/build_test" path="src/demo"/>
+	<classpathentry kind="src" output="workdir/build" path="src/prod"/>
+	<classpathentry exported="true" kind="lib" path="lib/gson-2.2.1.jar" sourcepath="lib/doc_source/gson-2.2.1-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="workdir/build"/>
+</classpath>
