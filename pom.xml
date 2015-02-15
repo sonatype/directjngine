@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.sonatype.buildsupport</groupId>
+    <artifactId>public-parent</artifactId>
+    <version>6</version>
+  </parent>
+
+  <groupId>org.sonatype.directjngine</groupId>
+  <artifactId>directjngine</artifactId>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <packaging>pom</packaging>
+
+  <version>2.2-SNAPSHOT</version>
+
+  <url>https://github.com/sonatype/directjngine</url>
+
+  <scm>
+    <connection>scm:git:git://github.com/sonatype/directjngine.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/sonatype/directjngine.git</developerConnection>
+    <url>https://github.com/sonatype/directjngine</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>LGPL-3</name>
+      <url>http://opensource.org/licenses/LGPL-3.0</url>
+    </license>
+  </licenses>
+  
+  <properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+
+</project>
