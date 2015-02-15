@@ -1,4 +1,10 @@
-# directjngine maintenance fork
+# DirectJNgine
+
+DirectJNgine is an Open Source library that provides a Java-based implementation of the ExtJs Direct API.
+
+http://www.sencha.com/products/extjs/extdirect
+
+# Maintenance Fork
 
 Fork of https://code.google.com/p/directjngine/ (from zip, since no SCM seems to be available publicly).
 
