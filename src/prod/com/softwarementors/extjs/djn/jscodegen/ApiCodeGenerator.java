@@ -93,7 +93,7 @@ public class ApiCodeGenerator {
     
     String contextPath = this.globalConfiguration.getContextPath();
     if( contextPath == null ) {
-      String JSCRIPT_CALCULATED_CONTEXT_PATH = "(window.location.pathname.split('/').length>2 ? window.location.pathname.split('/')[1]+ '/' : '')  + '";
+      String JSCRIPT_CALCULATED_CONTEXT_PATH = "(window.location.pathname.split('/').length>2 ? window.location.pathname.replace(/^\\/|\\/$/g, '') + '/' : '')  + '";
       result.append( "window.location.protocol + '//' + window.location.host + '/' + " + JSCRIPT_CALCULATED_CONTEXT_PATH );
     }
     else {
