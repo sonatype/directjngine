@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.io.IOUtils;
@@ -79,10 +80,6 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  *
  * @version $Id: DiskFileItem2.java 399546 2006-05-04 04:53:30Z martinc $
  */
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForParameters( value=edu.umd.cs.findbugs.annotations.UnknownNullness.class)
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForFields( value=edu.umd.cs.findbugs.annotations.UnknownNullness.class)
-@edu.umd.cs.findbugs.annotations.DefaultAnnotationForMethods( value=edu.umd.cs.findbugs.annotations.UnknownNullness.class)
-@SuppressWarnings("unqualified-field-access")
 public class DiskFileItem2
     implements FileItem {
 
@@ -324,8 +321,6 @@ public class DiskFileItem2
      *
      * @return The contents of the file as an array of bytes.
      */
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value={"RR_NOT_CHECKED", "EI_EXPOSE_REP"}, justification="Do not want to modify code we have just pasted")
-//    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="RR_NOT_CHECKED", justification="Do not want to modify code we have just pasted")
     public byte[] get() {
         if (isInMemory()) {
             if (cachedContent == null) {
@@ -430,7 +425,6 @@ public class DiskFileItem2
      * collected, this method can be used to ensure that this is done at an
      * earlier time, thus preserving system resources.
      */
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification="Do not want to modify code we have just pasted")
     public void delete() {
         cachedContent = null;
         File outputFile = getStoreLocation();
@@ -543,7 +537,6 @@ public class DiskFileItem2
     /**
      * Removes the file contents from the temporary storage.
      */
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification="Do not want to modify code we have just pasted")
     @Override
     protected void finalize() {
         File outputFile = dfos.getFile();
@@ -655,7 +648,6 @@ public class DiskFileItem2
      * @throws IOException if an error occurs.
      * @throws ClassNotFoundException if class cannot be found.
      */
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", justification="Do not want to modify code we have just pasted")
     private void readObject(ObjectInputStream in)
             throws IOException, ClassNotFoundException {
         // read values
@@ -675,5 +667,29 @@ public class DiskFileItem2
 
         cachedContent = null;
     }
+
+  // The code bellow is copied from org.apache.commons.fileupload.disk.DiskFileItem
+  // and this are the only changes to original djn DiskFileItem2 (beside removing findbugs annos to easier compile)
+
+  /**
+   * The file items headers.
+   */
+  private FileItemHeaders headers;
+
+  /**
+   * Returns the file item headers.
+   * @return The file items headers.
+   */
+  public FileItemHeaders getHeaders() {
+    return headers;
+  }
+
+  /**
+   * Sets the file item headers.
+   * @param pHeaders The file items headers.
+   */
+  public void setHeaders(FileItemHeaders pHeaders) {
+    headers = pHeaders;
+  }
 
 }
