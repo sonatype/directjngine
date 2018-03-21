@@ -33,6 +33,7 @@ import java.util.Map;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 
@@ -110,13 +111,8 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
 
   public static ServletFileUpload createFileUploader() {
     // Create a factory for disk-based file items
-    DiskFileItemFactory2 factory = new DiskFileItemFactory2();
-    // Set factory constraints so that files are never written to disk
+    DiskFileItemFactory factory = new DiskFileItemFactory();
     final int MAX_UPLOAD_MEMORY_SIZE = Integer.MAX_VALUE;
-    // If request size bigger than this, store files to disk
-    factory.setSizeThreshold(MAX_UPLOAD_MEMORY_SIZE); 
-     // Avoid creating a cleaning thread which Google AppEngine will not like!
-    factory.setFileCleaningTracker(null); 
     // Create a new file upload handler
     ServletFileUpload upload = new ServletFileUpload(factory);
 

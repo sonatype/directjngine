@@ -22,7 +22,7 @@
   <property name="lib_version" value="${lib_version_number}"/> <!-- Might use ${version.timestamp} -->
   <property name="gson.jar" value="${basedir}/lib/gson-2.2.1.jar"/>
   <property name="log4j.jar" value="${basedir}/lib/log4j-1.2.15.jar"/>
-  <property name="classpath" value="${basedir}/lib/commons-fileupload-1.2.1.jar;${basedir}/lib/commons-io-1.4.jar;${gson.jar};${log4j.jar};${basedir}/lib/compiletimeonly/testng-5.7-jdk15.jar;${basedir}/lib/compiletimeonly/servlet-api.jar;${basedir}/lib/compiletimeonly/annotations.jar;;${basedir}/lib/compiletimeonly/jsr305.jar;${basedir}/lib/yuicompressor-2.4.2.jar;"/>
+  <property name="classpath" value="${basedir}/lib/commons-fileupload-1.3.3.jar;${basedir}/lib/commons-io-1.4.jar;${gson.jar};${log4j.jar};${basedir}/lib/compiletimeonly/testng-5.7-jdk15.jar;${basedir}/lib/compiletimeonly/servlet-api.jar;${basedir}/lib/compiletimeonly/annotations.jar;;${basedir}/lib/compiletimeonly/jsr305.jar;${basedir}/lib/yuicompressor-2.4.2.jar;"/>
   <property name="classes_jar" value="directjngine.${lib_version}.jar"/>
   <property name="source_jar" value="directjngine.${lib_version}.src.jar"/>
   <property name="javascript_source_zip" value="directjngine.${lib_version}.javascript_src.zip"/>
