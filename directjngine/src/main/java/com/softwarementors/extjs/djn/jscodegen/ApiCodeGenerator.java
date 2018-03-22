@@ -92,19 +92,16 @@ public class ApiCodeGenerator {
     assert result != null;
     
     String contextPath = this.globalConfiguration.getContextPath();
-    if( contextPath == null ) {
-      String JSCRIPT_CALCULATED_CONTEXT_PATH = "(window.location.pathname.split('/').length>2 ? window.location.pathname.replace(/^\\/|\\/$/g, '') + '/' : '')  + '";
-      result.append( "window.location.protocol + '//' + window.location.host + '/' + " + JSCRIPT_CALCULATED_CONTEXT_PATH );
+    if (contextPath == null) {
+      contextPath = "";
     }
-    else {
-      if( !contextPath.startsWith("/")) {
-        contextPath = "/" + contextPath;
-      }
-      if( !contextPath.endsWith("/")) {
-        contextPath += "/";
-      }
-      result.append( "window.location.protocol + '//' + window.location.host + '" + contextPath + "' + '" );
+    if( !contextPath.startsWith("/")) {
+      contextPath = "/" + contextPath;
     }
+    if( !contextPath.endsWith("/")) {
+      contextPath += "/";
+    }
+    result.append( "window.location.protocol + '//' + window.location.host + '" + contextPath + "' + '" );
   }
 
   private void appendPollingUrlsSection(StringBuilder result, boolean minify) {
