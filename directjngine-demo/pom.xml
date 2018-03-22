@@ -11,6 +11,7 @@
   </parent>
 
   <artifactId>directjngine-demo</artifactId>
+  <packaging>war</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
 
   <url>https://github.com/sonatype/directjngine</url>
@@ -39,7 +40,20 @@
       <artifactId>directjngine</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <!--
+    TODO: Need to resolve deps used:
+        jargs-1.0 http://jargs.sourceforge.net/
+        appengine-agent
+        appengine-agentimpl
+    -->
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
-  <packaging>war</packaging>
 </project>
