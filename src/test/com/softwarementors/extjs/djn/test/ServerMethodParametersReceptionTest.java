@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -122,7 +122,6 @@ public class ServerMethodParametersReceptionTest {
     return 100;
   }
   
-  @SuppressWarnings("unused") // Even though private, we call this via introspection!
   @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="UPM_UNCALLED_PRIVATE_METHOD",
      justification="This method is indeed called via introspection to test that DJN can call private methods" )  
   @DirectMethod
@@ -130,7 +129,6 @@ public class ServerMethodParametersReceptionTest {
     return true;
   }
   
-  @SuppressWarnings("unused") // Even though private, we call this via introspection!
   @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="UPM_UNCALLED_PRIVATE_METHOD",
      justification="This method is indeed called via introspection to test that DJN can call private methods" )  
   @DirectMethod

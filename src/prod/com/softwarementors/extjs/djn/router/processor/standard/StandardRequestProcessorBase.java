@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -64,13 +64,13 @@ public abstract class StandardRequestProcessorBase extends RequestProcessorBase 
     return method;
   }
 
-  protected Object dispatchStandardMethod( String actionName, String methodName, Object[] parameters ) {
+  protected Object dispatchStandardMethod( String actionName, String methodName, Object[] parameters /*@todo:metadata, Map<String,Object> metadata*/ ) {
     assert !StringUtils.isEmpty(actionName);  
     assert !StringUtils.isEmpty(methodName);
     assert parameters != null;
     
     RegisteredStandardMethod method = getStandardMethod( actionName, methodName);
-    Object result = getDispatcher().dispatch(method, parameters);
+    Object result = getDispatcher().dispatch(method, parameters /*@todo:metadata, metadata*/);
     return result;
   }
 

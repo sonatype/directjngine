@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -116,6 +116,7 @@ public class Scanner {
       Collections.addAll( actionNames, actionAnnotation.action() );
     }
     
+    // If no explicit action name given, use the class name (without package prefix)
     if( actionNames.isEmpty()) {
       actionNames.add( ClassUtils.getSimpleName(actionClass) );
     }

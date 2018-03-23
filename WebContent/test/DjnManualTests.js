@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -22,6 +22,7 @@
  * This software uses the ExtJs library (http://extjs.com), which is 
  * distributed under the GPL v3 license (see http://extjs.com/license).
  */
+Ext.require( ['Ext.*']);
 
 Ext.onReady( function() {
   // Register provider
@@ -106,7 +107,7 @@ Ext.onReady( function() {
         }
       },
       {
-        text: "Test Session & Application scoped actions",  
+        text: "Session & Application scoped actions",  
         handler: function() {
           var callCount = 0;
           var sessionResult = 0;
@@ -136,7 +137,73 @@ Ext.onReady( function() {
             return;
           });
         }
-      }
+      },
+      
+      {
+         text: "Cdi Session & Application actions",  
+         handler: function() {
+           var callCount = 0;
+           var cdiSessionResult = 0;
+           var cdiApplicationResult = 0;
+           CdiApplicationScopedActionTest.test_getCdiApplicationCallCount( function(result, e){
+             callCount++;
+             cdiApplicationResult = result;
+             if( callCount === 2 ) {
+               Ext.MessageBox.alert("CdiSession & CdiApplication scoped actions", 
+                 "Times 'CdiApplicationScopedActionTest.test_getCdiApplicationCallCount' has been called: " + cdiApplicationResult + '<br>' +  
+                 "Times 'CdiSessionScopedActionTest.test_getCdiSessionCallCount' has been called: " + cdiSessionResult + '<br><br>' +
+                 "<b>To finish the test, open a different browser</b> and check that the counter for number of calls to CdiSession and CdiApplication scoped actions really works"
+               );
+             }
+             return;
+           });
+           CdiSessionScopedActionTest.test_getCdiSessionCallCount( function(result, e){
+             callCount++;
+             cdiSessionResult = result;
+             if( callCount === 2 ) {
+               Ext.MessageBox.alert("CdiSession & CdiApplication scoped actions", 
+                 "Times 'CdiApplicationScopedActionTest.test_getCdiApplicationCallCount' has been called: " + cdiApplicationResult + '<br>' +  
+                 "Times 'CdiSessionScopedActionTest.test_getCdiSessionCallCount' has been called: " + cdiSessionResult + '<br><br>' +
+                 "<b>To finish the test, open a different browser</b> and check that the counter for number of calls to CdiSession and CdiApplication scoped actions really works"
+               );
+             }
+             return;
+           });
+         }
+       },
+      
+       {
+          text: "Spring Session & Singleton actions",  
+          handler: function() {
+            var callCount = 0;
+            var springSessionResult = 0;
+            var springApplicationResult = 0;
+            singletonBean.test_getSpringApplicationCallCount( function(result, e){
+              callCount++;
+              springApplicationResult = result;
+              if( callCount === 2 ) {
+                Ext.MessageBox.alert("Spring Session & Singleton scoped actions", 
+                  "Times 'singletonBean.test_getSpringApplicationCallCount' has been called: " + springApplicationResult + '<br>' +  
+                  "Times 'sessionBean.test_getSpringSessionCallCount' has been called: " + springSessionResult + '<br><br>' +
+                  "<b>To finish the test, open a different browser</b> and check that the counter for number of calls to SpringSession and SpringApplication scoped actions really works"
+                );
+              }
+              return;
+            });
+            sessionBean.test_getSpringSessionCallCount( function(result, e){
+              callCount++;
+              springSessionResult = result;
+              if( callCount === 2 ) {
+                Ext.MessageBox.alert("Spring Session & Singleton scoped actions", 
+                  "Times 'singletonBean.test_getSpringApplicationCallCount' has been called: " + springApplicationResult + '<br>' +  
+                  "Times 'sessionBean.test_getSpringSessionCallCount' has been called: " + springSessionResult + '<br><br>' +
+                  "<b>To finish the test, open a different browser</b> and check that the counter for number of calls to SpringSession and SpringApplication scoped actions really works"
+                );
+              }
+              return;
+            });
+          }
+        }
     ]
   });
   

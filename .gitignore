@@ -1,0 +1,17 @@
+# Eclipse
+.classpath
+.project
+.settings/
+.externalToolBuilders/
+
+# Maven
+target/
+
+# Intellij
+*.ipr
+*.iml
+*.iws
+.idea/
+
+# Other
+.DS_Store

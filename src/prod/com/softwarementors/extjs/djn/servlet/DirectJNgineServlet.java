@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -649,7 +649,6 @@ public class DirectJNgineServlet extends HttpServlet {
     }
   }
 
-  @SuppressWarnings("unchecked")
   private List<FileItem> getFileItems(HttpServletRequest request) throws FileUploadException {
     assert request != null;
 

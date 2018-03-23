@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -28,5 +28,5 @@ package com.softwarementors.extjs.djn.router.dispatcher;
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
 
 public interface Dispatcher {
-  public Object dispatch( RegisteredMethod method, Object[] parameters );
+  public Object dispatch( RegisteredMethod method, Object[] parameters /*@todo:metadata, Map<String,Object> metadata*/ );
 }

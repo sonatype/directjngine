@@ -13,39 +13,78 @@
   <!-- ############################################################################## -->
   <!-- ############################################################################## -->
   <!-- ############################################################################## -->
-  
+
+  <property name="cdi-version" value="1.2"/>
+  <property name="spring-version" value="4.1.5"/>
+  <property name="gson-version-number-only" value="2.3.1"/>
+  <!-- Añadir a gson-version el sufijo '-for-djn' para usar la versión custom de Gson para DJN -->
+  <property name="gson-version" value="${gson-version-number-only}"/>
+  <property name="log4j-version" value="1.2.17"/>
+
   <!-- ============================================================================== -->
   <!-- ###################  PRIVATE CONFIGURATION: Do not modify! ################### -->
   <!-- ============================================================================== -->
-  <property name="lib_version_number" value="2.2"/>    
+  <property name="lib_version_number" value="3.0"/>    
   <tstamp><format pattern="yyyy_MM_dd_HH_mm_ss" property="version.timestamp"/></tstamp>
   <property name="lib_version" value="${lib_version_number}"/> <!-- Might use ${version.timestamp} -->
-  <property name="gson.jar" value="${basedir}/lib/gson-2.2.1.jar"/>
-  <property name="log4j.jar" value="${basedir}/lib/log4j-1.2.15.jar"/>
+  <property name="gson.jar" value="${basedir}/lib/gson-${gson-version}.jar"/>
+  <property name="log4j.jar" value="${basedir}/lib/log4j-${log4j-version}.jar"/>
+
+	
+<!--	
   <property name="classpath" value="${basedir}/lib/commons-fileupload-1.2.1.jar;${basedir}/lib/commons-io-1.4.jar;${gson.jar};${log4j.jar};${basedir}/lib/compiletimeonly/testng-5.7-jdk15.jar;${basedir}/lib/compiletimeonly/servlet-api.jar;${basedir}/lib/compiletimeonly/annotations.jar;;${basedir}/lib/compiletimeonly/jsr305.jar;${basedir}/lib/yuicompressor-2.4.2.jar;"/>
+-->  
   <property name="classes_jar" value="directjngine.${lib_version}.jar"/>
+  <property name="cdi_classes_jar" value="directjngine-cdi-connector.${lib_version}.jar"/>
+  <property name="spring_classes_jar" value="directjngine-spring-connector.${lib_version}.jar"/>
+  <property name="springcdi_classes_jar" value="directjngine-springcdi-connector.${lib_version}.jar"/>
   <property name="source_jar" value="directjngine.${lib_version}.src.jar"/>
+  <property name="cdi_source_jar" value="directjngine-cdi-connector.${lib_version}.src.jar"/>
+  <property name="spring_source_jar" value="directjngine-spring-connector.${lib_version}.src.jar"/>
+  <property name="springcdi_source_jar" value="directjngine-springcdi-connector.${lib_version}.src.jar"/>
   <property name="javascript_source_zip" value="directjngine.${lib_version}.javascript_src.zip"/>
   <property name="all_zip" value="directjngine.${lib_version}.zip"/>
   <property name="UserGuideName" value="DirectJNgine_User_Guide"/>
   <property name="deliverables.output.dir" value="${basedir}/workdir/deliverables"/>
-  <path id="classpath">
+  <path id="compilerclasspath_">
      <fileset dir="${basedir}/lib" includes="**/*.jar"/>
+<!--  	
+     <fileset dir="${basedir}/lib/spring-${spring-version}-deps" includes="**/*.jar"/>
+     <fileset dir="${basedir}/lib/cdi-${cdi-version}" includes="**/*.jar"/>
+     <fileset dir="${basedir}/lib/spring" includes="**/*.jar"/>
+-->     
   </path>
+  <property name="compilerclasspath" refid="compilerclasspath_"/>
 
   <!-- ============================================================================== -->
   <!-- ##################################  BASIC  ################################### -->
   <!-- ============================================================================== -->
   <target name="clean" description="Clean all outputs">
     <antcall target="_clean_compilation"/>
+<!--  	
     <antcall target="_clean_javadoc"/>
+-->    
     <antcall target="_clean_deliverables"/>    
     <antcall target="_clean_war"/>    
     <!-- EXPERIMENTAL: Retrotranslation
     <antcall target="_clean_retrotranslated"/>
     -->
+   <antcall target="_clean_workdir"/>      	
   </target>
-
+	
+  <target name="update_gson_jar_for_djn" description="Patch GSON with out extensions">
+    <antcall target="compile"/>
+  	 <!--
+  	 <copy file="${basedir}/lib/gson-unpatched/gson-2.1.3.jar" tofile="${basedir}/lib/gson-2.1.3-for-djn.jar" />
+     -->  	
+  	 <echo message="Updating gson-${gson-version-number-only}-for-djn JAR with our modifications -in src_gson_patches"/>
+  	 <copy file="${basedir}/lib/gson/${gson-version-number-only}/gson-${gson-version-number-only}.jar" tofile="${basedir}/lib/gson/${gson-version-number-only}-for-djn/gson-${gson-version-number-only}-for-djn.jar"/>
+    <zip zipfile="${basedir}/lib/gson/${gson-version-number-only}-for-djn/gson-${gson-version-number-only}-for-djn.jar" update="true" >
+      <zipfileset dir="${basedir}/workdir/build" 
+ 	         includes="com/google/gson/**/*.*"/>
+  	 </zip>
+  </target>
+	
   <target name="echo" description="Check whether ant can use this file" >
     <echo message="********** Environment Information **********"/>
     <echo message="Java version: ${ant.java.version}"/>
@@ -59,17 +98,49 @@
     <echo message="Project version: ${lib_version}"/>
     <echo message="Compiler for 'javac': ${compiler}"/>
     <echo message="JDK target version: ${jdk_version}"/>
+  	 <echo message="Spring version: ${spring-version}"/>
+    <echo message="CDI version: ${cdi-version}"/>
+    <echo message="Gson version: ${gson-version}"/>
+    <echo message="Log4j version: ${log4j-version}"/>
   </target>
   
   <target name="run_log4j_viewer" description="Start Log4j viewer (Chainsaw)">
     <java classpath="${log4j.jar}" classname="org.apache.log4j.chainsaw.Main" spawn="true" fork="true"/>
   </target>
-  
+
+  <target name="update_jar_versions" description="Update jars to current versions">
+<!--  	
+  	 <copy file="lib/gson/${gson-version}/gson-${gson-version}.jar" tofile="lib/gson._VERSION_USED_.jar"/>
+-->  	 
+    <delete dir="lib" includes="*_VERSION_USED_.*"/>
+  	
+    <zip destfile="lib/gson._VERSION_USED_.jar">
+      <zipgroupfileset dir="lib/gson/${gson-version}" includes="*.jar"/>
+    </zip>     
+  	 <echo file="lib/gson._VERSION_USED_.${gson-version}.txt" message="Version: ${gson-version}"/>
+  	
+    <zip destfile="lib/spring._VERSION_USED_.jar">
+  	    <zipgroupfileset dir="lib/spring/${spring-version}" includes="*.jar"/>
+    </zip>  	
+    <echo file="lib/spring._VERSION_USED_.${spring-version}.txt" message="Version: ${spring-version}"/>
+
+    <zip destfile="lib/spring-deps._VERSION_USED_.jar">
+       <zipgroupfileset dir="lib/spring-deps/${spring-version}" includes="*.jar"/>
+    </zip>     
+    <echo file="lib/spring-deps._VERSION_USED_.${spring-version}.txt" message="Version: ${spring-version}"/>
+
+    <zip destfile="lib/cdi._VERSION_USED_.jar">
+       <zipgroupfileset dir="lib/cdi/${cdi-version}" includes="*.jar"/>
+    </zip>     
+    <echo file="lib/cdi._VERSION_USED_.${cdi-version}.txt" message="Version: ${spring-version}"/>
+  </target>
+	
   <!-- ============================================================================== -->
   <!-- #############################   COMPILE     ############################# -->
   <!-- ============================================================================== -->
   <target name="compile" description="Compile source code">
     <antcall target="echo"/>
+  	 <antcall target="update_jar_versions"/>
     <echo message="Compiling main code..."/>
   
     <mkdir dir="workdir/build"/>
@@ -79,8 +150,9 @@
     <antcall target="_clean_compilation"/>
     -->
   
-    <javac compiler="${compiler}" destdir="workdir/build" classpath="${classpath};" 
-      srcdir="src/prod" debug="${debug}" target="${jdk_version}" source="${jdk_version}"
+    <echo message="${compilerclasspath}"/>
+    <javac compiler="${compiler}" destdir="workdir/build" classpath="${compilerclasspath};" 
+      srcdir="src/prod;src_cdi_support/prod;src_spring_support/prod;src_spring_and_cdi_support/prod;src_gson_patches/prod" debug="${debug}" target="${jdk_version}" source="${jdk_version}"
       fork="true" encoding="utf8">
     </javac>
     
@@ -89,11 +161,23 @@
       <fileset dir="src/prod" >
         <exclude name="**/*.java"/>
       </fileset>
+      <fileset dir="src_cdi_support/prod" >
+        <exclude name="**/*.java"/>
+      </fileset>
+      <fileset dir="src_spring_support/prod" >
+         <exclude name="**/*.java"/>
+      </fileset>
+      <fileset dir="src_spring_and_cdi_support/prod" >
+         <exclude name="**/*.java"/>
+      </fileset>
+      <fileset dir="src_gson_patches/prod" >
+         <exclude name="**/*.java"/>
+      </fileset>
     </copy>
 
     <echo message="Compiling test and demo code..."/>
-    <javac compiler="${compiler}" destdir="workdir/build_test" classpath="${classpath};workdir/build" 
-      srcdir="src/demo;src/test" debug="${debug}" target="${jdk_version}"
+    <javac compiler="${compiler}" destdir="workdir/build_test" classpath="${compilerclasspath};workdir/build" 
+      srcdir="src/demo;src/test;src_cdi_support/test;src_spring_support/test" debug="${debug}" target="${jdk_version}" source="${jdk_version}"
       encoding="utf8">
     </javac>
 
@@ -104,6 +188,12 @@
       </fileset>
       <fileset dir="src/test" >
         <exclude name="**/*.java"/>
+      </fileset>
+      <fileset dir="src_cdi_support/test" >
+        <exclude name="**/*.java"/>
+      </fileset>
+      <fileset dir="src_spring_support/test" >
+         <exclude name="**/*.java"/>
       </fileset>
     </copy>
 
@@ -126,6 +216,7 @@
   <!-- ============================================================================== -->
   <!-- ##########################  javadoc  ########################## -->
   <!-- ============================================================================== -->
+<!--	
   <target name="_clean_javadoc">
     <delete dir="doc/javadoc" />
     <mkdir dir="doc/javadoc"/>
@@ -134,15 +225,15 @@
   <target name="_create_javadoc">
     <echo message="Generating Javadoc in 'doc/javadoc/'..." />
     
-    <!-- *VERY important*: do not use encoding="UTF-8", or Copyight and other will not appear ok! --> 
+    <echo message='*VERY important*: do not use encoding="UTF-8", or Copyright and other will not appear ok!'/> 
     <javadoc access="protected" 
-      additionalparam=" -tag precondition:cm:&quot;Preconditions:&quot; -tag postcondition:cm:&quot;Postconditions:&quot; -tag invariant:t:&quot;Class Invariants:&quot; -linksource -header &quot;&lt;font size='-2'&gt;Copyright © 2008, 2009 Pedro Agulló Soliveres&lt;/font&gt;&quot;" 
+      additionalparam=" -tag precondition:cm:&quot;Preconditions:&quot; -tag postcondition:cm:&quot;Postconditions:&quot; -tag invariant:t:&quot;Class Invariants:&quot; -linksource -header &quot;&lt;font size='-2'&gt;Copyright © 2008, 2015 Pedro Agulló Soliveres&lt;/font&gt;&quot;" 
       destdir="doc/javadoc" 
       author="true" 
       doctitle="DirectJNgine"   
       overview="${basedir}/src/prod/overview.html"
 
-      classpath="${classpath}"
+      classpath="${compilerclasspath}"
       nodeprecated="false" 
       nodeprecatedlist="false" 
       noindex="false" 
@@ -156,58 +247,8 @@
       version="true">
     </javadoc>
   </target>
-  
+-->
 
-  <!-- ============================================================================== -->
-  <!-- ###########################   GOOGLE APPENGINE   ############################# -->
-  <!-- ============================================================================== -->
-  <target name="appengine.deploy" description="Deploy to Google AppEngine">
-    <delete dir="workdir/appengine_war"/>
-    <mkdir dir="workdir/appengine_war"/>
-
-    <!-- Copy web site -->
-    <copy todir="workdir/appengine_war">
-      <fileset dir="WebContent" >
-      </fileset>
-    </copy>
-    
-    <!-- Copy .jars -->
-    <copy todir="workdir/appengine_war/WEB-INF/lib">
-      <fileset dir="lib" includes="*.jar" >
-      </fileset>
-      <fileset dir="lib/runtimeonly" includes="*.jar" >
-      </fileset>
-    </copy>
-    
-    <!-- Copy compiled classes -->
-    <copy todir="workdir/appengine_war/WEB-INF/classes">
-      <fileset dir="workdir/build" includes="**" >
-      </fileset>
-      <fileset dir="workdir/build_test" includes="**" >
-      </fileset>
-    </copy>
-    
-    <!-- Update files to use AppEngine configuration, instead of the "standard" one -->
-    <replace dir="workdir/appengine_war"  
-      includes="WEB-INF/web.xml,test/DjnManualTests.html,test/DjnTests.html,extjs/examples/direct/direct.php,extjs/examples/direct/direct-form.php,extjs/examples/direct/direct-tree.php"
-      replacefilterfile="cfg/appengine_replacements.properties" >
-      <!-- Servlet configuration -->
-      <include name="WEB-INF/web.xml"/>
-      
-      <!-- DJN tests -->
-      <include name="test/DjnTests.html"/>
-      <include name="test/DjnManualTests.html"/>
-
-      <!-- DJN demos -->
-      <include name="demo/FormPostDemo.html"/>
-      <include name="demo/DirectStoreDemo.html"/>
-      
-      <!-- ExtJs patched demos -->
-      <include name="extjs/examples/direct/direct.php"/>
-      <include name="extjs/examples/direct/direct-form.php"/>
-      <include name="extjs/examples/direct/direct-tree.php"/>
-    </replace>
-  </target>
   
   <!-- ============================================================================== -->
   <!-- #############################   DELIVERABLES     ############################# -->
@@ -224,39 +265,110 @@
 
   <target name="_create_classes_jar">
     <jar destfile="${deliverables.output.dir}/deliverables/${classes_jar}">
-      <fileset dir="${basedir}/workdir/build/"/>
+      <fileset dir="${basedir}/workdir/build/">
+        <exclude name="**/com/softwarementors/djn/cdi/**"/>
+        <exclude name="**/com/softwarementors/djn/spring/**"/>
+        <exclude name="**/com/softwarementors/djn/springcdi/**"/>
+        <exclude name="**/com/google/gson/**"/>
+      </fileset>
     </jar>
   </target>
  
+  <target name="_create_cdi_classes_jar">
+    <jar destfile="${deliverables.output.dir}/deliverables/${cdi_classes_jar}">
+      <fileset dir="${basedir}/workdir/build/">
+        <exclude name="**/**"/>
+      </fileset>
+      <fileset dir="${basedir}/workdir/build/">
+        <include name="**/com/softwarementors/djn/cdi/**"/>
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="_create_spring_classes_jar">
+    <jar destfile="${deliverables.output.dir}/deliverables/${spring_classes_jar}">
+      <fileset dir="${basedir}/workdir/build/">
+        <exclude name="**/**"/>
+      </fileset>
+      <fileset dir="${basedir}/workdir/build/">
+        <include name="**/com/softwarementors/djn/spring/**"/>
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="_create_springcdi_classes_jar">
+    <jar destfile="${deliverables.output.dir}/deliverables/${springcdi_classes_jar}">
+      <fileset dir="${basedir}/workdir/build/">
+        <exclude name="**/**"/>
+      </fileset>
+      <fileset dir="${basedir}/workdir/build/">
+        <include name="**/com/softwarementors/djn/springcdi/**"/>
+      </fileset>
+    </jar>	
+  </target>  
+
+  
   <!-- Create Source JAR -->
   <target name="_create_source_jar">
     <jar destfile="${deliverables.output.dir}/deliverables/${source_jar}">
-      <fileset dir="${basedir}/src/prod"/>
+      <fileset dir="${basedir}/src/prod">
+      </fileset>
     </jar>
   </target>
   
+  <target name="_create_cdi_source_jar">
+    <jar destfile="${deliverables.output.dir}/deliverables/${cdi_source_jar}">
+      <fileset dir="${basedir}/src_cdi_support/prod">
+      </fileset>
+    </jar>
+  </target>
+  
+  <target name="_create_spring_source_jar">
+    <jar destfile="${deliverables.output.dir}/deliverables/${spring_source_jar}">
+      <fileset dir="${basedir}/src_spring_support/prod">
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="_create_springcdi_source_jar">
+    <jar destfile="${deliverables.output.dir}/deliverables/${springcdi_source_jar}">
+      <fileset dir="${basedir}/src_spring_and_cdi_support/prod">
+      </fileset>
+    </jar>
+  </target>
+
+<!--	
   <target name="_create_javadoc_jar">
-    <!-- Create Javadoc JAR -->
     <property name="javadoc_jar" value="directjngine.${lib_version}.javadoc.jar"/>
     <jar destfile="${deliverables.output.dir}/deliverables/${javadoc_jar}">
       <fileset dir="${basedir}/doc/javadoc/"/>
     </jar>
   </target>
+-->
 
   <target name="_clean_war">
     <delete dir="demos/demo_war"/>
     <mkdir dir="demos/demo_war"/>
   </target>
   
+  <target name="_clean_workdir">
+	  <delete dir="workdir"/>
+	  <mkdir dir="workdir"/>
+  </target>
+	  
   <target name="_create_djn_demo_war">
     <antcall target="_clean_war"/>
     
-    <!-- Create 'djn_test' war -->
-    <war filesonly="true" compress="true" warfile="${deliverables.output.dir}/demos/demo_war/djn_test.war" webxml="${basedir}/WebContent/WEB-INF/web.xml">
-      <fileset dir="WebContent" excludes="**/web.xml, **/MANIFEST.MF,WEB-INF/lib/*.*,extjs/**" />
+    <!-- Create 'djn' war -->
+    <war filesonly="true" compress="true" warfile="${deliverables.output.dir}/demos/demo_war/directjngine-demo-${lib_version}.war" webxml="${basedir}/WebContent/WEB-INF/web.xml">
+      <fileset dir="WebContent" excludes="**/web.xml, **/MANIFEST.MF,WEB-INF/lib/*.*" />
       <!-- Do not want lib/compiletimeonly jars! -->
       <lib dir="lib" includes="*.jar"/>
-      <lib dir="lib/runtimeonly"/>
+<!--    	
+      <lib dir="lib/cdi-${cdi-version}"/>
+      <lib dir="lib/spring-${spring-version}"/>
+      <lib dir="lib/spring-${spring-version}-deps"/>
+-->
       <lib dir="${deliverables.output.dir}/deliverables" includes="${classes_jar}"/>
       <classes dir="${basedir}/workdir/build_test"/>      
 
@@ -266,17 +378,22 @@
       -->
     </war>    
 
-    <copy file="${deliverables.output.dir}/demos/demo_war/djn_test.war" todir="demos/demo_war"/>
+    <copy file="${deliverables.output.dir}/demos/demo_war/directjngine-demo-${lib_version}.war" todir="demos/demo_war"/>
     
+<!--  	
     <echo message="VERY IMPORTANT: due to licensing issues, we can't redistribute"/>
       <echo message="ExtJs. Therefore, you MUST take the appropriate steps to modify"/>
     <echo message="this ant target to add your extjs distribution to the WAR"/>
+-->    
   </target>
   
-  <target name="build_djn_demo_war" description="Create djn_test WAR">
+  <target name="build_djn_demo_war" description="Create djn WAR">
     <antcall target="clean"/>
     <antcall target="compile"/>
     <antcall target="_create_classes_jar"/>
+    <antcall target="_create_cdi_classes_jar"/>
+    <antcall target="_create_spring_classes_jar"/>
+    <antcall target="_create_springcdi_classes_jar"/>
     <antcall target="_create_djn_demo_war"/>
   </target>
 
@@ -299,53 +416,72 @@
     <zip zipfile="${deliverables.output.dir}/${all_zip}" compress="true">
       <fileset dir="${basedir}">
         <!-- ExtJs files repository -->
-        <exclude name="extjs/**"/>
-        
-        <!-- 'ignore' area -->
-        <exclude name="ignore/**"/>
+        <exclude name="extjs_versions_adapted_to_djn/**"/>        
         
         <!-- Temporary work directories: ignore -->
-        <exclude name="workdir/**"/>
-        <exclude name="work/**"/>
+        <exclude name="workdir/**/**"/>
         
         <!-- ExtJs files: ignore -->
         <exclude name="WebContent/extjs/**/**"/>
-        <exclude name=".#webclasspath"/>
         
+        <!-- Demo wars -->
+        <exclude name="demos/demo_war/**/**"/>
+      	
         <!-- JARs -->
-        <exclude name="lib/doc_source/**"/>
-        <exclude name="lib/latest/**"/>
-        <exclude name="lib/ant_support/**"/>
+<!--      	
+        <exclude name="lib/spring/**"/>
+        <exclude name="lib/spring-deps/**"/>
+        <exclude name="lib/cdi/**"/>
+        <exclude name="lib/gson/**"/>
+-->        
+<!--
+        <exclude name="lib/**/*_VERSION_USED_*"/>
+-->
 
-        <!-- EXPERIMENTAL: Retrotranslation, do not add -->
-        <exclude name="lib/retrotranslated/**"/>
-        <exclude name="lib/retrotranslation_jdk1_4_support/**"/>
-
+        <!-- Demo directory: we create a war, but do not include it in zip -->
+        <exclude name="demo/**"/>
+      	
+        <!-- 'Deprecated' directory -->
+        <exclude name="deprecated/**"/>
+      	
         <!-- Documentation: exclude all right now, and pick required files later -->
         <exclude name="doc/**"/>
-        
+        <exclude name="doc_internal/**"/>
+        <exclude name="logos/**"/>
       </fileset>
       
       <!-- We don't want doc, but we *want* doc/javadoc 
            and pdfs-->
-      <fileset dir="${basedir}">
-        <include name="doc/javadoc/**"/>  
+      <fileset dir="${basedir}" excludes="**">
+      	
+<!--      	
+        <include name="doc/javadoc/**"/>
+-->
         <include name="doc/userguide/${UserGuideName}.pdf"/>  
       </fileset>      
     </zip>
   </target>
   
-  <target name="build_deliverables" description="Rebuild everything and create JARs for classes, javadoc, demo WAR, etc">
-    <antcall target="clean"/>
-    <antcall target="compile"/>
+  <target name="build_deliverables" description="Rebuild everything and create JARs for classes, demo WAR, etc">
+    <antcall target="build"/>
     <antcall target="_create_classes_jar"/>
+    <antcall target="_create_cdi_classes_jar"/>
+    <antcall target="_create_spring_classes_jar"/>
+    <antcall target="_create_springcdi_classes_jar"/>
+<!--  	
     <antcall target="_create_javadoc"/>
     <antcall target="_create_javadoc_jar"/>
+-->    
     <antcall target="_create_source_jar"/>
+    <antcall target="_create_cdi_source_jar"/>
+    <antcall target="_create_spring_source_jar"/>
+    <antcall target="_create_springcdi_source_jar"/>
     <antcall target="_create_djn_demo_war"/>
     <antcall target="_update_deliverables"/>
     <antcall target="_create_project_zip"/>
+<!--  	
     <copy file="${basedir}/doc/userguide/${UserGuideName}.pdf" tofile="${deliverables.output.dir}/${UserGuideName}.${lib_version}.pdf"/>
+-->    
   
     <echo message="You can locate the deliverables in ${deliverables.output.dir}"/>
   </target>

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -82,14 +82,14 @@ public class SsmDispatcher extends DispatcherBase {
         result = getApplicationMethodInstance(method);
         break;
       case STATELESS:
-        result = getStatelessMethodInstance(method);
+        result = getMethodInstance(method);
         break;
     }
     assert result != null;
     return result;
   }
 
-  private Object getStatelessMethodInstance(RegisteredMethod method) throws Exception {
+  protected Object getMethodInstance(RegisteredMethod method) throws Exception {
     assert method != null;
     
     return createInvokeInstanceForMethodWithDefaultConstructor(method);

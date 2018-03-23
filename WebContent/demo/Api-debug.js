@@ -62,13 +62,13 @@ Ext.app.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'getBasicInfo'/*(Long, String) => com.softwarementors.extjs.djn.demo.Profile$BasicInfo */,
-        len: 2,
+        name: 'getPhoneInfo'/*(Long) => com.softwarementors.extjs.djn.demo.Profile$PhoneInfo */,
+        len: 1,
         formHandler: false
       },
       {
-        name: 'getPhoneInfo'/*(Long) => com.softwarementors.extjs.djn.demo.Profile$PhoneInfo */,
-        len: 1,
+        name: 'getBasicInfo'/*(Long, String) => com.softwarementors.extjs.djn.demo.Profile$BasicInfo */,
+        len: 2,
         formHandler: false
       },
       {

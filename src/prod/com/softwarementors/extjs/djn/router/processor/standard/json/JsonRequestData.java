@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -38,18 +38,24 @@ public class JsonRequestData extends StandardRequestData {
   public static final String TID_ELEMENT = "tid";
   public static final String TYPE_ELEMENT = "type";
   public static final String DATA_ELEMENT = "data";
+  // @todo:metadata
+  // public static final String METADATA_ELEMENT = "metadata";
   
   @NonNull private JsonArray jsonData;
+  // @todo:metadata
+  // @NonNull private JsonArray jsonMetadata;
   
-  /* package */ JsonRequestData(@NonNull String type, String action, String method, Long tid, JsonArray jsonData) {
+  /* package */ JsonRequestData(@NonNull String type, String action, String method, Long tid, JsonArray jsonData /* @todo:metadata, JsonArray jsonMetadata*/ ) {
     super( type, action, method, tid );
 
     assert type.equals(TransferType.RPC);
     this.jsonData = jsonData;
+    // @todo:metadata
+    // this.jsonMetadata = jsonMetadata;
   }
 
   /* package */ public JsonArray getJsonData() {
     return this.jsonData;
   }
-  
+ 
 }

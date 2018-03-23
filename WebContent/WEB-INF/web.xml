@@ -1,6 +1,6 @@
 <!--
 /*
- * Copyright © 2008, 2009 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -45,7 +45,7 @@
     
     <init-param>
       <param-name>debug</param-name>
-      <param-value>false</param-value>
+      <param-value>true</param-value>
     </init-param>   
 
     <init-param>
@@ -75,13 +75,27 @@
 
     <!--<init-param><param-name>contextPath</param-name><param-value>/</param-value></init-param>-->
 
-<!-- This is already the default 
+    <!-- Spring -->
+    <!-- 
     <init-param>
       <param-name>dispatcherClass</param-name>
-      <param-value>com.softwarementors.extjs.djn.servlet.ssm.SsmDispatcher</param-value>
+      <param-value>com.softwarementors.djn.spring.dispatcher.SpringDispatcher</param-value>
     </init-param>
--->    
+    -->
 
+    <!-- CDI -->
+    <!-- 
+    <init-param>
+      <param-name>dispatcherClass</param-name>
+      <param-value>com.softwarementors.djn.cdi.dispatcher.CdiDispatcher</param-value>
+    </init-param>
+    -->
+
+    <!-- Spring+CDI -->
+    <init-param>
+      <param-name>dispatcherClass</param-name>
+      <param-value>com.softwarementors.djn.springcdi.dispatcher.SpringAndCdiDispatcher</param-value>
+    </init-param>
 <!-- This is already the default 
     <init-param>
       <param-name>jsonRequestProcessorThreadClass</param-name>
@@ -91,7 +105,7 @@
 
     <init-param>
       <param-name>batchRequestsMultithreadingEnabled</param-name>
-      <param-value>true</param-value>
+      <param-value>false</param-value>
     </init-param>
 
     <init-param>
@@ -155,6 +169,12 @@
       ,com.softwarementors.extjs.djn.test.servlet.ssm.SessionStatefulActionTest
       ,com.softwarementors.extjs.djn.test.ClassWithMultipleActionsTest
       ,com.softwarementors.extjs.djn.test.ActionClassImplementingAnInterfaceTest
+      
+      ,com.softwarementors.djn.cdi.CdiApplicationScopedActionTest
+      ,com.softwarementors.djn.cdi.CdiSessionScopedActionTest
+
+      ,com.softwarementors.djn.spring.SpringApplicationScopedActionTest
+      ,com.softwarementors.djn.spring.SpringSessionScopedActionTest
       </param-value>
     </init-param>
 
@@ -193,4 +213,36 @@
       index.html
     </welcome-file>
   </welcome-file-list>
+
+  <!-- ********************************************************************* -->
+  <!--  CDI/Weld configuration -->
+  <listener>
+    <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+  </listener>
+  <resource-env-ref>
+    <resource-env-ref-name>BeanManager</resource-env-ref-name>
+    <resource-env-ref-type>
+      javax.enterprise.inject.spi.BeanManager
+    </resource-env-ref-type>
+  </resource-env-ref>
+  <!-- ********************************************************************* -->
+  
+  
+  <!-- ********************************************************************* -->
+  <!--  Spring configuration -->
+  <listener>  
+    <listener-class>org.springframework.web.context.ContextLoaderListener
+    </listener-class>  
+  </listener>
+  <!--  Required for session scoped beans --> 
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener
+    </listener-class>
+  </listener>  
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/applicationContext*.xml</param-value>
+  </context-param>
+  <!-- ********************************************************************* -->
+
 </web-app> 

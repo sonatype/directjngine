@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.io.IOUtils;
@@ -259,13 +260,12 @@ public class DiskFileItem2
      * @return The content charset passed by the agent or <code>null</code> if
      *         not defined.
      */
-    @SuppressWarnings("unchecked")
     public String getCharSet() {
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
-        Map params = parser.parse(getContentType(), ';');
-        return (String) params.get("charset");
+        Map<String,String> params = parser.parse(getContentType(), ';');
+        return params.get("charset");
     }
 
 
@@ -675,5 +675,19 @@ public class DiskFileItem2
 
         cachedContent = null;
     }
+
+    
+   private FileItemHeaders arg;
+
+   //@Override
+   public FileItemHeaders getHeaders() {
+      return this.arg;
+   }
+
+
+   // @Override
+   public void setHeaders(FileItemHeaders arg) {
+      this.arg = arg;
+   }
 
 }

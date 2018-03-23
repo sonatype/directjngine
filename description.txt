@@ -4,5 +4,6 @@ DirectJNgine
 DirectJNgine is an Open Source library that provides a Java-based
 implementation of the ExtJs Direct API.
 
-You can go to http://extjs.com/blog/2009/05/13/introducing-ext-direct
-in the ExtJs website for additional information.
+You can go to http://www.sencha.com/blog/ext-js-30-remoting-for-everyone
+and http://www.sencha.com/products/extjs/extdirect/ in the ExtJs website 
+for additional information.

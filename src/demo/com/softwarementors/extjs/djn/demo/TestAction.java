@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -88,13 +88,13 @@ public class TestAction {
   }
   
   public static class GridRow {
-    public GridRow( String name, int turnover) {
+    public GridRow( String name, int revenue) {
       this.name = name;
-      this.turnover = turnover;
+      this.revenue = revenue;
     }
     
     public String name;
-    public int turnover;
+    public int revenue;
   }
   
   public static class SortInfo {
@@ -107,33 +107,50 @@ public class TestAction {
     // We know this is the structure, but the 'right' way to do this is
     // to define a Java class that maps the information we are receiving
     JsonObject sortInfo = (JsonObject)params.get(0).getAsJsonObject().get("sort").getAsJsonArray().get(0);
-    
+
     assert sortInfo != null;
     List<GridRow> data = new ArrayList<GridRow>();
-    String field = sortInfo.get("property" ).getAsString();
-    String direction = sortInfo.get("direction" ).getAsString();
+    String sortField = sortInfo.get("property" ).getAsString();
+    String sortDirection = sortInfo.get("direction" ).getAsString();
+
+    String table = params.get(0).getAsJsonObject().get("table").getAsString();
     
-    if( field.equals("name")) {
-      data.add( new GridRow("ABC Accounting", 50000));
-      data.add( new GridRow("Ezy Video Rental", 106300));
-      data.add( new GridRow("Greens Fruit Grocery", 120000));
-      data.add( new GridRow("Icecream Express", 73000));
-      data.add( new GridRow("Ripped Gym", 88400));
-      data.add( new GridRow("Smith Auto Mechanic", 222980));
+    if( table.equals("customers") ) {
+       if( sortField.equals("name")) {
+         data.add( new GridRow("ABC Accounting", 50000));
+         data.add( new GridRow("Ezy Video Rental", 106300));
+         data.add( new GridRow("Greens Fruit Grocery", 120000));
+         data.add( new GridRow("Icecream Express", 73000));
+         data.add( new GridRow("Ripped Gym", 88400));
+         data.add( new GridRow("Smith Auto Mechanic", 222980));
+       }
+       else {
+         data.add( new GridRow("ABC Accounting", 50000));
+         data.add( new GridRow("Icecream Express", 73000));
+         data.add( new GridRow("Ripped Gym", 88400));
+         data.add( new GridRow("Ezy Video Rental", 106300));
+         data.add( new GridRow("Greens Fruit Grocery", 120000));
+         data.add( new GridRow("Smith Auto Mechanic", 222980));
+       }
     }
-    else {
-      data.add( new GridRow("ABC Accounting", 50000));
-      data.add( new GridRow("Icecream Express", 73000));
-      data.add( new GridRow("Ripped Gym", 88400));
-      data.add( new GridRow("Ezy Video Rental", 106300));
-      data.add( new GridRow("Greens Fruit Grocery", 120000));
-      data.add( new GridRow("Smith Auto Mechanic", 222980));
-    }
-    
-    if( direction.equals( "DESC")) {
-      Collections.reverse(data);
+    else /*if(table.equals("leads"))*/ {
+       if( sortField.equals("name")) {
+          data.add( new GridRow("AT&T Inc.", 10000000));
+          data.add( new GridRow("General Electric", 50000000));
+          data.add( new GridRow("Intel Corporation", 150000000));
+          data.add( new GridRow("Verizon Communications", 3000000));
+       }
+       else {
+          data.add( new GridRow("Intel Corporation", 150000000));
+          data.add( new GridRow("General Electric", 50000000));
+          data.add( new GridRow("AT&T Inc.", 10000000));
+          data.add( new GridRow("Verizon Communications", 3000000));
+       }
     }
 
+    if( sortDirection.equals( "DESC")) {
+       Collections.reverse(data);
+     }
     return data;
   }  
 }
