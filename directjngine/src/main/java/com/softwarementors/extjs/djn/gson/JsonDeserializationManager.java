@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -75,23 +75,23 @@ public class JsonDeserializationManager {
     return manager.get();
   }
 
-  public void friendOnlyAccess_pushField(String name) {
+  public void __friendOnlyAccess_pushField(String name) {
     assert !StringUtils.isEmpty(name);
     
     this.fields.push(name);
   }
 
-  public void friendOnlyAccess_popField() {
+  public void __friendOnlyAccess_popField() {
     this.fields.pop();
   }
 
-  public void friendOnlyAccess_pushParent(Object obj) {
+  public void __friendOnlyAccess_pushParent(Object obj) {
     assert obj != null;
     
     this.parents.push(obj);
   }
 
-  public void friendOnlyAccess_popParent() {
+  public void __friendOnlyAccess_popParent() {
     this.parents.pop();
   }
   
@@ -140,7 +140,7 @@ public class JsonDeserializationManager {
   }
   */
 
-  public boolean friendOnlyAccess_isFieldExcluded(Object value, String field) {
+  public boolean __friendOnlyAccess_isFieldExcluded(Object value, String field) {
     assert value != null;
     assert field != null;
     
@@ -210,14 +210,14 @@ public class JsonDeserializationManager {
     return excluded;
   }
 
-  public void friendOnlyAccess_setRoot(Object root) {
+  public void __friendOnlyAccess_setRoot(Object root) {
     if( root != null ) {
       this.root = root;
       this.fieldExclusions.put(root, this.rootExclusions);
     }
   }
 
-  public void friendOnlyAccess_dispose() {
+  public void __friendOnlyAccess_dispose() {
     manager.remove();
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -34,12 +34,10 @@ import com.softwarementors.extjs.djn.config.annotations.DirectMethod;
 
 public class DirectStoreTest {
   public static class DirectStoreResult {
-    @SuppressWarnings("unused") // Not used in Java code, but used by JS client!
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="URF_UNREAD_FIELD",
       justification="This field is read only in the Javascript side of DJN")
     private int rowCount;
 
-    @SuppressWarnings("unused") // Not used in Java code, but used by JS client!
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="URF_UNREAD_FIELD",
       justification="This field is read only in the Javascript side of DJN")
     private Output[] items;
@@ -63,12 +61,10 @@ public class DirectStoreTest {
   }
   
   public static class Output {
-    @SuppressWarnings("unused") // Not used in Java code, but used by JS client!
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="URF_UNREAD_FIELD",
       justification="This field is read only in the Javascript side of DJN")
     private long id;
 
-    @SuppressWarnings("unused") // Not used in Java code, but used by JS client!
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="URF_UNREAD_FIELD",
       justification="This field is read only in the Javascript side of DJN")
     private String name;

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -72,9 +72,6 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class JsonRequestProcessor extends StandardRequestProcessorBase {
-  /* Will not release this until extensive testings is performed */
-  private final static boolean SUPPORTS_OBJECT_TYPE_PARAMETER = false;
-
   @NonNull private static final Logger logger = Logger.getLogger( JsonRequestProcessor.class);
   // We need a globally unique thread-pool, not a pool per processor!
   @CheckForNull private static volatile ExecutorService individualRequestsThreadPool; 
@@ -341,7 +338,7 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
     // null are converted to Java String, Double, Boolean and null. For json objects,
     // we create a Map<String,Object>, and for json arrays an Object[], and then perform
     // internal object conversion recursively using the same technique
-    if( parameterType.equals( Object.class ) && SUPPORTS_OBJECT_TYPE_PARAMETER) {
+    if( parameterType.equals( Object.class )) {
       value = toSimpleJavaType(jsonValue);
       return value;
     }
@@ -496,11 +493,18 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
       String method = request.getMethod();
       StandardSuccessResponseData response = new StandardSuccessResponseData( request.getTid(), action, method);
 
+      /*@todo:metadata
+      Map<String,Object> metadata = null;
+      if( request.getJsonMetadata() != null ) {
+         metadata = getGson().fromJson(request.getJsonMetadata(), HashMap.class);
+      }
+      */
+      
       JsonDeserializationManager mgr = JsonDeserializationManager.getManager();
       try {
 
-        Object result = dispatchStandardMethod(action, method, parameters);
-        mgr.friendOnlyAccess_setRoot(result);
+        Object result = dispatchStandardMethod(action, method, parameters /*@todo:metadata, metadata*/);
+        mgr.__friendOnlyAccess_setRoot(result);
         response.setResult(result);
         String json = getGson().toJson(response);
         if( isBatched ) {
@@ -513,7 +517,7 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
         return json;
       }
       finally {
-        mgr.friendOnlyAccess_dispose(); // Cleanup in case we are reusing thread
+        mgr.__friendOnlyAccess_dispose(); // Cleanup in case we are reusing thread
       }
     }
     catch( Exception t ) {        
@@ -580,17 +584,23 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
     String method = getNonEmptyJsonString( element, JsonRequestData.METHOD_ELEMENT ); 
     Long tid = getNonEmptyJsonLong( element, JsonRequestData.TID_ELEMENT ); 
     String type = getNonEmptyJsonString( element, JsonRequestData.TYPE_ELEMENT ); 
-    JsonArray jsonData = getMethodParametersJsonData(element);
-    JsonRequestData result = new JsonRequestData( type, action, method, tid, jsonData );
+    JsonArray jsonData = getMethodParametersJsonData(element, JsonRequestData.DATA_ELEMENT,true);
+    // @todo:metadata
+    // JsonArray jsonMetadata = getMethodParametersJsonData(element, JsonRequestData.METADATA_ELEMENT, false);
+    JsonRequestData result = new JsonRequestData( type, action, method, tid, jsonData /*@todo:metadata, jsonMetadata*/ );
     return result;
   }
 
-  @CheckForNull private static JsonArray getMethodParametersJsonData(JsonObject object) {
+  @CheckForNull private static JsonArray getMethodParametersJsonData(JsonObject object, String elementName, boolean required ) {
     assert object != null;
 
-    JsonElement data = object.get(JsonRequestData.DATA_ELEMENT);
+    JsonElement data = object.get(elementName);
+    if( !required && data == null ) {
+       return null;
+    }
+    
     if( data == null ) {
-      RequestException ex = RequestException.forJsonElementMissing(JsonRequestData.DATA_ELEMENT);
+      RequestException ex = RequestException.forJsonElementMissing(elementName);
       logger.error( ex.getMessage(), ex );
       throw ex;
     }
@@ -600,7 +610,7 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
     }
 
     if( !data.isJsonNull() && !data.isJsonArray()) {
-      RequestException ex = RequestException.forJsonElementMustBeAJsonArray(JsonRequestData.DATA_ELEMENT, data.toString());
+      RequestException ex = RequestException.forJsonElementMustBeAJsonArray(elementName, data.toString());
       logger.error( ex.getMessage(), ex );
       throw ex;
     }

@@ -7,7 +7,8 @@ public class CollectionUtils {
     // Avoid instantiation
   }
   
-  public static <T> void removeAll( Collection<T> c, T... items ) {
+@SafeVarargs
+public static <T> void removeAll( Collection<T> c, T... items ) {
     assert c != null;
     assert items != null;
     

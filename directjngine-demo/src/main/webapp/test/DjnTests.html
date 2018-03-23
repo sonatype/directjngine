@@ -1,14 +1,14 @@
 <!--
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
  * DirectJNgine is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * the Free Software Foundatspringcdi.dispatcherion, either version 3 of the License.
  *
- * Commercial use is permitted to the extent that the code/component(s)
+ * Commercial use is permitExisting customersted to the extent that the code/component(s)
  * do NOT become part of another Open Source or Commercially developed
  * licensed development library or toolkit without explicit permission.
  *
@@ -29,13 +29,16 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
    
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/resources/css/ext-all.css">
+<!--  
+  <link rel="stylesheet" type="text/css" href="../extjs/resources/css/ext-all.css">
+-->
+  <link rel="stylesheet" type="text/css" href="../extjs/build/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all-debug.css">
   <link rel="stylesheet" type="text/css" href="../extjs/examples/shared/example.css" />
 
 <!-- Not needed in ExtJs 4.x
   <script type="text/javascript" src="../extjs/adapter/ext/ext-base-debug.js"></script>
 -->  
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/ext-all-debug.js"></script>
+  <script type="text/javascript" src="../extjs/build/ext-all-debug.js"></script>
 
   <script type="text/javascript" src="../ejn/ejn-assert.js"></script>
 
@@ -52,7 +55,7 @@
   <script type="text/javascript" src="../djn/test/djn-tests.js"></script>
 
   <script type="text/javascript" src="../djn/directprovider/src=test/DjnTestApi-debug.js"></script>
-  <script type="text/javascript" src="ProgrammaticApi.js"></script>
+  <script type="text/javascript" src="ProgrammaticApi-min.js"></script>
 </head>
 
 
@@ -64,6 +67,8 @@ Reload the page to re-run the tests
 <div id="simpleForm"></div>
 
 <script>
+Ext.require( ['Ext.*']);
+
 Ext.onReady(function(){
   var remotingProvider = registerProvider();
   var programmaticRemotingProvider = registerProgrammaticProvider();
@@ -77,7 +82,7 @@ Ext.onReady(function(){
   }
 
   function registerProvider() {    
-    var remotingProvider = Ext.Direct.addProvider( Djn.apiNamespace.REMOTING_API);
+    /*var remotingProvider =*/ Ext.Direct.addProvider( Djn.apiNamespace.REMOTING_API);
     
     Djn.test.REMOTING_API.enableBuffer = 10; // 0 => no json requests are to be batched, 10 => json requests batched (use a small number!)    
     var remotingProvider = Ext.Direct.addProvider( Djn.test.REMOTING_API);
@@ -114,14 +119,23 @@ Ext.onReady(function(){
       
       Djn.ServerMethodParametersReceptionTest,
       Djn.DeserializationOfSingleItemToSingleItemArrayTest,
-      /*
-      Djn.DeserializationToUntypedObjectsTest,
-      */
       Djn.DeserializationToGenericTypesTest,
       Djn.DateHandlingTest,
+ 
+      // ********************************** Maybe will be released in the future
+      Djn.DeserializationToUntypedObjectsTest,
+      // Djn.DeserializationFieldExclusionTest, //@todo
       
+      // ********************************** Custom instantiation adapters
+      // CDI
+      Djn.CdiApplicationScopedTest,
+      Djn.CdiSessionScopedTest,
+      
+      // Spring
+      Djn.SpringApplicationScopedTest,
+      Djn.SpringSessionScopedTest,
+
       Djn.ServerMethodReturnTest, 
-      Djn.DeserializationFieldExclusionTest,
       Djn.DirectStoreTest,      
       Djn.CustomGsonBuilderHandlingTest,
       Djn.FormTest,
@@ -152,7 +166,7 @@ Ext.onReady(function(){
   registerDirectListeners();
   registerProviderListeners(remotingProvider, programmaticRemotingProvider);
   runTests();
-})
+});
 </script>
 
 </body>

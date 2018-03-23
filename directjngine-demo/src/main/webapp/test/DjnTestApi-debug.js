@@ -93,12 +93,12 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_serverReceivingJsonArrayOfPrimitiveInPrimitiveArray'/*(int[]) => boolean */,
+        name: 'test_serverReceivingJsonArrayNullInPrimitiveArray'/*(int[]) => boolean */,
         len: 1,
         formHandler: false
       },
       {
-        name: 'test_serverReceivingJsonArrayNullInPrimitiveArray'/*(int[]) => boolean */,
+        name: 'test_serverReceivingJsonArrayOfPrimitiveInPrimitiveArray'/*(int[]) => boolean */,
         len: 1,
         formHandler: false
       },
@@ -133,12 +133,12 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_serverReceivingStringRepresentingValidIntInIntPrimitive'/*(int) => boolean */,
+        name: 'test_serverReceivingJsonStringWithEscapedCharacters'/*(String) => String */,
         len: 1,
         formHandler: false
       },
       {
-        name: 'test_serverReceivingJsonStringWithEscapedCharacters'/*(String) => String */,
+        name: 'test_serverReceivingStringRepresentingValidIntInIntPrimitive'/*(int) => boolean */,
         len: 1,
         formHandler: false
       },
@@ -188,22 +188,22 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_serverReceivingJsonArrayInArray'/*(String[]) => boolean */,
-        len: 1,
-        formHandler: false
-      },
-      {
         name: 'test_serverReceivingJsonArrayInArrayHavingANullValue'/*(String[]) => boolean */,
         len: 1,
         formHandler: false
       },
       {
-        name: 'test_serverReceivingJsonStringWithNewLineCharacters'/*(String) => String */,
+        name: 'test_serverReceivingJsonArrayInArray'/*(String[]) => boolean */,
         len: 1,
         formHandler: false
       },
       {
         name: 'test_serverReceivingUniqueParameterNull'/*(String) => String */,
+        len: 1,
+        formHandler: false
+      },
+      {
+        name: 'test_serverReceivingJsonStringWithNewLineCharacters'/*(String) => String */,
         len: 1,
         formHandler: false
       },
@@ -303,17 +303,17 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
+        name: 'test_serverReceivingUndefinedForAPrimitive'/*(int) => boolean */,
+        len: 1,
+        formHandler: false
+      },
+      {
         name: 'test_serverReceivingJsonStringWithSeveralCharsInCharPrimitive'/*(char) => char */,
         len: 1,
         formHandler: false
       },
       {
         name: 'test_serverReceivingPrimitiveDoubleArray'/*(Double[]) => double */,
-        len: 1,
-        formHandler: false
-      },
-      {
-        name: 'test_serverReceivingUndefinedForAPrimitive'/*(int) => boolean */,
         len: 1,
         formHandler: false
       },
@@ -328,12 +328,12 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_serverReceivingUniqueParameterUndefined'/*(String) => String */,
+        name: 'test_serverReceivingJsonArrayOfPrimitiveEmptyInPrimitiveArray'/*(int[]) => boolean */,
         len: 1,
         formHandler: false
       },
       {
-        name: 'test_serverReceivingJsonArrayOfPrimitiveEmptyInPrimitiveArray'/*(int[]) => boolean */,
+        name: 'test_serverReceivingUniqueParameterUndefined'/*(String) => String */,
         len: 1,
         formHandler: false
       },
@@ -429,6 +429,23 @@ Djn.test.REMOTING_API = {
         formHandler: false
       }
     ],
+    CdiApplicationScopedActionTest: [
+      {
+        name: 'resetApplicationData'/*() => void */,
+        len: 0,
+        formHandler: false
+      },
+      {
+        name: 'test_getCdiApplicationCallCount'/*() => int */,
+        len: 0,
+        formHandler: false
+      },
+      {
+        name: 'test_getCdiApplicationData'/*() => int */,
+        len: 0,
+        formHandler: false
+      }
+    ],
     DeserializationFieldExclusionTest: [
       {
         name: 'test_allFieldsExclusion'/*(com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing) => com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing */,
@@ -451,12 +468,12 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_nullFieldExclusion'/*(com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing) => com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing */,
+        name: 'test_objectFieldExclusion'/*(com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing) => com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing */,
         len: 1,
         formHandler: false
       },
       {
-        name: 'test_objectFieldExclusion'/*(com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing) => com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing */,
+        name: 'test_nullFieldExclusion'/*(com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing) => com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing */,
         len: 1,
         formHandler: false
       },
@@ -477,6 +494,30 @@ Djn.test.REMOTING_API = {
       },
       {
         name: 'test_multipleFieldExclusion'/*(com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing) => com.softwarementors.extjs.djn.test.DeserializationFieldExclusionTest$MyThing */,
+        len: 1,
+        formHandler: false
+      }
+    ],
+    singletonBean: [
+      {
+        name: 'test_getSpringApplicationCallCount'/*() => int */,
+        len: 0,
+        formHandler: false
+      },
+      {
+        name: 'resetApplicationData'/*() => void */,
+        len: 0,
+        formHandler: false
+      },
+      {
+        name: 'test_getSpringApplicationData'/*() => int */,
+        len: 0,
+        formHandler: false
+      }
+    ],
+    BatchRequestMultithreadedHandlingTest: [
+      {
+        name: 'wait'/*(int) => void */,
         len: 1,
         formHandler: false
       }
@@ -563,12 +604,12 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_JsonArrayInObject'/*(Object) => Object */,
+        name: 'test_JsonPrimitiveNumberInStringMap_fails'/*(java.util.Map) => java.util.Map */,
         len: 1,
         formHandler: false
       },
       {
-        name: 'test_JsonPrimitiveNumberInStringMap_fails'/*(java.util.Map) => java.util.Map */,
+        name: 'test_JsonArrayInObject'/*(Object) => Object */,
         len: 1,
         formHandler: false
       },
@@ -583,21 +624,14 @@ Djn.test.REMOTING_API = {
         formHandler: false
       }
     ],
-    BatchRequestMultithreadedHandlingTest: [
-      {
-        name: 'wait'/*(int) => void */,
-        len: 1,
-        formHandler: false
-      }
-    ],
     ServerMethodReturnTest: [
       {
-        name: 'test_serverReturningLong'/*() => long */,
+        name: 'test_serverReturningString'/*() => String */,
         len: 0,
         formHandler: false
       },
       {
-        name: 'test_serverReturningString'/*() => String */,
+        name: 'test_serverReturningLong'/*() => long */,
         len: 0,
         formHandler: false
       },
@@ -627,12 +661,12 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_serverReturningPolymorphicValues'/*() => com.softwarementors.extjs.djn.test.ServerMethodReturnTest$Base[] */,
+        name: 'test_serverReturningDouble'/*() => double */,
         len: 0,
         formHandler: false
       },
       {
-        name: 'test_serverReturningDouble'/*() => double */,
+        name: 'test_serverReturningPolymorphicValues'/*() => com.softwarementors.extjs.djn.test.ServerMethodReturnTest$Base[] */,
         len: 0,
         formHandler: false
       },
@@ -726,12 +760,12 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_nullDateHandling'/*(java.util.Date) => java.util.Date */,
+        name: 'test_dateHandlngForWrongJsonType'/*(java.util.Date) => java.util.Date */,
         len: 1,
         formHandler: false
       },
       {
-        name: 'test_dateHandlngForWrongJsonType'/*(java.util.Date) => java.util.Date */,
+        name: 'test_nullDateHandling'/*(java.util.Date) => java.util.Date */,
         len: 1,
         formHandler: false
       }
@@ -828,12 +862,12 @@ Djn.test.REMOTING_API = {
     ],
     MethodsInBaseClassCorrectlyScannedTest: [
       {
-        name: 'test_serverReturningLong'/*() => long */,
+        name: 'test_serverReturningString'/*() => String */,
         len: 0,
         formHandler: false
       },
       {
-        name: 'test_serverReturningString'/*() => String */,
+        name: 'test_serverReturningLong'/*() => long */,
         len: 0,
         formHandler: false
       },
@@ -863,12 +897,12 @@ Djn.test.REMOTING_API = {
         formHandler: false
       },
       {
-        name: 'test_serverReturningPolymorphicValues'/*() => com.softwarementors.extjs.djn.test.ServerMethodReturnTest$Base[] */,
+        name: 'test_serverReturningDouble'/*() => double */,
         len: 0,
         formHandler: false
       },
       {
-        name: 'test_serverReturningDouble'/*() => double */,
+        name: 'test_serverReturningPolymorphicValues'/*() => com.softwarementors.extjs.djn.test.ServerMethodReturnTest$Base[] */,
         len: 0,
         formHandler: false
       },
@@ -965,6 +999,40 @@ Djn.test.REMOTING_API = {
       }
     ],
     PollTest: [
+    ],
+    sessionBean: [
+      {
+        name: 'resetSessionData'/*() => void */,
+        len: 0,
+        formHandler: false
+      },
+      {
+        name: 'test_getSpringSessionCallCount'/*() => int */,
+        len: 0,
+        formHandler: false
+      },
+      {
+        name: 'test_getSpringSessionData'/*() => int */,
+        len: 0,
+        formHandler: false
+      }
+    ],
+    CdiSessionScopedActionTest: [
+      {
+        name: 'test_getCdiSessionCallCount'/*() => int */,
+        len: 0,
+        formHandler: false
+      },
+      {
+        name: 'resetSessionData'/*() => void */,
+        len: 0,
+        formHandler: false
+      },
+      {
+        name: 'test_getCdiSessionData'/*() => int */,
+        len: 0,
+        formHandler: false
+      }
     ]
   }
 }

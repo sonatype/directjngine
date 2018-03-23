@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -22,6 +22,8 @@
  * This software uses the ExtJs library (http://extjs.com), which is 
  * distributed under the GPL v3 license (see http://extjs.com/license).
  */
+
+Ext.require( ['Ext.*']);
 
 var JAVA_MAX_BYTE = 127;
 var JAVA_MIN_BYTE = -128;
@@ -99,7 +101,15 @@ Djn.ClientCallErrorTest = {
       Djn.Test.fail( "test_serverReceivingMoreParametersThanExpected", "Expected a Client-side error" );
     }
     catch( e ) {
-      Djn.Test.checkClientCallError( "test_serverReceivingMoreParametersThanExpected", e );    
+      // ExtJs >= 5.1
+      if( e.message.indexOf( 'Callback argument is not a function') < 0 ) {
+         Djn.Test.fail( "test_serverReceivingMoreParametersThanExpected", "Expected ExtJs debug to detect wrong argument type starting from ExtJs 5.1" );
+      }
+      else {
+         Djn.Test.reportTestSuccess('test_serverReceivingMoreParametersThanExpected');
+      }
+      // Pre-ExtJs 5.1
+      // Djn.Test.checkClientCallError( "test_serverReceivingMoreParametersThanExpected", e );
     }
   },
 
@@ -1262,7 +1272,7 @@ Djn.ServerMethodParametersReceptionTest = {
 	  Djn.Test.checkSuccessfulResponse("test_serverMethodWithJsonArrayParameterReceivingMultipleParameters", response, response.result === 100);
     });
   }
-}
+};
 
 
 Djn.DirectStoreTest = {
@@ -1274,7 +1284,6 @@ Djn.DirectStoreTest = {
       root:'',
       directFn: DirectStoreTest.test_load,
       
-      paramsAsHash:false,
       root:'items',
       paramOrder: [ 'extraParam'],
       idProperty:'id',
@@ -1368,7 +1377,7 @@ Djn.DirectStoreTest = {
 	      ],
 	      listeners: {
 	        beforeload : function(store, options) {
-	          options.params.argPassedInBeforeLoadEvent = false
+	          options._params.argPassedInBeforeLoadEvent = false
 	        },
 	        load: function(s, records){
 	          Djn.Test.check( "test_loadWithArguments", records.length === 2, "If there is an error, this will never be called: a timeout should happen if there is some error!" );
@@ -1384,6 +1393,7 @@ Djn.DirectStoreTest = {
 	    });
 	  }
   ,  
+
   test_loadWithArgumentsUsingClass : function() {
 	    var myStore = new Ext.data.DirectStore( {
 	      paramsAsHash:true,
@@ -1398,7 +1408,7 @@ Djn.DirectStoreTest = {
 	      ],
 	      listeners: {
 	        beforeload : function(store, options) {
-	          options.params.argPassedInBeforeLoadEvent = false
+	          options._params.argPassedInBeforeLoadEvent = false
 	        },
 	        load: function(s, records){
 	          Djn.Test.check( "test_loadWithArgumentsUsingClass", records.length === 2, "If there is an error, this will never be called: a timeout should happen if there is some error!" );
@@ -1413,7 +1423,8 @@ Djn.DirectStoreTest = {
 	      }
 	    });
 	  }
-,  
+, 
+ 
   test_loadWithArgumentsWithDirectJsonHandling : function() {
     var myStore = new Ext.data.DirectStore( {
       paramsAsHash:true,
@@ -1429,7 +1440,7 @@ Djn.DirectStoreTest = {
       ],
       listeners: {
         beforeload : function(store, options) {
-          options.params.argPassedInBeforeLoadEvent = false
+          options._params.argPassedInBeforeLoadEvent = false
         },
         load: function(s, records){
           Djn.Test.check( "test_loadWithArgumentsWithDirectJsonHandling", records.length === 2, "If there is an error, this will never be called: a timeout should happen if there is some error!" );
@@ -1491,7 +1502,7 @@ Djn.FormTest = {
       },
       defaultType: 'textfield',
       api : {
-    	submit : submitHandler
+    	  submit : submitHandler
       },
       items: [ input1 = new Ext.form.TextField(
         {
@@ -1569,8 +1580,8 @@ Djn.FormTest = {
 	    },
 	    failure: function(form, response) {
 	      // var expectedFailureType = "exception"; // Before ExtJs 4.1.0
-		  var expectedFailureType = "connect"; // Starting in ExtJs 4.1.0
-		  Djn.Test.check( "test_handleFormCausingServerException", response.failureType == expectedFailureType, "Expected a server error" );
+	      var expectedFailureType = "connect"; // Starting in ExtJs 4.1.0
+		   Djn.Test.check( "test_handleFormCausingServerException", response.failureType == expectedFailureType, "Expected a server error" );
 	    }
     });
   }
@@ -1751,17 +1762,104 @@ Djn.MethodsInBaseClassCorrectlyScannedTest = {
   }
 },
 
+Djn.CdiApplicationScopedTest = {
+   test_getCdiApplicationData : function() {
+      CdiApplicationScopedActionTest.resetApplicationData( function(result,response) {
+          var count = 0;
+          var calls = 0;
+          var found1, found2, found3;
+          var expectedCount = 3;
+          while( count < expectedCount ) {
+             CdiApplicationScopedActionTest.test_getCdiApplicationData( function(result, response) {
+              found1 = found1 || response.result == 1;
+              found2 = found2 || response.result == 2;
+              found3 = found3 || response.result == 3;
+              calls++;
+              if( calls == expectedCount ) {
+                 Djn.Test.check( "test_getCdiApplicationData", found1 && found2 && found3, "The server did not return 1 & 2 & 3" );
+              }
+            });
+            count++;
+          }
+      });   
+    }
+},
+
+Djn.CdiSessionScopedTest = {
+   test_getCdiSessionData : function() {
+      CdiSessionScopedActionTest.resetSessionData( function(result,response) {
+          var count = 0;
+          var calls = 0;
+          var found1, found2, found3;
+          var expectedCount = 3;
+          while( count < expectedCount ) {
+             CdiSessionScopedActionTest.test_getCdiSessionData( function(result, response) {
+              found1 = found1 || response.result == 1;
+              found2 = found2 || response.result == 2;
+              found3 = found3 || response.result == 3;
+              calls++;
+              if( calls == expectedCount ) {
+                 Djn.Test.check( "test_getCdiSessionData", found1 && found2 && found3, "The server did not return 1 & 2 & 3" );
+              }
+            });
+            count++;
+          }
+      });   
+    }
+},
+
+
+Djn.SpringApplicationScopedTest = {
+   test_getSpringApplicationData : function() {
+      singletonBean.resetApplicationData( function(result,response) {
+          var count = 0;
+          var calls = 0;
+          var found1, found2, found3;
+          var expectedCount = 3;
+          while( count < expectedCount ) {
+            singletonBean.test_getSpringApplicationData( function(result, response) {
+              found1 = found1 || response.result == 1;
+              found2 = found2 || response.result == 2;
+              found3 = found3 || response.result == 3;
+              calls++;
+              if( calls == expectedCount ) {
+                 Djn.Test.check( "test_getSpringApplicationData", found1 && found2 && found3, "The server did not return 1 & 2 & 3" );
+              }
+            });
+            count++;
+          }
+      });   
+    }
+},
+
+Djn.SpringSessionScopedTest = {
+   test_getSpringSessionData : function() {
+      sessionBean.resetSessionData( function(result,response) {
+          var count = 0;
+          var calls = 0;
+          var found1, found2, found3;
+          var expectedCount = 3;
+          while( count < expectedCount ) {
+            sessionBean.test_getSpringSessionData( function(result, response) {
+              found1 = found1 || response.result == 1;
+              found2 = found2 || response.result == 2;
+              found3 = found3 || response.result == 3;
+              calls++;
+              if( calls == expectedCount ) {
+                 Djn.Test.check( "test_getSpringSessionData", found1 && found2 && found3, "The server did not return 1 & 2 & 3" );
+              }
+            });
+            count++;
+          }
+      });   
+    }
+},
+
+
 Djn.ApplicationStatefulActionTest = {
   testClassName : 'ApplicationStatefulActionTest',
   
   test_getApplicationData : function() {
-	/*
-    ApplicationStatefulActionTest.test_getApplicationData( function(result, response) {
-      ApplicationStatefulActionTest.test_getApplicationData( function(result, response) {
-        Djn.Test.checkSuccessfulResponse( "test_getApplicationData", response, response.result > 1, response.result);
-      })
-    });
-    */
 	ApplicationStatefulActionTest.resetApplicationData( function(result,response) {
 	    var count = 0;
 	    var calls = 0;

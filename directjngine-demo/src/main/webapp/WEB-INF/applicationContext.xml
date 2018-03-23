@@ -1,0 +1,21 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="
+          http://www.springframework.org/schema/aop 
+          http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <beans:bean id="sessionBean" scope="session"
+     class="com.softwarementors.djn.spring.SpringSessionScopedActionTest">
+     <!-- This will be needed in some contexts -not DJN related      
+        <aop:scoped-proxy/>
+     -->
+  </beans:bean>
+
+  <beans:bean id="singletonBean" scope="singleton"
+     class="com.softwarementors.djn.spring.SpringApplicationScopedActionTest">
+  </beans:bean>
+</beans:beans>

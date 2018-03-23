@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -92,16 +92,19 @@ public class ApiCodeGenerator {
     assert result != null;
     
     String contextPath = this.globalConfiguration.getContextPath();
-    if (contextPath == null) {
-      contextPath = "";
+    if( contextPath == null ) {
+      String JSCRIPT_CALCULATED_CONTEXT_PATH = "(window.location.pathname.split('/').length>2 ? window.location.pathname.split('/')[1]+ '/' : '')  + '";
+      result.append( "window.location.protocol + '//' + window.location.host + '/' + " + JSCRIPT_CALCULATED_CONTEXT_PATH );
     }
-    if( !contextPath.startsWith("/")) {
-      contextPath = "/" + contextPath;
+    else {
+      if( !contextPath.startsWith("/")) {
+        contextPath = "/" + contextPath;
+      }
+      if( !contextPath.endsWith("/")) {
+        contextPath += "/";
+      }
+      result.append( "window.location.protocol + '//' + window.location.host + '" + contextPath + "' + '" );
     }
-    if( !contextPath.endsWith("/")) {
-      contextPath += "/";
-    }
-    result.append( "window.location.protocol + '//' + window.location.host + '" + contextPath + "' + '" );
   }
 
   private void appendPollingUrlsSection(StringBuilder result, boolean minify) {

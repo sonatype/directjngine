@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -71,9 +71,11 @@ public class JsonException extends DirectJNgineException {
       Class<?> type = parameterTypes[i];
       typeNames.append( type.getName() );
       if( hasGsonParametersTypes) {
-        assert gsonParameterTypes != null;
+        assert gsonParameterTypes != null && gsonParameterTypes[i] != null;
         
+        @SuppressWarnings("null")
         Type gsonType = gsonParameterTypes[i];
+        
         if( gsonType != null) {
           typeNames.append( " ::GENERIC= ");
           typeNames.append( gsonType.toString());

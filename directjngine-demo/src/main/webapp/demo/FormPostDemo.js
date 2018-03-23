@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -22,6 +22,8 @@
  * This software uses the ExtJs library (http://extjs.com), which is 
  * distributed under the GPL v3 license (see http://extjs.com/license).
  */
+
+Ext.require( ['Ext.*']);
 
 Ext.onReady( function() {
   // Register provider

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright © 2008, 2015 Pedro Agulló Soliveres.
  * 
  * This file is part of DirectJNgine.
  *
@@ -112,6 +112,7 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
   public static ServletFileUpload createFileUploader() {
     // Create a factory for disk-based file items
     DiskFileItemFactory factory = new DiskFileItemFactory();
+    // Set factory constraints so that files are never written to disk
     final int MAX_UPLOAD_MEMORY_SIZE = Integer.MAX_VALUE;
     // Create a new file upload handler
     ServletFileUpload upload = new ServletFileUpload(factory);
