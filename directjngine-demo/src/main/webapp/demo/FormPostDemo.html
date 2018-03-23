@@ -1,0 +1,97 @@
+<!--
+/*
+ * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * 
+ * This file is part of DirectJNgine.
+ *
+ * DirectJNgine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * Commercial use is permitted to the extent that the code/component(s)
+ * do NOT become part of another Open Source or Commercially developed
+ * licensed development library or toolkit without explicit permission.
+ *
+ * DirectJNgine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with DirectJNgine.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * This software uses the ExtJs library (http://extjs.com), which is 
+ * distributed under the GPL v3 license (see http://extjs.com/license).
+ */
+-->
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/resources/css/ext-all.css">
+<!--  
+  <link rel="stylesheet" type="text/css" href="../css/app.css">
+-->   
+  <link rel="stylesheet" type="text/css" href="../extjs/examples/shared/example.css" />
+
+<!-- Not needed in ExtJs 4.x
+  <script type="text/javascript" src="../extjs/adapter/ext/ext-base-debug.js"></script>
+-->  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/ext-all-debug.js"></script>
+
+  <!-- For ExtJs 3.0
+  <script type="text/javascript" src="../extjs/examples/ux/FileUploadField.js"></script>
+   -->
+  <!-- For ExtJs 3.1 -->
+  <!-- Not needed for ExtJs 4.x
+  <script type="text/javascript" src="../extjs/examples/ux/fileuploadfield/FileUploadField.js"></script>
+  -->
+
+<style>
+/* File Upload Styles */
+        .x-form-file-wrap {
+            position: relative;
+            height: 22px;
+        }
+        .x-form-file-wrap .x-form-file {
+            position: absolute;
+            right: 0;
+            -moz-opacity: 0;
+            filter:alpha(opacity: 0);
+            opacity: 0;
+            z-index: 2;
+            height: 22px;
+        }
+        .x-form-file-wrap .x-form-file-btn {
+            position: absolute;
+            right: 0;
+            z-index: 1;
+        }
+        .x-form-file-wrap .x-form-file-text {
+            position: absolute;
+            left: 0;
+            z-index: 3;
+            color: #777;
+        }
+ </style>
+ 
+  <script type="text/javascript" src="../djn/djn-remote-call-support.js"></script>
+  <script type="text/javascript" src="../ejn/ejn-assert.js"></script>
+
+  <script type="text/javascript" src="Api.js"></script>
+
+</head>
+
+<body>
+
+<h1>Form Submit Demo</h1>
+<p>
+See <a href="FormPostDemo.js">FormPostDemo.js</a>
+</p>
+<div id="form"></div>
+
+<script type="text/javascript" src="FormPostDemo.js"></script>
+</body>
+
+</html>

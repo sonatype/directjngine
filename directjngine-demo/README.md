@@ -1,0 +1,1 @@
+This module produces a war containing the tests for the project which can be run using a web browser.
