@@ -31,8 +31,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 
@@ -78,9 +81,10 @@ public class DirectJNgineServlet extends HttpServlet {
   /*********************************************************  
    * GlobalParameters and configuration
    *********************************************************/
+  private static final String ANTI_CSRF_TOKEN_NAME = "NX-ANTI-CSRF-TOKEN";
   private static final String VALUES_SEPARATOR = ",";
   public static final String REGISTRY_CONFIGURATOR_CLASS = "registryConfiguratorClass";
-  
+
   /* We handle processors and uploaders via a static map for several reasons:
 
      1. Public fields are not ok: ServletFileUpload is simply not serializable, and
@@ -144,7 +148,17 @@ public class DirectJNgineServlet extends HttpServlet {
   private static synchronized long getUniqueRequestId() {
     return id++;
   }
-  
+
+  private final boolean antiCsrfTokenEnabled;
+
+  public DirectJNgineServlet(boolean antiCsrfTokenEnabled) {
+    this.antiCsrfTokenEnabled = antiCsrfTokenEnabled;
+  }
+
+  public DirectJNgineServlet() {
+    this(false);
+  }
+
   @Override
   public void init(ServletConfig configuration) throws ServletException
   {
@@ -642,7 +656,12 @@ public class DirectJNgineServlet extends HttpServlet {
     RequestRouter router = getProcessor();
     UploadFormPostRequestProcessor processor = router.createUploadFromProcessor();
     try {
-       router.processUploadFormPostRequest( processor, getFileItems(request), response.getWriter() );
+      final List<FileItem> fileItems = getFileItems(request);
+      if (isValidAntiCsrfTokenMatching(request, fileItems)) {
+        router.processUploadFormPostRequest(processor, fileItems, response.getWriter());
+      } else {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Anti cross-site request forgery token mismatch");
+      }
     }
     catch( FileUploadException e ) {
       processor.handleFileUploadException( e );
@@ -657,4 +676,31 @@ public class DirectJNgineServlet extends HttpServlet {
     return uploader.parseRequest(request);
   }
 
+  private boolean isValidAntiCsrfTokenMatching(final HttpServletRequest request, final List<FileItem> fileItems) {
+    String cookie = getAntiCsrfTokenCookie(request);
+    String form = getAntiCsrfTokenField(fileItems);
+
+    return !antiCsrfTokenEnabled || (cookie != null && cookie.equals(form));
+  }
+
+  private String getAntiCsrfTokenCookie(final HttpServletRequest request) {
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        if (ANTI_CSRF_TOKEN_NAME.equals(cookie.getName())) {
+          return cookie.getValue();
+        }
+      }
+    }
+    return null;
+  }
+
+  private String getAntiCsrfTokenField(final List<FileItem> fileItems) {
+    for (FileItem item : fileItems) {
+      if (item.isFormField() && ANTI_CSRF_TOKEN_NAME.equals(item.getFieldName())) {
+        return item.getString();
+      }
+    }
+    return null;
+  }
 }
