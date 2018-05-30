@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -42,7 +41,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 
@@ -81,7 +79,6 @@ public class DirectJNgineServlet extends HttpServlet {
   /*********************************************************  
    * GlobalParameters and configuration
    *********************************************************/
-  private static final String ANTI_CSRF_TOKEN_NAME = "NX-ANTI-CSRF-TOKEN";
   private static final String VALUES_SEPARATOR = ",";
   public static final String REGISTRY_CONFIGURATOR_CLASS = "registryConfiguratorClass";
 
@@ -150,13 +147,15 @@ public class DirectJNgineServlet extends HttpServlet {
   }
 
   private final boolean antiCsrfTokenEnabled;
+  private final String antiCsrfTokenName;
 
-  public DirectJNgineServlet(boolean antiCsrfTokenEnabled) {
+  public DirectJNgineServlet(final boolean antiCsrfTokenEnabled, final String antiCsrfTokenName) {
     this.antiCsrfTokenEnabled = antiCsrfTokenEnabled;
+    this.antiCsrfTokenName = antiCsrfTokenName;
   }
 
   public DirectJNgineServlet() {
-    this(false);
+    this(false, null);
   }
 
   @Override
@@ -677,17 +676,21 @@ public class DirectJNgineServlet extends HttpServlet {
   }
 
   private boolean isValidAntiCsrfTokenMatching(final HttpServletRequest request, final List<FileItem> fileItems) {
-    String cookie = getAntiCsrfTokenCookie(request);
-    String form = getAntiCsrfTokenField(fileItems);
+    if (antiCsrfTokenEnabled) {
+      String cookie = getAntiCsrfTokenCookie(request);
+      String form = getAntiCsrfTokenField(fileItems);
 
-    return !antiCsrfTokenEnabled || (cookie != null && cookie.equals(form));
+      return cookie != null && cookie.equals(form);
+    }
+
+    return true;
   }
 
   private String getAntiCsrfTokenCookie(final HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie cookie : cookies) {
-        if (ANTI_CSRF_TOKEN_NAME.equals(cookie.getName())) {
+        if (org.apache.commons.lang.StringUtils.equals(antiCsrfTokenName, cookie.getName())) {
           return cookie.getValue();
         }
       }
@@ -697,7 +700,7 @@ public class DirectJNgineServlet extends HttpServlet {
 
   private String getAntiCsrfTokenField(final List<FileItem> fileItems) {
     for (FileItem item : fileItems) {
-      if (item.isFormField() && ANTI_CSRF_TOKEN_NAME.equals(item.getFieldName())) {
+      if (item.isFormField() && org.apache.commons.lang.StringUtils.equals(antiCsrfTokenName, item.getFieldName())) {
         return item.getString();
       }
     }
