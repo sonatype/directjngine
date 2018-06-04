@@ -1,7 +1,8 @@
 library('private-pipeline-library')
 library('jenkins-shared')
 
-mavenSnapshotPipeline(usePublicSettingsXmlFile: true, integrationTests: true, mavenOptions: '-Dlicense.skip=true',
+mavenSnapshotPipeline(usePublicSettingsXmlFile: true, integrationTests: true,
+    mavenOptions: '-Dlicense.skip=true license.failIfMissing',
     onSuccess: { build, env ->
       notifyChat(env: env, currentBuild: build, room: 'nexus')
     },
