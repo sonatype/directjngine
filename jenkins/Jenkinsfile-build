@@ -1,7 +1,7 @@
 library('private-pipeline-library')
-library('jenkins-shared@add-feature-build-integration-testing-capability')
+library('jenkins-shared')
 
-mavenSnapshotPipeline(usePublicSettingsXmlFile: true, disableLicenseCheck: true, integrationTests: true,
+mavenSnapshotPipeline(usePublicSettingsXmlFile: true, integrationTests: true, mavenOptions: '-Dlicense.skip=true',
     onSuccess: { build, env ->
       notifyChat(env: env, currentBuild: build, room: 'nexus')
     },
