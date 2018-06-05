@@ -1,7 +1,7 @@
 library('private-pipeline-library')
 library('jenkins-shared@adding-sonar')
 
-mavenSnapshotPipeline(usePublicSettingsXmlFile: true,
+mavenSnapshotPipeline(
     onSuccess: { build, env ->
       notifyChat(env: env, currentBuild: build, room: 'nexus')
     },

@@ -26,6 +26,7 @@
 package com.softwarementors.extjs.djn;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 
