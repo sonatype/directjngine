@@ -148,14 +148,16 @@ public class DirectJNgineServlet extends HttpServlet {
 
   private final boolean antiCsrfTokenEnabled;
   private final String antiCsrfTokenName;
+  private final long maxUploadMemorySize;
 
-  public DirectJNgineServlet(final boolean antiCsrfTokenEnabled, final String antiCsrfTokenName) {
+  public DirectJNgineServlet(final boolean antiCsrfTokenEnabled, final String antiCsrfTokenName, final long maxUploadMemorySize) {
     this.antiCsrfTokenEnabled = antiCsrfTokenEnabled;
     this.antiCsrfTokenName = antiCsrfTokenName;
+    this.maxUploadMemorySize = maxUploadMemorySize;
   }
 
   public DirectJNgineServlet() {
-    this(false, null);
+    this(false, null, Integer.MAX_VALUE);
   }
 
   @Override
@@ -225,7 +227,7 @@ public class DirectJNgineServlet extends HttpServlet {
 
   private void initializeRouter(GlobalConfiguration globalConfiguration, Registry registry) {
     String servletName = getServletName();
-    uploaders.put( servletName, UploadFormPostRequestProcessor.createFileUploader() );
+    uploaders.put( servletName, UploadFormPostRequestProcessor.createFileUploader(this.maxUploadMemorySize) );
     processors.put( servletName, createRequestRouter(registry, globalConfiguration) );
   }
 
