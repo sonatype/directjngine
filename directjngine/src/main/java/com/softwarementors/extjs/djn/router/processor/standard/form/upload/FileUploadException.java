@@ -37,10 +37,11 @@ public class FileUploadException extends DirectJNgineException {
   public static FileUploadException forFileUploadException( org.apache.commons.fileupload.FileUploadException cause ) {
     assert cause != null;
     
-    // The FileUploadException raised by commons-fileupload always
-    // hides an inner exception that is the real cause
+    // The FileUploadException raised by commons-fileupload usually hides an inner exception that is the real cause
     Throwable realCause = cause.getCause();
-    assert realCause != null;
+    if (realCause == null) {
+      realCause = cause;
+    }
     
     String message = "Unable to process the files to upload.";
     if( realCause.getMessage() != null ) {
