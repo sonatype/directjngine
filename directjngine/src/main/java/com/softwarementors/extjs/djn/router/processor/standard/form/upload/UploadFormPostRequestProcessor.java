@@ -109,15 +109,15 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     return result.toString();
   }
 
-  public static ServletFileUpload createFileUploader(final long maxUploadMemorySize) {
+  public static ServletFileUpload createFileUploader(final long maxUploadSize) {
     // Create a factory for disk-based file items
     DiskFileItemFactory factory = new DiskFileItemFactory();
     // Create a new file upload handler
     ServletFileUpload upload = new ServletFileUpload(factory);
 
     // Set upload handler limits
-    upload.setSizeMax(maxUploadMemorySize);
-    upload.setFileSizeMax(maxUploadMemorySize);
+    upload.setSizeMax(maxUploadSize);
+    upload.setFileSizeMax(maxUploadSize);
     return upload;
   }
 
