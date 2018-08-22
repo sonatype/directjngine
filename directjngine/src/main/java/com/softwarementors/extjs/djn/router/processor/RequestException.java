@@ -91,13 +91,13 @@ public class RequestException extends DirectJNgineException {
     assert !StringUtils.isEmpty( elementName);
     assert primitiveType != null;
 
-    return new RequestException( "The json '" + elementName + "' element is missing, null or emtpy, or it is not of type " + primitiveType.getName() + ".");
+    return new RequestException( "The json '" + htmlEncode(elementName) + "' element is missing, null or emtpy, or it is not of type " + primitiveType.getName() + ".");
   }
 
   public static RequestException forJsonElementMissing(String elementName) {
     assert !StringUtils.isEmpty( elementName);
     
-    return new RequestException( "The json '" + elementName + "' element is missing.");
+    return new RequestException( "The json '" + htmlEncode(elementName) + "' element is missing.");
   }
 
   public static RequestException forWrongMethodArgumentCount(RegisteredMethod method,
@@ -107,7 +107,7 @@ public class RequestException extends DirectJNgineException {
     assert realArgumentCount >= 0;
     
     int expectedArgumentCount = method.getParameterCount();
-    return new RequestException( "Error attempting to call '" + htmlEncode(method.getFullName()) + "' (Java method='" + htmlEncode(method.getFullJavaMethodName()) + "'). Expected '" + expectedArgumentCount + "' arguments, but found '" + realArgumentCount +
+    return new RequestException( "Error attempting to call '" + method.getFullName() + "' (Java method='" + method.getFullJavaMethodName() + "'). Expected '" + expectedArgumentCount + "' arguments, but found '" + realArgumentCount +
        "'. Note: this can happen sometimes when passing 'undefined' values or just because the JavaScript call was missing some parameters");
   }
 

@@ -42,4 +42,34 @@ public class RequestExceptionTest
     RequestException e = RequestException.forActionNotFound("<i onclick=\"alert('haha')\">");
     assertThat(e.getMessage(), is("No action registered as '&lt;i onclick=&quot;alert('haha')&quot;&gt;'"));
   }
+
+  @Test
+  public void forActionMethodNotFound_isEncoded() {
+    RequestException e = RequestException.forActionMethodNotFound("<i onclick=\"alert('haha')\">", "<i onclick=\"alert('haha')\">");
+    assertThat(e.getMessage(), is("No method registered as '&lt;i onclick=&quot;alert('haha')&quot;&gt;' in action '&lt;i onclick=&quot;alert('haha')&quot;&gt;'"));
+  }
+
+  @Test
+  public void forJsonElementMustBeANonNullOrEmptyValue_isEncoded() {
+    RequestException e = RequestException.forJsonElementMustBeANonNullOrEmptyValue("<i onclick=\"alert('haha')\">", RequestExceptionTest.class);
+    assertThat(e.getMessage(), is("The json '<i onclick=\"alert('haha')\">' element is missing, null or emtpy, or it is not of type com.softwarementors.extjs.djn.router.processor.RequestExceptionTest."));
+  }
+
+  @Test
+  public void forJsonElementMissing_isEncoded() {
+    RequestException e = RequestException.forJsonElementMissing("<i onclick=\"alert('haha')\">");
+    assertThat(e.getMessage(), is("The json '<i onclick=\"alert('haha')\">' element is missing."));
+  }
+
+  @Test
+  public void forPollEventNotFound_isEncoded() {
+    RequestException e = RequestException.forPollEventNotFound("<i onclick=\"alert('haha')\">");
+    assertThat(e.getMessage(), is("No method registered for poll event '&lt;i onclick=&quot;alert('haha')&quot;&gt;'"));
+  }
+
+  @Test
+  public void forSourceNotFound_isEncoded() {
+    RequestException e = RequestException.forSourceNotFound("<i onclick=\"alert('haha')\">");
+    assertThat(e.getMessage(), is("Unable to find source for '&lt;i onclick=&quot;alert('haha')&quot;&gt;'"));
+  }
 }
