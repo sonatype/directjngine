@@ -44,6 +44,8 @@ import com.softwarementors.extjs.djn.router.processor.standard.form.FormPostRequ
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+import static com.softwarementors.extjs.djn.EncodingUtils.htmlEncode;
+
 public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase {
   
   @NonNull
@@ -74,7 +76,7 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     String result = process(formParameters, fileFields);
     
     String resultString = "<html><body><textarea>";
-    resultString += result;
+    resultString += htmlEncode(result);
     resultString += ("</textarea></body></html>");
     writer.write( resultString );
     if( logger.isDebugEnabled() ) {

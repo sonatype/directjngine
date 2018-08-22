@@ -25,10 +25,23 @@
 
 package com.softwarementors.extjs.djn;
 
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
 public final class EncodingUtils {
   private EncodingUtils() {
     // Avoid instantiatin
   }
   
   public static final String UTF8 = "UTF-8";
+
+  @Nullable
+  public static String htmlEncode(@Nullable String value) {
+    if (value == null) {
+      return value;
+    }
+
+    return StringEscapeUtils.escapeHtml(value);
+  }
 }
