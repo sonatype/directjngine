@@ -31,6 +31,7 @@ import java.util.List;
 import com.softwarementors.extjs.djn.DirectJNgineException;
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
+import org.apache.commons.lang.StringEscapeUtils;
 
 public class RequestException extends DirectJNgineException {
   private static final long serialVersionUID = -5221533510455590438L;
@@ -52,20 +53,20 @@ public class RequestException extends DirectJNgineException {
     assert !StringUtils.isEmpty(elementName);
     assert !StringUtils.isEmpty(jsonString);
     
-    return new RequestException( "The method arguments must be a json array, but it is not. Json=" + jsonString );
+    return new RequestException( "The method arguments must be a json array, but it is not. Json=" + htmlEncode(jsonString) );
   }
 
   public static RequestException forActionNotFound(String actionName) {
     assert !StringUtils.isEmpty( actionName );
     
-    return new RequestException( "No action registered as '" + actionName + "'" );
+    return new RequestException( "No action registered as '" + htmlEncode(actionName) + "'" );
   }
 
   public static RequestException forActionMethodNotFound(String actionName, String methodName) {
     assert !StringUtils.isEmpty( actionName );
     assert !StringUtils.isEmpty( methodName );
 
-    return new RequestException( "No method registered as '" + methodName + "' in action '" + actionName + "'" );
+    return new RequestException( "No method registered as '" + htmlEncode(methodName) + "' in action '" + htmlEncode(actionName) + "'" );
   }
 
   public static RequestException forRequestBatchMustHaveAtLeastOneRequest() {
@@ -106,7 +107,7 @@ public class RequestException extends DirectJNgineException {
     assert realArgumentCount >= 0;
     
     int expectedArgumentCount = method.getParameterCount();
-    return new RequestException( "Error attempting to call '" + method.getFullName() + "' (Java method='" + method.getFullJavaMethodName() + "'). Expected '" + expectedArgumentCount + "' arguments, but found '" + realArgumentCount + 
+    return new RequestException( "Error attempting to call '" + htmlEncode(method.getFullName()) + "' (Java method='" + htmlEncode(method.getFullJavaMethodName()) + "'). Expected '" + expectedArgumentCount + "' arguments, but found '" + realArgumentCount +
        "'. Note: this can happen sometimes when passing 'undefined' values or just because the JavaScript call was missing some parameters");
   }
 
@@ -120,12 +121,20 @@ public class RequestException extends DirectJNgineException {
   public static RequestException forPollEventNotFound(String eventName) {
     assert !StringUtils.isEmpty( eventName );
 
-    return new RequestException( "No method registered for poll event '" + eventName + "'" );
+    return new RequestException( "No method registered for poll event '" + htmlEncode(eventName) + "'" );
   }
 
   public static RequestException forSourceNotFound( String sourceName) {
     assert !StringUtils.isEmpty(sourceName);
     
-    return new RequestException( "Unable to find source for '" + sourceName + "'");
+    return new RequestException( "Unable to find source for '" + htmlEncode(sourceName) + "'");
+  }
+
+  private static String htmlEncode(String value) {
+    if (value == null) {
+      return value;
+    }
+
+    return StringEscapeUtils.escapeHtml(value);
   }
 }
