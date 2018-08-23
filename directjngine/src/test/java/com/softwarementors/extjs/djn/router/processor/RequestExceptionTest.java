@@ -52,13 +52,13 @@ public class RequestExceptionTest
   @Test
   public void forJsonElementMustBeANonNullOrEmptyValue_isEncoded() {
     RequestException e = RequestException.forJsonElementMustBeANonNullOrEmptyValue("<i onclick=\"alert('haha')\">", RequestExceptionTest.class);
-    assertThat(e.getMessage(), is("The json '<i onclick=\"alert('haha')\">' element is missing, null or emtpy, or it is not of type com.softwarementors.extjs.djn.router.processor.RequestExceptionTest."));
+    assertThat(e.getMessage(), is("The json '&lt;i onclick=&quot;alert('haha')&quot;&gt;' element is missing, null or emtpy, or it is not of type com.softwarementors.extjs.djn.router.processor.RequestExceptionTest."));
   }
 
   @Test
   public void forJsonElementMissing_isEncoded() {
     RequestException e = RequestException.forJsonElementMissing("<i onclick=\"alert('haha')\">");
-    assertThat(e.getMessage(), is("The json '<i onclick=\"alert('haha')\">' element is missing."));
+    assertThat(e.getMessage(), is("The json '&lt;i onclick=&quot;alert('haha')&quot;&gt;' element is missing."));
   }
 
   @Test
