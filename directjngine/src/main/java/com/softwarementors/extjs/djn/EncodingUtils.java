@@ -25,6 +25,8 @@
 
 package com.softwarementors.extjs.djn;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 public final class EncodingUtils {
@@ -34,7 +36,8 @@ public final class EncodingUtils {
   
   public static final String UTF8 = "UTF-8";
 
-  public static String htmlEncode(String value) {
+  @Nullable
+  public static String htmlEncode(@Nullable String value) {
     if (value == null) {
       return value;
     }
