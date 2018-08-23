@@ -31,7 +31,8 @@ import java.util.List;
 import com.softwarementors.extjs.djn.DirectJNgineException;
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
-import org.apache.commons.lang.StringEscapeUtils;
+
+import static com.softwarementors.extjs.djn.EncodingUtils.htmlEncode;
 
 public class RequestException extends DirectJNgineException {
   private static final long serialVersionUID = -5221533510455590438L;
@@ -128,13 +129,5 @@ public class RequestException extends DirectJNgineException {
     assert !StringUtils.isEmpty(sourceName);
     
     return new RequestException( "Unable to find source for '" + htmlEncode(sourceName) + "'");
-  }
-
-  private static String htmlEncode(String value) {
-    if (value == null) {
-      return value;
-    }
-
-    return StringEscapeUtils.escapeHtml(value);
   }
 }

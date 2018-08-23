@@ -25,10 +25,20 @@
 
 package com.softwarementors.extjs.djn;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 public final class EncodingUtils {
   private EncodingUtils() {
     // Avoid instantiatin
   }
   
   public static final String UTF8 = "UTF-8";
+
+  public static String htmlEncode(String value) {
+    if (value == null) {
+      return value;
+    }
+
+    return StringEscapeUtils.escapeHtml(value);
+  }
 }
