@@ -45,8 +45,8 @@ public class StandardErrorResponseData extends ErrorResponseData {
     assert !StringUtils.isEmpty( method );
 
     this.tid = tid;
-    this.action = action;
-    this.method = method;
+    this.action = htmlEncode(action);
+    this.method = htmlEncode(method);
   }
   
   public Long getTid() {
@@ -54,10 +54,10 @@ public class StandardErrorResponseData extends ErrorResponseData {
   }
 
   public String getAction() {
-    return htmlEncode(this.action);
+    return this.action;
   }
 
   public String getMethod() {
-    return htmlEncode(this.method);
+    return this.method;
   }
 }
