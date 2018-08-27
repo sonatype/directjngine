@@ -33,7 +33,6 @@ public class StandardErrorResponseDataTest
 {
   @Test
   public void validateActionEncoded() {
-    //  public StandardErrorResponseData( Long tid, String action, String method, Throwable exception, boolean debugOn ) {
     StandardErrorResponseData data = new StandardErrorResponseData(1l, "<i onclick=\"alert('haha')\">",
         "<i onclick=\"alert('haha')\">", new RuntimeException("test"), true);
     assertThat(data.getAction(), is("&lt;i onclick=&quot;alert('haha')&quot;&gt;"));
@@ -41,7 +40,6 @@ public class StandardErrorResponseDataTest
 
   @Test
   public void validateMethodEncoded() {
-    //  public StandardErrorResponseData( Long tid, String action, String method, Throwable exception, boolean debugOn ) {
     StandardErrorResponseData data = new StandardErrorResponseData(1l, "<i onclick=\"alert('haha')\">",
         "<i onclick=\"alert('haha')\">", new RuntimeException("test"), true);
     assertThat(data.getMethod(), is("&lt;i onclick=&quot;alert('haha')&quot;&gt;"));
