@@ -30,6 +30,7 @@ import com.softwarementors.extjs.djn.router.processor.ErrorResponseData;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+import static com.softwarementors.extjs.djn.EncodingUtils.htmlEncode;
 
 public class StandardErrorResponseData extends ErrorResponseData {
   @NonNull private Long tid;
@@ -44,8 +45,8 @@ public class StandardErrorResponseData extends ErrorResponseData {
     assert !StringUtils.isEmpty( method );
 
     this.tid = tid;
-    this.action = action;
-    this.method = method;
+    this.action = htmlEncode(action);
+    this.method = htmlEncode(method);
   }
   
   public Long getTid() {
