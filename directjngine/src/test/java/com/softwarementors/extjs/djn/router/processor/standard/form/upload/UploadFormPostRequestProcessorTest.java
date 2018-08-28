@@ -1,5 +1,5 @@
 /*
- * Copyright © 2008, 2012 Pedro Agulló Soliveres.
+ * Copyright 2018-present Sonatype, Inc.
  *
  * This file is part of DirectJNgine.
  *
