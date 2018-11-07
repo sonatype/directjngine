@@ -131,7 +131,12 @@ public abstract class FormPostRequestProcessorBase extends StandardRequestProces
       StandardErrorResponseData response = createJsonServerErrorResponse(request, t);
       logger.error( "(Controlled) server error: " + t.getMessage() + " for Form Post Method " + request.getFullMethodName(), t); 
       return response;
-    }  
+    }
+    finally {
+      for (FileItem fileItem : request.getFileFields().values()) {
+        fileItem.delete();
+      }
+    }
   }
   
 }
