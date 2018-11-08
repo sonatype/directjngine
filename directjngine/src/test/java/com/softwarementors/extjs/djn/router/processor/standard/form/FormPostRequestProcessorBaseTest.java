@@ -22,37 +22,32 @@
  * This software uses the ExtJs library (http://extjs.com), which is
  * distributed under the GPL v3 license (see http://extjs.com/license).
  */
-package com.softwarementors.extjs.djn.router.processor.standard.form.upload;
+package com.softwarementors.extjs.djn.router.processor.standard.form;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 import com.softwarementors.extjs.djn.gson.DefaultGsonBuilderConfigurator;
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
-import com.softwarementors.extjs.djn.router.processor.standard.form.Util;
 import org.apache.commons.fileupload.FileItem;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsNot.not;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
-public class UploadFormPostRequestProcessorTest
+public class FormPostRequestProcessorBaseTest
 {
-  private UploadFormPostRequestProcessor underTest;
-
   private Registry registry;
 
   private Dispatcher dispatcher;
 
   private GlobalConfiguration globalConfiguration;
+
+  private FormPostRequestProcessorBase underTest;
 
   @BeforeTest
   public void setup() {
@@ -61,22 +56,27 @@ public class UploadFormPostRequestProcessorTest
     globalConfiguration = mock(GlobalConfiguration.class);
     doReturn(DefaultGsonBuilderConfigurator.class).when(globalConfiguration).getGsonBuilderConfiguratorClass();
 
-    underTest = new UploadFormPostRequestProcessor(registry, dispatcher, globalConfiguration);
+    underTest = new TestFormPostRequestProcessor(registry, dispatcher, globalConfiguration);
   }
 
   @Test
-  public void validateResultEncoded() throws Exception {
-    List fileItems = new ArrayList();
-    fileItems.add(Util.mockFileItem("extAction", "</textarea><script>alert(2)</script>y8jn8"));
-    fileItems.add(Util.mockFileItem("extMethod", "</textarea><script>alert(2)</script>y8jn8"));
-    fileItems.add(Util.mockFileItem("extType", "rpc"));
-    fileItems.add(Util.mockFileItem("extTID", "17"));
-    fileItems.add(Util.mockFileItem("extUpload", "true"));
+  public void validateTempFileRemoved() {
+    Map formParameters = new HashMap();
+    formParameters.put("extAction", "action");
+    formParameters.put("extMethod", "method");
+    formParameters.put("extType", "type");
+    formParameters.put("extTID", "1");
+    formParameters.put("extUpload", "true");
+    Map fileItems = new HashMap();
+    FileItem fileItem = Util.mockFileItem("field", "avalue");
+    fileItems.put("field", fileItem);
+    underTest.process(formParameters, fileItems);
+    verify(fileItem).delete();
+  }
 
-    StringWriter writer = new StringWriter();
-    underTest.process(fileItems, writer);
-
-    assertThat(writer.toString(), containsString("&lt;/textarea&gt;&lt;script&gt;alert(2)&lt;/script&gt;y8jn8"));
-    assertThat(writer.toString(), not(containsString("</textarea><script>alert(2)</script>y8jn8")));
+  private static final class TestFormPostRequestProcessor extends FormPostRequestProcessorBase {
+    public TestFormPostRequestProcessor(final Registry registry, final Dispatcher dispatcher, final GlobalConfiguration globalConfiguration) {
+      super(registry, dispatcher, globalConfiguration);
+    }
   }
 }
