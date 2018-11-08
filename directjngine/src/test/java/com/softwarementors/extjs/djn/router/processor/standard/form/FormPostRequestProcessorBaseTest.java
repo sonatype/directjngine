@@ -61,13 +61,13 @@ public class FormPostRequestProcessorBaseTest
 
   @Test
   public void validateTempFileRemoved() {
-    Map formParameters = new HashMap();
+    Map<String,String> formParameters = new HashMap<String, String>();
     formParameters.put("extAction", "action");
     formParameters.put("extMethod", "method");
     formParameters.put("extType", "type");
     formParameters.put("extTID", "1");
     formParameters.put("extUpload", "true");
-    Map fileItems = new HashMap();
+    Map<String,FileItem> fileItems = new HashMap<String,FileItem>();
     FileItem fileItem = Util.mockFileItem("field", "avalue");
     fileItems.put("field", fileItem);
     underTest.process(formParameters, fileItems);
