@@ -39,8 +39,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 
@@ -547,7 +549,7 @@ public class DirectJNgineServlet extends HttpServlet {
     else if( StringUtils.startsWithCaseInsensitive( contentType, "application/x-www-form-urlencoded") && request.getMethod().equalsIgnoreCase("post")) {
       return RequestType.FORM_SIMPLE_POST;
     }
-    else if( ServletFileUpload.isMultipartContent(request)) {
+    else if( isMultipartContent(request)) {
       return RequestType.FORM_UPLOAD_POST;
     }
     else if( RequestRouter.isSourceRequest(pathInfo)) {
@@ -558,6 +560,15 @@ public class DirectJNgineServlet extends HttpServlet {
       RequestException ex = RequestException.forRequestFormatNotRecognized();
       logger.error( "Error during file uploader: " + ex.getMessage() + "\nAdditional request information: " + requestInfo, ex );
       throw ex;
+    }
+  }
+
+  public static final boolean isMultipartContent(HttpServletRequest request) {
+    if (!("POST".equalsIgnoreCase(request.getMethod()) || "PUT".equalsIgnoreCase(request.getMethod()))) {
+      return false;
+    }
+    else {
+      return FileUploadBase.isMultipartContent(new ServletRequestContext(request));
     }
   }
 
