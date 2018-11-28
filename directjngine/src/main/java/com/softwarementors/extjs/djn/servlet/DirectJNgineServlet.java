@@ -563,13 +563,9 @@ public class DirectJNgineServlet extends HttpServlet {
     }
   }
 
-  public static final boolean isMultipartContent(HttpServletRequest request) {
-    if (!("POST".equalsIgnoreCase(request.getMethod()) || "PUT".equalsIgnoreCase(request.getMethod()))) {
-      return false;
-    }
-    else {
-      return FileUploadBase.isMultipartContent(new ServletRequestContext(request));
-    }
+  private static boolean isMultipartContent(HttpServletRequest request) {
+    return ("POST".equalsIgnoreCase(request.getMethod()) || "PUT".equalsIgnoreCase(request.getMethod())) &&
+        FileUploadBase.isMultipartContent(new ServletRequestContext(request));
   }
 
   @Override
