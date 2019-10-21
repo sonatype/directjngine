@@ -532,7 +532,7 @@ public class DirectJNgineServlet extends HttpServlet {
     return result;
   }
   
-  private static RequestType getFromRequestContentType( HttpServletRequest request ) {
+  public static RequestType getFromRequestContentType( HttpServletRequest request ) {
     assert request != null;
     
     String contentType = request.getContentType();
