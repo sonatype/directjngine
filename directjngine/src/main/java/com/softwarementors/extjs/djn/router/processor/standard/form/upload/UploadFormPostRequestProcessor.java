@@ -42,13 +42,13 @@ import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
 import com.softwarementors.extjs.djn.router.processor.standard.form.FormPostRequestProcessorBase;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 import static com.softwarementors.extjs.djn.EncodingUtils.htmlEncode;
 
 public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase {
   
-  @NonNull
+  @Nonnull
   private static final Logger logger = Logger.getLogger(UploadFormPostRequestProcessor.class);
   
   public UploadFormPostRequestProcessor(Registry registry, Dispatcher dispatcher, GlobalConfiguration globalConfiguration) {

@@ -68,17 +68,17 @@ import com.softwarementors.extjs.djn.router.processor.standard.StandardErrorResp
 import com.softwarementors.extjs.djn.router.processor.standard.StandardRequestProcessorBase;
 import com.softwarementors.extjs.djn.router.processor.standard.StandardSuccessResponseData;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public class JsonRequestProcessor extends StandardRequestProcessorBase {
   /* Will not release this until extensive testings is performed */
   private final static boolean SUPPORTS_OBJECT_TYPE_PARAMETER = false;
 
-  @NonNull private static final Logger logger = Logger.getLogger( JsonRequestProcessor.class);
+  @Nonnull private static final Logger logger = Logger.getLogger( JsonRequestProcessor.class);
   // We need a globally unique thread-pool, not a pool per processor!
   @CheckForNull private static volatile ExecutorService individualRequestsThreadPool; 
-  @NonNull private JsonParser parser = new JsonParser(); 
+  @Nonnull private JsonParser parser = new JsonParser(); 
 
   protected JsonParser getJsonParser() {
     return this.parser;
@@ -627,7 +627,7 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
       }
 
       if( result == null ) {
-        RequestException ex = RequestException.forJsonElementMustBeANonNullOrEmptyValue(elementName, getter.getValueType() );
+        RequestException ex = RequestException.forJsonElementMustBeANonnullOrEmptyValue(elementName, getter.getValueType() );
         logger.error( ex.getMessage(), ex );
         throw ex;          
       }

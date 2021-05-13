@@ -36,13 +36,13 @@ import org.apache.log4j.Logger;
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
 import com.softwarementors.extjs.djn.router.dispatcher.DispatcherBase;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class SsmDispatcher extends DispatcherBase {
-  @NonNull private static final Map<Class<?>, Scope> methodScopeCache =
+  @Nonnull private static final Map<Class<?>, Scope> methodScopeCache =
     new HashMap<Class<?>, Scope>();
 
-  @NonNull
+  @Nonnull
   private static final Logger logger = Logger.getLogger(SsmDispatcher.class);
     
   @Override

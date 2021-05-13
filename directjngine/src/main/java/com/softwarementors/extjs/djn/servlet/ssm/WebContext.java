@@ -34,16 +34,16 @@ import javax.servlet.http.HttpSession;
 
 import com.softwarementors.extjs.djn.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public class WebContext {
-  @NonNull private HttpServletRequest request;
-  @NonNull private HttpServletResponse response;
-  @NonNull private HttpServlet servlet;
+  @Nonnull private HttpServletRequest request;
+  @Nonnull private HttpServletResponse response;
+  @Nonnull private HttpServlet servlet;
   private boolean open;
 
-  /* package */ WebContext( @NonNull WebContext context ) {
+  /* package */ WebContext( @Nonnull WebContext context ) {
     this( context.getServlet(), context.getRequest(), context.getResponse());
   }  
   

@@ -37,11 +37,11 @@ import org.apache.log4j.Logger;
 import com.softwarementors.extjs.djn.StringBuilderUtils;
 import com.softwarementors.extjs.djn.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public final class ServletUtils {
-  @NonNull
+  @Nonnull
   private static final Logger logger = Logger.getLogger( ServletUtils.class);
   
   public ServletUtils() {

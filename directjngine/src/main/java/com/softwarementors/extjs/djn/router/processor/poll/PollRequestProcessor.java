@@ -43,10 +43,10 @@ import com.softwarementors.extjs.djn.router.processor.RequestProcessorBase;
 import com.softwarementors.extjs.djn.router.processor.RequestProcessorUtils;
 import com.softwarementors.extjs.djn.router.processor.ResponseData;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class PollRequestProcessor extends RequestProcessorBase {
-  @NonNull
+  @Nonnull
   private static Logger logger = Logger.getLogger(PollRequestProcessor.class);
   public static final String PATHINFO_POLL_PREFIX = "/poll/"; 
   

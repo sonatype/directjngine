@@ -86,7 +86,7 @@ public class RequestException extends DirectJNgineException {
     return new RequestException( "Unable to recognize the request format.");
   }
 
-  public static RequestException forJsonElementMustBeANonNullOrEmptyValue(String elementName, Class<?> primitiveType) {
+  public static RequestException forJsonElementMustBeANonnullOrEmptyValue(String elementName, Class<?> primitiveType) {
     assert !StringUtils.isEmpty( elementName);
     assert primitiveType != null;
 

@@ -29,11 +29,11 @@ import java.text.DecimalFormat;
 
 import org.apache.log4j.Logger;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class Timer {
-  @NonNull public static final Logger logger = Logger.getLogger( Timer.class );
-  @NonNull private static final DecimalFormat numberFormatter = new DecimalFormat("#.##");
+  @Nonnull public static final Logger logger = Logger.getLogger( Timer.class );
+  @Nonnull private static final DecimalFormat numberFormatter = new DecimalFormat("#.##");
 
   private boolean running;  
   private long startNanos;

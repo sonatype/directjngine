@@ -45,11 +45,11 @@ import com.softwarementors.extjs.djn.config.annotations.DirectFormPostMethod;
 import com.softwarementors.extjs.djn.config.annotations.DirectMethod;
 import com.softwarementors.extjs.djn.config.annotations.DirectPollMethod;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class Scanner {
-  @NonNull private static final Logger logger = Logger.getLogger( Scanner.class);
-  @NonNull private Registry registry;
+  @Nonnull private static final Logger logger = Logger.getLogger( Scanner.class);
+  @Nonnull private Registry registry;
   
   public Scanner(Registry registry) {
     assert registry != null;

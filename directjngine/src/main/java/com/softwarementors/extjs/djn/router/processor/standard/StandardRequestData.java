@@ -28,13 +28,13 @@ package com.softwarementors.extjs.djn.router.processor.standard;
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.router.processor.RequestData;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public abstract class StandardRequestData extends RequestData {
-  @NonNull private String action;
-  @NonNull private String method;
-  @NonNull private String type;
-  @NonNull private Long tid;
+  @Nonnull private String action;
+  @Nonnull private String method;
+  @Nonnull private String type;
+  @Nonnull private Long tid;
   
   protected StandardRequestData(String type, String action, String method, Long tid) {
     assert !StringUtils.isEmpty(type);

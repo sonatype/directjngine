@@ -42,7 +42,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNot.not;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class UploadFormPostRequestProcessorTest
 {
@@ -66,7 +65,7 @@ public class UploadFormPostRequestProcessorTest
 
   @Test
   public void validateResultEncoded() throws Exception {
-    List fileItems = new ArrayList();
+    List<FileItem> fileItems = new ArrayList<>();
     fileItems.add(Util.mockFileItem("extAction", "</textarea><script>alert(2)</script>y8jn8"));
     fileItems.add(Util.mockFileItem("extMethod", "</textarea><script>alert(2)</script>y8jn8"));
     fileItems.add(Util.mockFileItem("extType", "rpc"));

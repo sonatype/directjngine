@@ -45,15 +45,15 @@ import com.softwarementors.extjs.djn.router.processor.standard.form.simple.Simpl
 import com.softwarementors.extjs.djn.router.processor.standard.form.upload.UploadFormPostRequestProcessor;
 import com.softwarementors.extjs.djn.router.processor.standard.json.JsonRequestProcessor;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class RequestRouter {
-  @NonNull
+  @Nonnull
   static final Logger logger = Logger.getLogger( RequestRouter.class );
   
-  private @NonNull Registry registry;
-  private @NonNull Dispatcher dispatcher;
-  private @NonNull GlobalConfiguration globalConfiguration;
+  private @Nonnull Registry registry;
+  private @Nonnull Dispatcher dispatcher;
+  private @Nonnull GlobalConfiguration globalConfiguration;
    
   public RequestRouter( Registry registry, GlobalConfiguration globalConfiguration, Dispatcher dispatcher ) {
     assert registry != null;

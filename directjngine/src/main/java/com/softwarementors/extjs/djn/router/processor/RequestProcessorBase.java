@@ -37,15 +37,15 @@ import com.softwarementors.extjs.djn.gson.GsonBuilderConfiguratorException;
 import com.softwarementors.extjs.djn.gson.JsonException;
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public abstract class RequestProcessorBase {
   
-  @NonNull private static Logger logger = Logger.getLogger(RequestProcessorBase.class);  
-  @NonNull private Dispatcher dispatcher;
-  @NonNull private Registry registry;
-  @NonNull private GlobalConfiguration globalConfiguration;
+  @Nonnull private static Logger logger = Logger.getLogger(RequestProcessorBase.class);  
+  @Nonnull private Dispatcher dispatcher;
+  @Nonnull private Registry registry;
+  @Nonnull private GlobalConfiguration globalConfiguration;
   /************************ Per-thread */
   @CheckForNull private static Gson gson; // = new ThreadLocal<Gson>();
   /************************ Per-thread: end */

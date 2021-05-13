@@ -25,10 +25,10 @@
 
 package com.softwarementors.extjs.djn.api;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 
 public enum RegisteredMethodType {
-  @NonNull STANDARD,
-  @NonNull POLL;  
+  @Nonnull STANDARD,
+  @Nonnull POLL;  
 }

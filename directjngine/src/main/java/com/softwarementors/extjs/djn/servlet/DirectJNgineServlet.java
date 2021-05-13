@@ -66,14 +66,14 @@ import com.softwarementors.extjs.djn.servlet.ssm.SsmDispatcher;
 import com.softwarementors.extjs.djn.servlet.ssm.SsmJsonRequestProcessorThread;
 import com.softwarementors.extjs.djn.servlet.ssm.WebContextManager;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public class DirectJNgineServlet extends HttpServlet {
 
   private static final long serialVersionUID = -5621879599626932408L;
 
-  @NonNull
+  @Nonnull
   private static final Logger logger = Logger.getLogger( DirectJNgineServlet.class);
 
   /*********************************************************  
@@ -95,8 +95,8 @@ public class DirectJNgineServlet extends HttpServlet {
      The solution was to have static maps, keyed by servlet name, which is always
      unique in a web application.
   */
-  @NonNull private static Map<String,RequestRouter> processors = new HashMap<String,RequestRouter>();
-  @NonNull private static Map<String,ServletFileUpload> uploaders = new HashMap<String,ServletFileUpload>();
+  @Nonnull private static Map<String,RequestRouter> processors = new HashMap<String,RequestRouter>();
+  @Nonnull private static Map<String,ServletFileUpload> uploaders = new HashMap<String,ServletFileUpload>();
   
   // Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
   protected RequestRouter getProcessor() {
@@ -117,29 +117,29 @@ public class DirectJNgineServlet extends HttpServlet {
   private static long id = 1000; // It is good for formatting to get lots of ids with the same number of digits...
 
   public static class GlobalParameters {
-    @NonNull public static final String PROVIDERS_URL = "providersUrl";
-    @NonNull public static final String DEBUG = "debug";
+    @Nonnull public static final String PROVIDERS_URL = "providersUrl";
+    @Nonnull public static final String DEBUG = "debug";
     
-    @NonNull private static final String APIS_PARAMETER = "apis";
-    @NonNull private static final String MINIFY = "minify";
+    @Nonnull private static final String APIS_PARAMETER = "apis";
+    @Nonnull private static final String MINIFY = "minify";
 
-    @NonNull public static final String BATCH_REQUESTS_MULTITHREADING_ENABLED = "batchRequestsMultithreadingEnabled";
-    @NonNull public static final String BATCH_REQUESTS_MIN_THREADS_POOOL_SIZE = "batchRequestsMinThreadsPoolSize";
-    @NonNull public static final String BATCH_REQUESTS_MAX_THREADS_POOOL_SIZE = "batchRequestsMaxThreadsPoolSize";
-    @NonNull public static final String BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS = "batchRequestsMaxThreadKeepAliveSeconds";
-    @NonNull public static final String BATCH_REQUESTS_MAX_THREADS_PER_REQUEST = "batchRequestsMaxThreadsPerRequest";
-    @NonNull public static final String GSON_BUILDER_CONFIGURATOR_CLASS = "gsonBuilderConfiguratorClass";
-    @NonNull public static final String DISPATCHER_CLASS = "dispatcherClass";
-    @NonNull public static final String JSON_REQUEST_PROCESSOR_THREAD_CLASS = "jsonRequestProcessorThreadClass";
-    @NonNull public static final String CONTEXT_PATH = "contextPath";
-    @NonNull public static final String CREATE_SOURCE_FILES="createSourceFiles";
+    @Nonnull public static final String BATCH_REQUESTS_MULTITHREADING_ENABLED = "batchRequestsMultithreadingEnabled";
+    @Nonnull public static final String BATCH_REQUESTS_MIN_THREADS_POOOL_SIZE = "batchRequestsMinThreadsPoolSize";
+    @Nonnull public static final String BATCH_REQUESTS_MAX_THREADS_POOOL_SIZE = "batchRequestsMaxThreadsPoolSize";
+    @Nonnull public static final String BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS = "batchRequestsMaxThreadKeepAliveSeconds";
+    @Nonnull public static final String BATCH_REQUESTS_MAX_THREADS_PER_REQUEST = "batchRequestsMaxThreadsPerRequest";
+    @Nonnull public static final String GSON_BUILDER_CONFIGURATOR_CLASS = "gsonBuilderConfiguratorClass";
+    @Nonnull public static final String DISPATCHER_CLASS = "dispatcherClass";
+    @Nonnull public static final String JSON_REQUEST_PROCESSOR_THREAD_CLASS = "jsonRequestProcessorThreadClass";
+    @Nonnull public static final String CONTEXT_PATH = "contextPath";
+    @Nonnull public static final String CREATE_SOURCE_FILES="createSourceFiles";
   }
 
   public static class ApiParameters {
-    @NonNull public static final String API_FILE = "apiFile";
-    @NonNull public static final String API_NAMESPACE = "apiNamespace";
-    @NonNull public static final String ACTIONS_NAMESPACE = "actionsNamespace";
-    @NonNull public static final String CLASSES = "classes";
+    @Nonnull public static final String API_FILE = "apiFile";
+    @Nonnull public static final String API_NAMESPACE = "apiNamespace";
+    @Nonnull public static final String ACTIONS_NAMESPACE = "actionsNamespace";
+    @Nonnull public static final String CLASSES = "classes";
   }
 
   private static synchronized long getUniqueRequestId() {

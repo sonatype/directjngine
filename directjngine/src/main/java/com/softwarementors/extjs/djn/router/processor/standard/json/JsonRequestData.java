@@ -29,7 +29,7 @@ import com.google.gson.JsonArray;
 import com.softwarementors.extjs.djn.router.TransferType;
 import com.softwarementors.extjs.djn.router.processor.standard.StandardRequestData;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class JsonRequestData extends StandardRequestData {
   
@@ -39,9 +39,9 @@ public class JsonRequestData extends StandardRequestData {
   public static final String TYPE_ELEMENT = "type";
   public static final String DATA_ELEMENT = "data";
   
-  @NonNull private JsonArray jsonData;
+  @Nonnull private JsonArray jsonData;
   
-  /* package */ JsonRequestData(@NonNull String type, String action, String method, Long tid, JsonArray jsonData) {
+  /* package */ JsonRequestData(@Nonnull String type, String action, String method, Long tid, JsonArray jsonData) {
     super( type, action, method, tid );
 
     assert type.equals(TransferType.RPC);

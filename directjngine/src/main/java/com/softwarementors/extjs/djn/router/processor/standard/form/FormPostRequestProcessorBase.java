@@ -43,11 +43,11 @@ import com.softwarementors.extjs.djn.router.processor.standard.StandardErrorResp
 import com.softwarementors.extjs.djn.router.processor.standard.StandardRequestProcessorBase;
 import com.softwarementors.extjs.djn.router.processor.standard.StandardSuccessResponseData;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public abstract class FormPostRequestProcessorBase extends StandardRequestProcessorBase {
   
-  @NonNull
+  @Nonnull
   private static Logger logger = Logger.getLogger( FormPostRequestProcessorBase.class );
   
   protected FormPostRequestProcessorBase( Registry registry, Dispatcher dispatcher, GlobalConfiguration globalConfiguration ) {

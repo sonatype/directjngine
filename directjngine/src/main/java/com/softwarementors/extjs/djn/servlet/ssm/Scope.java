@@ -25,11 +25,11 @@
 
 package com.softwarementors.extjs.djn.servlet.ssm;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public enum Scope {
-  @NonNull STATELESS,
-  @NonNull SESSION,
-  @NonNull APPLICATION;
+  @Nonnull STATELESS,
+  @Nonnull SESSION,
+  @Nonnull APPLICATION;
 }
 

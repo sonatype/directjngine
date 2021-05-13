@@ -37,18 +37,18 @@ import org.apache.log4j.Logger;
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public class Registry {
-  @NonNull /* package */ static final Logger logger = Logger.getLogger( Registry.class );
+  @Nonnull /* package */ static final Logger logger = Logger.getLogger( Registry.class );
   
-  @NonNull private Map<String, RegisteredApi> apisByName = new HashMap<String, RegisteredApi>();
-  @NonNull private Map<String, RegisteredAction> actionsByName = new HashMap<String, RegisteredAction>();
-  @NonNull private Map<String, RegisteredPollMethod> pollMethodsByName = new HashMap<String, RegisteredPollMethod>();
-  @NonNull private Map<String, String> sources = new HashMap<String, String>();
-  @NonNull private GlobalConfiguration globalConfiguration;
-  @NonNull private static final Map<Method, Type[]> gsonGenericParameterTypes = new HashMap<Method, Type[]>();
+  @Nonnull private Map<String, RegisteredApi> apisByName = new HashMap<String, RegisteredApi>();
+  @Nonnull private Map<String, RegisteredAction> actionsByName = new HashMap<String, RegisteredAction>();
+  @Nonnull private Map<String, RegisteredPollMethod> pollMethodsByName = new HashMap<String, RegisteredPollMethod>();
+  @Nonnull private Map<String, String> sources = new HashMap<String, String>();
+  @Nonnull private GlobalConfiguration globalConfiguration;
+  @Nonnull private static final Map<Method, Type[]> gsonGenericParameterTypes = new HashMap<Method, Type[]>();
   
   public static void registerParameterType( Method method, int parameter, Type type ) {
     assert method != null;

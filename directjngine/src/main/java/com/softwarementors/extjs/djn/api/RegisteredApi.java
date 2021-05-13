@@ -32,16 +32,16 @@ import java.util.Map;
 
 import com.softwarementors.extjs.djn.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class RegisteredApi {
-  @NonNull private Map<String, RegisteredAction> actions = new HashMap<String, RegisteredAction>();
-  @NonNull private String fullApiFileName;
-  @NonNull private String apiNamespace;
-  @NonNull private String actionsNamespace;
-  @NonNull private String name;
-  @NonNull private Registry registry;
-  @NonNull private String apiFile;
+  @Nonnull private Map<String, RegisteredAction> actions = new HashMap<String, RegisteredAction>();
+  @Nonnull private String fullApiFileName;
+  @Nonnull private String apiNamespace;
+  @Nonnull private String actionsNamespace;
+  @Nonnull private String name;
+  @Nonnull private Registry registry;
+  @Nonnull private String apiFile;
   
   /* package */ RegisteredApi( Registry registry, String name, String apiFile, String fullApiFileName, String apiNamespace, String actionsNamespace ) {
     assert registry != null;

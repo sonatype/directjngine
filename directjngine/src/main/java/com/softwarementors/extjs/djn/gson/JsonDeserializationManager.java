@@ -37,11 +37,11 @@ import com.softwarementors.extjs.djn.ClassUtils;
 import com.softwarementors.extjs.djn.CollectionUtils;
 import com.softwarementors.extjs.djn.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class JsonDeserializationManager {
-  private static @NonNull ThreadLocal<JsonDeserializationManager> manager = new ThreadLocal<JsonDeserializationManager>();
-  private static @NonNull Set<Class<?>> manyValuedClasses = new HashSet<Class<?>>();
+  private static @Nonnull ThreadLocal<JsonDeserializationManager> manager = new ThreadLocal<JsonDeserializationManager>();
+  private static @Nonnull Set<Class<?>> manyValuedClasses = new HashSet<Class<?>>();
   
   static {
     manyValuedClasses.add( Collection.class );
@@ -59,11 +59,11 @@ public class JsonDeserializationManager {
     // Avoid instantiation
   }
 
-  private @NonNull Stack<Object> parents = new Stack<Object>();
-  private @NonNull Stack<String> fields = new Stack<String>();
-  private @NonNull Map<Object,Set<String>> fieldExclusions = new IdentityHashMap<Object,Set<String>>();
-  private @NonNull Set<String> rootExclusions = new HashSet<String>();
-  private @NonNull Set<String> rootInclusions = new HashSet<String>();
+  private @Nonnull Stack<Object> parents = new Stack<Object>();
+  private @Nonnull Stack<String> fields = new Stack<String>();
+  private @Nonnull Map<Object,Set<String>> fieldExclusions = new IdentityHashMap<Object,Set<String>>();
+  private @Nonnull Set<String> rootExclusions = new HashSet<String>();
+  private @Nonnull Set<String> rootInclusions = new HashSet<String>();
   private Object root;
   private boolean excludeManyValuedFields;
   

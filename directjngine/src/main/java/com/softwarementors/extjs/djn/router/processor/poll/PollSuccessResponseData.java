@@ -29,12 +29,12 @@ import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.router.TransferType;
 import com.softwarementors.extjs.djn.router.processor.SuccessResponseData;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public class PollSuccessResponseData extends SuccessResponseData {
   private Object data;
-  @NonNull private String name;
+  @Nonnull private String name;
   
   public PollSuccessResponseData( String eventName ) {
     super( TransferType.EVENT );

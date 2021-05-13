@@ -25,12 +25,12 @@
 
 package com.softwarementors.extjs.djn.router.processor.standard.json;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class DefaultJsonRequestProcessorThread implements JsonRequestProcessorThread {
 
-  @NonNull private JsonRequestProcessor processor;
-  @NonNull private JsonRequestData request;
+  @Nonnull private JsonRequestProcessor processor;
+  @Nonnull private JsonRequestData request;
   private int requestNumber;
   
   public DefaultJsonRequestProcessorThread() {

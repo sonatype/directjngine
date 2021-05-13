@@ -39,10 +39,10 @@ import com.softwarementors.extjs.djn.api.RegisteredCode;
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class CodeFileGenerator {
-  @NonNull private Registry registry;
+  @Nonnull private Registry registry;
 
   private GlobalConfiguration getGlobalConfiguration() {
     return this.registry.getGlobalConfiguration();
@@ -54,7 +54,7 @@ public class CodeFileGenerator {
     this.registry = registry;
   }
   
-  @NonNull
+  @Nonnull
   private static final Logger logger = Logger.getLogger( CodeFileGenerator.class);
   
   public static void updateSource( Registry registry, boolean saveApiFiles ) throws IOException {
