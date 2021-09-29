@@ -31,7 +31,7 @@ public class PollErrorResponseData extends ErrorResponseData {
   // No additional code required: we have this class because it reflects a 
   // domain concept, even if no additional code is needed for it 
 
-  /* package */ PollErrorResponseData(Throwable exception, boolean debugOn) {
+  public PollErrorResponseData(Throwable exception, boolean debugOn) {
     super(exception, debugOn);    
   }
 }
