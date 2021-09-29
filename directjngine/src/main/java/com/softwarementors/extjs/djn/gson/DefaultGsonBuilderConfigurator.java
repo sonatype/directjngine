@@ -32,11 +32,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
+import com.softwarementors.extjs.djn.router.processor.ServerExceptionInformation.ExceptionInformation;
+import com.softwarementors.extjs.djn.router.processor.poll.PollErrorResponseData;
 
 public class DefaultGsonBuilderConfigurator implements GsonBuilderConfigurator {
 
@@ -74,6 +77,48 @@ public class DefaultGsonBuilderConfigurator implements GsonBuilderConfigurator {
     }
   }
 
+  private static class PollErrorResponseDataSerializer implements JsonSerializer<PollErrorResponseData> {
+    @Override
+    public JsonElement serialize(
+        final PollErrorResponseData src,
+        final Type typeOfSrc,
+        final JsonSerializationContext context)
+    {
+      assert src != null;
+      assert typeOfSrc != null;
+      assert context != null;
+
+      JsonObject result = new JsonObject();
+      result.addProperty("message", clean(src.message));
+      result.addProperty("where", clean(src.where));
+      result.add("serverException", context.serialize(src.serverException));
+      return result;
+    }
+  }
+
+  private static class ExceptionInformationSerializer implements JsonSerializer<ExceptionInformation> {
+    @Override
+    public JsonElement serialize(
+        final ExceptionInformation src,
+        final Type typeOfSrc,
+        final JsonSerializationContext context)
+    {
+      assert src != null;
+      assert typeOfSrc != null;
+      assert context != null;
+
+      JsonObject result = new JsonObject();
+      result.addProperty("type", clean(src.type));
+      result.addProperty("message", clean(src.message));
+      result.addProperty("where", clean(src.where));
+      return result;
+    }
+  }
+
+  private static String clean(final String toClean) {
+    return toClean.replaceAll("[^a-zA-Z\\d\\s]", "*");
+  }
+
   public void configure(GsonBuilder builder, GlobalConfiguration configuration) {
     assert builder != null;
     assert configuration != null;
@@ -86,6 +131,8 @@ public class DefaultGsonBuilderConfigurator implements GsonBuilderConfigurator {
     
     builder.registerTypeAdapter( Date.class, new DateDeserializer());
     builder.registerTypeAdapter( Date.class, new DateSerializer());
+    builder.registerTypeAdapter(PollErrorResponseData.class, new PollErrorResponseDataSerializer());
+    builder.registerTypeAdapter(ExceptionInformation.class, new ExceptionInformationSerializer());
   }
 
 }

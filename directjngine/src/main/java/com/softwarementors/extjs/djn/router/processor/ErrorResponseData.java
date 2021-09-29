@@ -32,11 +32,11 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public abstract class ErrorResponseData extends ResponseData {
   @edu.umd.cs.findbugs.annotations.SuppressWarnings( value="URF_UNREAD_FIELD", justification="Passed to JSON side only")
-  @NonNull /* package */ String message;
+  @NonNull public String message;
   @edu.umd.cs.findbugs.annotations.SuppressWarnings( value="URF_UNREAD_FIELD", justification="Passed to JSON side only")
-  @NonNull /* package */ String where;
+  @NonNull public String where;
   @edu.umd.cs.findbugs.annotations.SuppressWarnings( value="URF_UNREAD_FIELD", justification="Passed to JSON side only")
-  @NonNull /* package */ ServerExceptionInformation serverException;
+  @NonNull public ServerExceptionInformation serverException;
   /*
   @NonNull private String serverExceptionMessage;
   @NonNull private String serverExceptionType;

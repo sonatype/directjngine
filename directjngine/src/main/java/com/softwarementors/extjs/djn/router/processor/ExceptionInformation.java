@@ -2,8 +2,8 @@ package com.softwarementors.extjs.djn.router.processor;
 
 
 public class ExceptionInformation {
-  /* package */ String exceptionClass;
-  /* package */ String message;
+  public String exceptionClass;
+  public String message;
   // Future development: we may have an exception handler that allows
   // us to register exception processors to pass extra data
   // private Map<String, Object> extraData = new HashMap<String,Object>();
