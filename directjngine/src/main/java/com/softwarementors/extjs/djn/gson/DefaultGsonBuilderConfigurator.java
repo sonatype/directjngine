@@ -116,7 +116,7 @@ public class DefaultGsonBuilderConfigurator implements GsonBuilderConfigurator {
   }
 
   private static String clean(final String toClean) {
-    return toClean.replaceAll("[^a-zA-Z\\d\\s]", "*");
+    return toClean.replaceAll("[^\\w\\s.\\-:/]", "*");
   }
 
   public void configure(GsonBuilder builder, GlobalConfiguration configuration) {

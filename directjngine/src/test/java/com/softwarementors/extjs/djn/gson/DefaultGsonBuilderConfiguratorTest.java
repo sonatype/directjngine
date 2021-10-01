@@ -26,7 +26,6 @@ package com.softwarementors.extjs.djn.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 import com.softwarementors.extjs.djn.router.processor.poll.PollErrorResponseData;
 import org.testng.annotations.BeforeTest;
@@ -53,8 +52,19 @@ public class DefaultGsonBuilderConfiguratorTest
 
   @Test
   public void testPollErrorResponseDataSerializer() {
-    PollErrorResponseData pollErrorResponseData = new PollErrorResponseData(new RuntimeException("uhoh"), false);
+    //The <,>,\,",',[,],{,},(,) chars should all be excluded
+    PollErrorResponseData pollErrorResponseData =
+        new PollErrorResponseData(new RuntimeException("uhoh<sometag><someendtag/>\"'/\\{}[]()"), false);
     String jsonString = gson.toJson(pollErrorResponseData);
-    assertThat(jsonString, is("{\"message\":\"RuntimeException* uhoh\",\"where\":\"\",\"serverException\":{\"rootException\":{\"type\":\"java*lang*RuntimeException\",\"message\":\"uhoh\",\"where\":\"\"},\"exception\":{\"type\":\"java*lang*RuntimeException\",\"message\":\"uhoh\",\"where\":\"\"},\"exceptions\":[{\"type\":\"java*lang*RuntimeException\",\"message\":\"uhoh\",\"where\":\"\"}]}}"));
+    assertThat(jsonString, is(expectedResponse()));
+  }
+
+  private String expectedResponse() {
+    return "{\"message\":\"RuntimeException: uhoh*sometag**someendtag/***/*******\",\"where\":\"\"," +
+        "\"serverException\":{\"rootException\":{\"type\":\"java.lang.RuntimeException\"," +
+        "\"message\":\"uhoh*sometag**someendtag/***/*******\",\"where\":\"\"},\"exception\":{" +
+        "\"type\":\"java.lang.RuntimeException\",\"message\":\"uhoh*sometag**someendtag/***/*******\"," +
+        "\"where\":\"\"},\"exceptions\":[{\"type\":\"java.lang.RuntimeException\"," +
+        "\"message\":\"uhoh*sometag**someendtag/***/*******\",\"where\":\"\"}]}}";
   }
 }
