@@ -166,9 +166,13 @@ public class CodeFileGenerator {
     }
     return false;
   }
-  
+
   private static String getDebugFileName( String file ) {
-    String result = file.replace( ".js", "-debug.js");
-    return result;
+    int extensionIndex = file.lastIndexOf( ".js" );
+
+    if ( extensionIndex != -1 && file.endsWith(".js") ) {
+      return file.substring(0, extensionIndex) + "-debug.js";
+    }
+    return file;
   }
 }
