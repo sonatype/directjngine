@@ -131,6 +131,10 @@ public class DefaultGsonBuilderConfigurator implements GsonBuilderConfigurator {
     
     builder.registerTypeAdapter( Date.class, new DateDeserializer());
     builder.registerTypeAdapter( Date.class, new DateSerializer());
+    registerEncodingTypeAdapters(builder, configuration);
+  }
+
+  protected void registerEncodingTypeAdapters(GsonBuilder builder, GlobalConfiguration configuration) {
     builder.registerTypeAdapter(PollErrorResponseData.class, new PollErrorResponseDataSerializer());
     builder.registerTypeAdapter(ExceptionInformation.class, new ExceptionInformationSerializer());
   }
