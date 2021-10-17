@@ -167,7 +167,7 @@ public class CodeFileGenerator {
     return false;
   }
 
-  private static String getDebugFileName( String file ) {
+  protected static String getDebugFileName( String file ) {
     return file.replaceFirst( ".js$" , "-debug.js" );
   }
 }
