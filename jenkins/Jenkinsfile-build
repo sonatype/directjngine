@@ -11,6 +11,6 @@ mavenSnapshotPipeline(performSonarAnalysis: true,
     },
     iqPolicyEvaluation: { stage ->
         nexusPolicyEvaluation iqStage: stage, iqApplication: 'directjngine',
-          iqScanPatterns: [[scanPattern: '**/target/*.jar']]
+          iqScanPatterns: [[scanPattern: 'directjngine/target/*.jar']]
     }
 )
