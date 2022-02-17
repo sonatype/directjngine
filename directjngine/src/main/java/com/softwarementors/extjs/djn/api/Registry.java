@@ -32,7 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
@@ -41,7 +42,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class Registry {
-  @NonNull /* package */ static final Logger logger = Logger.getLogger( Registry.class );
+  @NonNull /* package */ static final Logger logger = LoggerFactory.getLogger( Registry.class );
   
   @NonNull private Map<String, RegisteredApi> apisByName = new HashMap<String, RegisteredApi>();
   @NonNull private Map<String, RegisteredAction> actionsByName = new HashMap<String, RegisteredAction>();

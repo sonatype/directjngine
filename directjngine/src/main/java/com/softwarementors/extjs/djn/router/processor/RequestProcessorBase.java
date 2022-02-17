@@ -25,7 +25,8 @@
 
 package com.softwarementors.extjs.djn.router.processor;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +43,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public abstract class RequestProcessorBase {
   
-  @NonNull private static Logger logger = Logger.getLogger(RequestProcessorBase.class);  
+  @NonNull private static Logger logger = LoggerFactory.getLogger(RequestProcessorBase.class);  
   @NonNull private Dispatcher dispatcher;
   @NonNull private Registry registry;
   @NonNull private GlobalConfiguration globalConfiguration;
@@ -122,12 +123,12 @@ public abstract class RequestProcessorBase {
     }
     catch (InstantiationException e) {
       GsonBuilderConfiguratorException ex = GsonBuilderConfiguratorException.forUnableToInstantiateGsonBuilder(configuratorClass, e);
-      logger.fatal( ex.getMessage(), ex);
+      logger.error( ex.getMessage(), ex);
       throw ex;
     }
     catch (IllegalAccessException e) {
       GsonBuilderConfiguratorException ex = GsonBuilderConfiguratorException.forUnableToInstantiateGsonBuilder(configuratorClass, e);
-      logger.fatal( ex.getMessage(), ex);
+      logger.error( ex.getMessage(), ex);
       throw ex;
     }     
   }

@@ -31,7 +31,8 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
 import com.softwarementors.extjs.djn.router.dispatcher.DispatcherBase;
@@ -43,7 +44,7 @@ public class SsmDispatcher extends DispatcherBase {
     new HashMap<Class<?>, Scope>();
 
   @NonNull
-  private static final Logger logger = Logger.getLogger(SsmDispatcher.class);
+  private static final Logger logger = LoggerFactory.getLogger(SsmDispatcher.class);
     
   @Override
   protected Object getInvokeInstanceForNonStaticMethod(RegisteredMethod method) throws Exception {

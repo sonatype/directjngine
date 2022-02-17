@@ -34,7 +34,8 @@ import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
@@ -49,7 +50,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class RequestRouter {
   @NonNull
-  static final Logger logger = Logger.getLogger( RequestRouter.class );
+  static final Logger logger = LoggerFactory.getLogger( RequestRouter.class );
   
   private @NonNull Registry registry;
   private @NonNull Dispatcher dispatcher;

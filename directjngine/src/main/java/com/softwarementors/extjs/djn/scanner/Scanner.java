@@ -30,7 +30,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.ClassUtils;
 import com.softwarementors.extjs.djn.api.RegisteredAction;
@@ -48,7 +49,7 @@ import com.softwarementors.extjs.djn.config.annotations.DirectPollMethod;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class Scanner {
-  @NonNull private static final Logger logger = Logger.getLogger( Scanner.class);
+  @NonNull private static final Logger logger = LoggerFactory.getLogger( Scanner.class);
   @NonNull private Registry registry;
   
   public Scanner(Registry registry) {
@@ -70,7 +71,7 @@ public class Scanner {
     
     if( this.registry.hasApi( api.getName() )) {
       ApiConfigurationException ex = ApiConfigurationException.forApiAlreadyRegistered( api.getName());
-      logger.fatal( ex.getMessage(), ex );
+      logger.error( ex.getMessage(), ex );
       throw ex;
     }
     
@@ -92,7 +93,7 @@ public class Scanner {
 
     if( actionsByClass.containsKey( actionClass ) ) {
       ApiConfigurationException ex = ApiConfigurationException.forClassAlreadyRegisteredAsAction(actionClass);
-      logger.fatal( ex.getMessage(), ex );
+      logger.error( ex.getMessage(), ex );
       throw ex;
     }
     */
@@ -125,7 +126,7 @@ public class Scanner {
       if( this.registry.hasAction( actionName ) ) {
         RegisteredAction existingAction = this.registry.getAction( actionName );
         ApiConfigurationException ex = ApiConfigurationException.forActionAlreadyRegistered(actionName, actionClass, existingAction.getActionClass());
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         throw ex;
       }
       RegisteredAction action = api.addAction( actionClass, actionName );
@@ -178,12 +179,12 @@ public class Scanner {
       // Check that a method is just of only one kind of method
       if( isStandardMethod && isFormPostMethod ) {
         ApiConfigurationException ex = ApiConfigurationException.forMethodCantBeStandardAndFormPostMethodAtTheSameTime(actionTemplate, method);
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         throw ex;
       }
       if( (methodAnnotation != null || postMethodAnnotation != null) && isPollMethod) {
         ApiConfigurationException ex = ApiConfigurationException.forPollMethodCantBeStandardOrFormPostMethodAtTheSameTime(actionTemplate, method);
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         throw ex;
       }
 
@@ -199,13 +200,13 @@ public class Scanner {
         }        
         if( actionTemplate.hasStandardMethod(methodName)  ) {
           ApiConfigurationException ex = ApiConfigurationException.forMethodAlreadyRegisteredInAction(methodName, actionTemplate.getName());
-          logger.fatal( ex.getMessage(), ex );
+          logger.error( ex.getMessage(), ex );
           throw ex;
         }
         
         if( isFormPostMethod && !RegisteredStandardMethod.isValidFormHandlingMethod(method)) {
           ApiConfigurationException ex = ApiConfigurationException.forMethodHasWrongParametersForAFormHandler( actionTemplate.getName(), methodName );
-          logger.fatal( ex.getMessage(), ex );
+          logger.error( ex.getMessage(), ex );
           throw ex;
         }
 
@@ -259,13 +260,13 @@ public class Scanner {
         
     if( this.registry.hasPollMethod(eventName)) {
       ApiConfigurationException ex = ApiConfigurationException.forPollEventAlreadyRegistered( eventName );
-      logger.fatal( ex.getMessage(), ex );
+      logger.error( ex.getMessage(), ex );
       throw ex;
     }
     
     if( !RegisteredPollMethod.isValidPollMethod(method)) {
       ApiConfigurationException ex = ApiConfigurationException.forMethodHasWrongParametersForAPollHandler( method );
-      logger.fatal( ex.getMessage(), ex );
+      logger.error( ex.getMessage(), ex );
       throw ex;
     }
     

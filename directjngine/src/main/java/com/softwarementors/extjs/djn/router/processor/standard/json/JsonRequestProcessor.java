@@ -44,7 +44,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -75,7 +76,7 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
   /* Will not release this until extensive testings is performed */
   private final static boolean SUPPORTS_OBJECT_TYPE_PARAMETER = false;
 
-  @NonNull private static final Logger logger = Logger.getLogger( JsonRequestProcessor.class);
+  @NonNull private static final Logger logger = LoggerFactory.getLogger( JsonRequestProcessor.class);
   // We need a globally unique thread-pool, not a pool per processor!
   @CheckForNull private static volatile ExecutorService individualRequestsThreadPool; 
   @NonNull private JsonParser parser = new JsonParser(); 
@@ -195,12 +196,12 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
     }
     catch (InstantiationException e) {
       JsonRequestProcessorThreadConfigurationException ex = JsonRequestProcessorThreadConfigurationException.forUnableToInstantiateJsonRequestProcessorThread(cls, e);
-      logger.fatal( ex.getMessage(), ex);
+      logger.error( ex.getMessage(), ex);
       throw ex;
     }
     catch (IllegalAccessException e) {
       JsonRequestProcessorThreadConfigurationException ex = JsonRequestProcessorThreadConfigurationException.forUnableToInstantiateJsonRequestProcessorThread(cls, e);
-      logger.fatal( ex.getMessage(), ex);
+      logger.error( ex.getMessage(), ex);
       throw ex;
     }     
   }

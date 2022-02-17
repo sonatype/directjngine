@@ -30,7 +30,8 @@ import java.io.Reader;
 import java.io.Writer;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
@@ -47,7 +48,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class PollRequestProcessor extends RequestProcessorBase {
   @NonNull
-  private static Logger logger = Logger.getLogger(PollRequestProcessor.class);
+  private static Logger logger = LoggerFactory.getLogger(PollRequestProcessor.class);
   public static final String PATHINFO_POLL_PREFIX = "/poll/"; 
   
   private String eventName;

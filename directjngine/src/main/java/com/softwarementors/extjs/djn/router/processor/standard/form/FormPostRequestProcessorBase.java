@@ -31,7 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.api.Registry;
@@ -48,7 +49,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 public abstract class FormPostRequestProcessorBase extends StandardRequestProcessorBase {
   
   @NonNull
-  private static Logger logger = Logger.getLogger( FormPostRequestProcessorBase.class );
+  private static Logger logger = LoggerFactory.getLogger( FormPostRequestProcessorBase.class );
   
   protected FormPostRequestProcessorBase( Registry registry, Dispatcher dispatcher, GlobalConfiguration globalConfiguration ) {
     super( registry, dispatcher, globalConfiguration);

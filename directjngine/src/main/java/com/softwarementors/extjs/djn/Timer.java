@@ -27,12 +27,13 @@ package com.softwarementors.extjs.djn;
 
 import java.text.DecimalFormat;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class Timer {
-  @NonNull public static final Logger logger = Logger.getLogger( Timer.class );
+  @NonNull public static final Logger logger = LoggerFactory.getLogger( Timer.class );
   @NonNull private static final DecimalFormat numberFormatter = new DecimalFormat("#.##");
 
   private boolean running;  

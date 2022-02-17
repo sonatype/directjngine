@@ -31,7 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.api.RegisteredApi;
@@ -55,7 +56,7 @@ public class CodeFileGenerator {
   }
   
   @NonNull
-  private static final Logger logger = Logger.getLogger( CodeFileGenerator.class);
+  private static final Logger logger = LoggerFactory.getLogger( CodeFileGenerator.class);
   
   public static void updateSource( Registry registry, boolean saveApiFiles ) throws IOException {
     assert registry != null;

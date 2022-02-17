@@ -32,7 +32,8 @@ import java.util.List;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.StringBuilderUtils;
 import com.softwarementors.extjs.djn.StringUtils;
@@ -42,7 +43,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 public final class ServletUtils {
   @NonNull
-  private static final Logger logger = Logger.getLogger( ServletUtils.class);
+  private static final Logger logger = LoggerFactory.getLogger( ServletUtils.class);
   
   public ServletUtils() {
     // Avoid instantiation
@@ -100,14 +101,14 @@ public final class ServletUtils {
       int result = Integer.parseInt(resultString);
       if( result < minValue ) {
         ServletConfigurationException ex = ServletConfigurationException.forParameterMustBeAnIntegerGreaterOrEqualToValue( parameterName, result, minValue );
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         throw ex;
       }
       return result;
     }
     catch( NumberFormatException e) {
       ServletConfigurationException ex = ServletConfigurationException.forParameterMustBeAValidInteger( parameterName, resultString );
-      logger.fatal( ex.getMessage(), ex );
+      logger.error( ex.getMessage(), ex );
       throw ex;
     }
     
@@ -127,7 +128,7 @@ public final class ServletUtils {
     }
     if( !missingParameters.isEmpty() ) {
       ServletConfigurationException ex = ServletConfigurationException.forMissingRequiredConfigurationParameter( missingParameters );
-      logger.fatal(ex);
+      logger.error(ex.getMessage(), ex);
       throw ex;
     }
   }

@@ -1,6 +1,7 @@
 package com.softwarementors.extjs.djn.api;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.jscodegen.Minifier;
@@ -9,7 +10,7 @@ import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class RegisteredCode {
-  public @NonNull static final Logger logger = Logger.getLogger( RegisteredCode.class );
+  public @NonNull static final Logger logger = LoggerFactory.getLogger( RegisteredCode.class );
   
   private boolean minify;
   private boolean debug;

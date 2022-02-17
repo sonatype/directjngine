@@ -35,7 +35,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
@@ -49,7 +50,7 @@ import static com.softwarementors.extjs.djn.EncodingUtils.htmlEncode;
 public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase {
   
   @NonNull
-  private static final Logger logger = Logger.getLogger(UploadFormPostRequestProcessor.class);
+  private static final Logger logger = LoggerFactory.getLogger(UploadFormPostRequestProcessor.class);
   
   public UploadFormPostRequestProcessor(Registry registry, Dispatcher dispatcher, GlobalConfiguration globalConfiguration) {
     super( registry, dispatcher, globalConfiguration );

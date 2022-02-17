@@ -41,8 +41,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.log4j.Logger;
-import org.apache.log4j.NDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.NDC;
 
 import com.softwarementors.extjs.djn.EncodingUtils;
 import com.softwarementors.extjs.djn.StringUtils;
@@ -74,7 +75,7 @@ public class DirectJNgineServlet extends HttpServlet {
   private static final long serialVersionUID = -5621879599626932408L;
 
   @NonNull
-  private static final Logger logger = Logger.getLogger( DirectJNgineServlet.class);
+  private static final Logger logger = LoggerFactory.getLogger( DirectJNgineServlet.class);
 
   /*********************************************************  
    * GlobalParameters and configuration
@@ -213,7 +214,7 @@ public class DirectJNgineServlet extends HttpServlet {
     }
     catch( IOException ex ) {
       ServletException e = new ServletException( "Unable to create DirectJNgine API files",  ex );
-      logger.fatal( e.getMessage(), e );
+      logger.error( e.getMessage(), e );
        throw e;
     }
 
@@ -245,12 +246,12 @@ public class DirectJNgineServlet extends HttpServlet {
     }
     catch (InstantiationException e) {
       DispatcherConfigurationException ex = DispatcherConfigurationException.forUnableToInstantiateDispatcher(cls, e);
-      logger.fatal( ex.getMessage(), ex);
+      logger.error( ex.getMessage(), ex);
       throw ex;
     }
     catch (IllegalAccessException e) {
       DispatcherConfigurationException ex = DispatcherConfigurationException.forUnableToInstantiateDispatcher(cls, e);
-      logger.fatal( ex.getMessage(), ex);
+      logger.error( ex.getMessage(), ex);
       throw ex;
     }     
   }
@@ -268,12 +269,12 @@ public class DirectJNgineServlet extends HttpServlet {
     }
     catch (InstantiationException e) {
       RegistryConfigurationException ex = RegistryConfigurationException.forUnableToInstantiateRegistryConfigurator(configuratorClass, e);
-      logger.fatal( ex.getMessage(), ex);
+      logger.error( ex.getMessage(), ex);
       throw ex;
     }
     catch (IllegalAccessException e) {
       RegistryConfigurationException ex = RegistryConfigurationException.forUnableToInstantiateRegistryConfigurator(configuratorClass, e);
-      logger.fatal( ex.getMessage(), ex);
+      logger.error( ex.getMessage(), ex);
       throw ex;
     }     
   }
@@ -310,7 +311,7 @@ public class DirectJNgineServlet extends HttpServlet {
     
     if( batchRequestsMinThreadsPoolSize > batchRequestsMaxThreadsPoolSize ) {
       ServletConfigurationException ex = ServletConfigurationException.forMaxThreadPoolSizeMustBeEqualOrGreaterThanMinThreadPoolSize(batchRequestsMinThreadsPoolSize, batchRequestsMaxThreadsPoolSize);
-      logger.fatal( ex.getMessage(), ex );
+      logger.error( ex.getMessage(), ex );
       throw ex;
     }
     
@@ -368,14 +369,14 @@ public class DirectJNgineServlet extends HttpServlet {
       configuratorClass = (Class<GsonBuilderConfigurator>)Class.forName(gsonConfiguratorClassName);
       if( !GsonBuilderConfigurator.class.isAssignableFrom(configuratorClass)) {
         ServletConfigurationException ex = ServletConfigurationException.forGsonBuilderConfiguratorMustImplementGsonBuilderConfiguratorInterface(gsonConfiguratorClassName ); 
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         throw ex;
       }
       return configuratorClass;
     }
     catch( ClassNotFoundException ex ) {
       ServletConfigurationException e = ServletConfigurationException.forClassNotFound(gsonConfiguratorClassName, ex ); 
-      logger.fatal( e.getMessage(), e );
+      logger.error( e.getMessage(), e );
       throw e;
     }
   }
@@ -389,14 +390,14 @@ public class DirectJNgineServlet extends HttpServlet {
       configuratorClass = (Class<Dispatcher>)Class.forName(dispatcherClassName);
       if( !Dispatcher.class.isAssignableFrom(configuratorClass)) {
         ServletConfigurationException ex = ServletConfigurationException.forDispatcherMustImplementDispatcherInterface(dispatcherClassName ); 
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         throw ex;
       }
       return configuratorClass;
     }
     catch( ClassNotFoundException ex ) {
       ServletConfigurationException e = ServletConfigurationException.forClassNotFound(dispatcherClassName, ex ); 
-      logger.fatal( e.getMessage(), e );
+      logger.error( e.getMessage(), e );
       throw e;
     }
   }
@@ -410,14 +411,14 @@ public class DirectJNgineServlet extends HttpServlet {
       cls = (Class<JsonRequestProcessorThread>)Class.forName(jsonRequestProcessorThreadClassName);
       if( !JsonRequestProcessorThread.class.isAssignableFrom(cls)) {
         ServletConfigurationException ex = ServletConfigurationException.forJsonRequestProcessorThreadMustImplementJsonRequestProcessorThreadInterface(jsonRequestProcessorThreadClassName ); 
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         throw ex;
       }
       return cls;
     }
     catch( ClassNotFoundException ex ) {
       ServletConfigurationException e = ServletConfigurationException.forClassNotFound(jsonRequestProcessorThreadClassName, ex ); 
-      logger.fatal( e.getMessage(), e );
+      logger.error( e.getMessage(), e );
       throw e;
     }
   }
@@ -433,14 +434,14 @@ public class DirectJNgineServlet extends HttpServlet {
       configuratorClass = (Class<ServletRegistryConfigurator>)Class.forName(registryConfiguratorClassName);
       if( !ServletRegistryConfigurator.class.isAssignableFrom(configuratorClass)) {
         ServletConfigurationException ex = ServletConfigurationException.forRegistryConfiguratorMustImplementGsonBuilderConfiguratorInterface(registryConfiguratorClassName ); 
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         throw ex;
       }
       return configuratorClass;
     }
     catch( ClassNotFoundException ex ) {
       ServletConfigurationException e = ServletConfigurationException.forClassNotFound(registryConfiguratorClassName, ex ); 
-      logger.fatal( e.getMessage(), e );
+      logger.error( e.getMessage(), e );
       throw e;
     }
   }
@@ -523,7 +524,7 @@ public class DirectJNgineServlet extends HttpServlet {
         result.add( cls );
       }
       catch( ClassNotFoundException ex ) {
-        logger.fatal( ex.getMessage(), ex );
+        logger.error( ex.getMessage(), ex );
         ServletConfigurationException e = ServletConfigurationException.forClassNotFound(className, ex ); 
         throw e;
       }
