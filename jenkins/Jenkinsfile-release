@@ -8,5 +8,9 @@ mavenReleasePipeline(
     },
     onFailure: { build, env ->
       notifyChat(env: env, currentBuild: build, room: 'nxrm-notifications')
+    },
+    iqPolicyEvaluation: { stage ->
+        nexusPolicyEvaluation iqStage: stage, iqApplication: 'directjngine',
+          iqScanPatterns: [[scanPattern: '**/target/*.jar']]
     }
 )
