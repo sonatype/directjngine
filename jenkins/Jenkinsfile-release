@@ -3,6 +3,7 @@ library('jenkins-shared')
 
 mavenReleasePipeline(
     mavenVersion: 'Maven 3.6.x',
+    mavenSettingsFile: 'rsc-private-settings',
     onSuccess: { build, env ->
       notifyChat(env: env, currentBuild: build, room: 'nxrm-notifications')
     },
