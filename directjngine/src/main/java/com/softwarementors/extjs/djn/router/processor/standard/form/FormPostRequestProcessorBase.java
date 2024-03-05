@@ -25,12 +25,13 @@
 
 package com.softwarementors.extjs.djn.router.processor.standard.form;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,7 +136,11 @@ public abstract class FormPostRequestProcessorBase extends StandardRequestProces
     }
     finally {
       for (FileItem fileItem : request.getFileFields().values()) {
-        fileItem.delete();
+          try {
+              fileItem.delete();
+          } catch (IOException e) {
+            //ignore ...
+          }
       }
     }
   }

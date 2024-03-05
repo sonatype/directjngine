@@ -24,6 +24,7 @@
  */
 package com.softwarementors.extjs.djn.router.processor.standard.form;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 import com.softwarementors.extjs.djn.gson.DefaultGsonBuilderConfigurator;
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -60,7 +61,7 @@ public class FormPostRequestProcessorBaseTest
   }
 
   @Test
-  public void validateTempFileRemoved() {
+  public void validateTempFileRemoved() throws IOException {
     Map<String,String> formParameters = new HashMap<String, String>();
     formParameters.put("extAction", "action");
     formParameters.put("extMethod", "method");

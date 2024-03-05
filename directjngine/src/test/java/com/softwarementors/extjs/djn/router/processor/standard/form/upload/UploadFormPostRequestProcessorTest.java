@@ -33,7 +33,7 @@ import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 import com.softwarementors.extjs.djn.gson.DefaultGsonBuilderConfigurator;
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
 import com.softwarementors.extjs.djn.router.processor.standard.form.Util;
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 

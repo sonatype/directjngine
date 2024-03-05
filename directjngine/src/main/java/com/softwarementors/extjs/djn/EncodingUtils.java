@@ -27,7 +27,8 @@ package com.softwarementors.extjs.djn;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+
 
 public final class EncodingUtils {
   private EncodingUtils() {
@@ -41,7 +42,6 @@ public final class EncodingUtils {
     if (value == null) {
       return value;
     }
-
-    return StringEscapeUtils.escapeHtml(value);
+    return escapeHtml4(value);
   }
 }
