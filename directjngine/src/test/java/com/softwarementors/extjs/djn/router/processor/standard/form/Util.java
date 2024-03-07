@@ -24,7 +24,7 @@
  */
 package com.softwarementors.extjs.djn.router.processor.standard.form;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

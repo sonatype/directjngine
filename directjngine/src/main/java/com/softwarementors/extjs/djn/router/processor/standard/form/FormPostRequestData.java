@@ -28,7 +28,7 @@ package com.softwarementors.extjs.djn.router.processor.standard.form;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import com.softwarementors.extjs.djn.router.processor.standard.StandardRequestData;
 

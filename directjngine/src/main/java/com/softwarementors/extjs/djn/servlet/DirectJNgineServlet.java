@@ -31,16 +31,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.jakarta.JakartaServletDiskFileUpload;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.NDC;
@@ -97,7 +98,7 @@ public class DirectJNgineServlet extends HttpServlet {
      unique in a web application.
   */
   @NonNull private static Map<String,RequestRouter> processors = new HashMap<String,RequestRouter>();
-  @NonNull private static Map<String,ServletFileUpload> uploaders = new HashMap<String,ServletFileUpload>();
+  @NonNull private static Map<String, JakartaServletFileUpload> uploaders = new HashMap<>();
   
   // Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
   protected RequestRouter getProcessor() {
@@ -107,7 +108,7 @@ public class DirectJNgineServlet extends HttpServlet {
   }
   
   // Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
-  protected ServletFileUpload getUploader() {
+  protected JakartaServletFileUpload getUploader() {
     assert uploaders.containsKey(getServletName());
     
     return uploaders.get(getServletName());
@@ -548,7 +549,7 @@ public class DirectJNgineServlet extends HttpServlet {
     else if( StringUtils.startsWithCaseInsensitive( contentType, "application/x-www-form-urlencoded") && request.getMethod().equalsIgnoreCase("post")) {
       return RequestType.FORM_SIMPLE_POST;
     }
-    else if( ServletFileUpload.isMultipartContent(request)) {
+    else if( JakartaServletDiskFileUpload.isMultipartContent(request)) {
       return RequestType.FORM_UPLOAD_POST;
     }
     else if( RequestRouter.isSourceRequest(pathInfo)) {
@@ -671,10 +672,10 @@ public class DirectJNgineServlet extends HttpServlet {
   }
 
   @SuppressWarnings("unchecked")
-  private List<FileItem> getFileItems(HttpServletRequest request) throws FileUploadException {
+  private List<FileItem> getFileItems(HttpServletRequest request) throws org.apache.commons.fileupload2.core.FileUploadException {
     assert request != null;
 
-    ServletFileUpload uploader = getUploader();
+    JakartaServletFileUpload uploader = getUploader();
     return uploader.parseRequest(request);
   }
 
@@ -693,7 +694,7 @@ public class DirectJNgineServlet extends HttpServlet {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie cookie : cookies) {
-        if (org.apache.commons.lang.StringUtils.equals(antiCsrfTokenName, cookie.getName())) {
+        if (org.apache.commons.lang3.StringUtils.equals(antiCsrfTokenName, cookie.getName())) {
           return cookie.getValue();
         }
       }
@@ -703,7 +704,7 @@ public class DirectJNgineServlet extends HttpServlet {
 
   private String getAntiCsrfTokenField(final List<FileItem> fileItems) {
     for (FileItem item : fileItems) {
-      if (item.isFormField() && org.apache.commons.lang.StringUtils.equals(antiCsrfTokenName, item.getFieldName())) {
+      if (item.isFormField() && org.apache.commons.lang3.StringUtils.equals(antiCsrfTokenName, item.getFieldName())) {
         return item.getString();
       }
     }

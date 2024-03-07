@@ -25,25 +25,23 @@
 
 package com.softwarementors.extjs.djn.router.processor.standard.form.upload;
 
+import com.softwarementors.extjs.djn.api.Registry;
+import com.softwarementors.extjs.djn.config.GlobalConfiguration;
+import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
+import com.softwarementors.extjs.djn.router.processor.standard.form.FormPostRequestProcessorBase;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.jakarta.JakartaServletDiskFileUpload;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.softwarementors.extjs.djn.api.Registry;
-import com.softwarementors.extjs.djn.config.GlobalConfiguration;
-import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
-import com.softwarementors.extjs.djn.router.processor.standard.form.FormPostRequestProcessorBase;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 import static com.softwarementors.extjs.djn.EncodingUtils.htmlEncode;
 
@@ -112,11 +110,12 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     return result.toString();
   }
 
-  public static ServletFileUpload createFileUploader(final long maxUploadSize) {
+  public static JakartaServletFileUpload createFileUploader(final long maxUploadSize) {
     // Create a factory for disk-based file items
-    DiskFileItemFactory factory = new DiskFileItemFactory();
+    JakartaServletDiskFileUpload fileUpload = new JakartaServletDiskFileUpload();
+    DiskFileItemFactory factory = fileUpload.getFileItemFactory();
     // Create a new file upload handler
-    ServletFileUpload upload = new ServletFileUpload(factory);
+    JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
 
     // Set upload handler limits
     upload.setSizeMax(maxUploadSize);
@@ -124,7 +123,7 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     return upload;
   }
 
-  public void handleFileUploadException(FileUploadException e) {
+  public void handleFileUploadException(org.apache.commons.fileupload2.core.FileUploadException e) {
     assert e != null;
     
     com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException ex = com.softwarementors.extjs.djn.router.processor.standard.form.upload.FileUploadException.forFileUploadException(e);
