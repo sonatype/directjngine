@@ -2,7 +2,10 @@ library('private-pipeline-library')
 library('jenkins-shared')
 
 mavenReleasePipeline(
+    deployBranch: 'main',
     mavenVersion: 'Maven 3.6.x',
+    mavenSettingsFile: 'rsc-private-settings', // internal publishing to rsc
+    additionalReleaseProfiles: ['publish-central'], // public publishing to central
     onSuccess: { build, env ->
       notifyChat(env: env, currentBuild: build, room: 'nxrm-notifications')
     },
