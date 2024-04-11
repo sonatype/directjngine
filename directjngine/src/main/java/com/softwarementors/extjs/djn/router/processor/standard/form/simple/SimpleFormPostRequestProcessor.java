@@ -31,7 +31,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

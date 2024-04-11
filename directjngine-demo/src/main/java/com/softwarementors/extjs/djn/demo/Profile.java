@@ -28,7 +28,7 @@ package com.softwarementors.extjs.djn.demo;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import com.softwarementors.extjs.djn.config.annotations.DirectFormPostMethod;
 import com.softwarementors.extjs.djn.config.annotations.DirectMethod;
