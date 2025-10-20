@@ -34,7 +34,7 @@ public class FileUploadException extends DirectJNgineException {
     super(message, cause);
   }
 
-  public static FileUploadException forFileUploadException( org.apache.commons.fileupload.FileUploadException cause ) {
+  public static FileUploadException forFileUploadException( org.apache.commons.fileupload2.core.FileUploadException cause ) {
     assert cause != null;
     
     // The FileUploadException raised by commons-fileupload usually hides an inner exception that is the real cause

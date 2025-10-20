@@ -25,7 +25,7 @@
 
 package com.softwarementors.extjs.djn.servlet;
 
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 
 import com.softwarementors.extjs.djn.api.Registry;
 

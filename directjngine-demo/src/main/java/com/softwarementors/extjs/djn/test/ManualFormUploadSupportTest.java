@@ -28,7 +28,7 @@ package com.softwarementors.extjs.djn.test;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.io.IOUtils;
 
 import com.softwarementors.extjs.djn.config.annotations.DirectFormPostMethod;
@@ -50,13 +50,13 @@ public class ManualFormUploadSupportTest {
   }
   
   @DirectFormPostMethod
-  public Result djnform_test_sendFilesManually( Map<String, String> formParameters, Map<String, FileItem> fileFields )  {
+  public Result djnform_test_sendFilesManually( Map<String, String> formParameters, Map<String, FileItem<?>> fileFields )  {
     assert formParameters != null;
     assert fileFields != null;
 
     Result r = new Result();
-    FileItem file1 = fileFields.get( "fileUpload1");
-    FileItem file2 = fileFields.get( "fileUpload2");
+    FileItem<?> file1 = fileFields.get( "fileUpload1");
+    FileItem<?> file2 = fileFields.get( "fileUpload2");
     if( fileFields.size() != 2 || file1 == null || file2 == null ) {
       throw new DirectTestFailedException( "Unexpected error receiving file fields");
     }
@@ -93,7 +93,7 @@ public class ManualFormUploadSupportTest {
 
 /*  
   @DirectFormPostMethod
-  public void djnform_test_simulateServerError( Map<String, String> formParameters, Map<String, FileItem> fileFields )  {
+  public void djnform_test_simulateServerError( Map<String, String> formParameters, Map<String, FileItem<?>> fileFields )  {
     assert formParameters != null;
     assert fileFields != null; 
     

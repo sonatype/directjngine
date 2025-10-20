@@ -28,7 +28,7 @@ package com.softwarementors.extjs.djn.test.servlet.config;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.api.RegisteredAction;

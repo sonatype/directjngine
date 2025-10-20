@@ -31,16 +31,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.NDC;
@@ -85,19 +85,19 @@ public class DirectJNgineServlet extends HttpServlet {
 
   /* We handle processors and uploaders via a static map for several reasons:
 
-     1. Public fields are not ok: ServletFileUpload is simply not serializable, and
+     1. Public fields are not ok: JakartaServletFileUpload is simply not serializable, and
         servlets are serializable. Besides, using servlet fields to hold state can
         be problematic.
      2. A single static variable is not ok, because it is possible to instantiate
         a servlet several times via <servlet> entries in web.xml, each one having
         a different configuration and therefore requiring a different RequestRouter and
-        ServletFileUpload.
+        JakartaServletFileUpload.
 
      The solution was to have static maps, keyed by servlet name, which is always
      unique in a web application.
   */
   @NonNull private static Map<String,RequestRouter> processors = new HashMap<String,RequestRouter>();
-  @NonNull private static Map<String,ServletFileUpload> uploaders = new HashMap<String,ServletFileUpload>();
+  @NonNull private static Map<String,JakartaServletFileUpload> uploaders = new HashMap<String,JakartaServletFileUpload>();
   
   // Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
   protected RequestRouter getProcessor() {
@@ -107,9 +107,9 @@ public class DirectJNgineServlet extends HttpServlet {
   }
   
   // Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
-  protected ServletFileUpload getUploader() {
+  protected JakartaServletFileUpload getUploader() {
     assert uploaders.containsKey(getServletName());
-    
+
     return uploaders.get(getServletName());
   }
   
@@ -548,7 +548,7 @@ public class DirectJNgineServlet extends HttpServlet {
     else if( StringUtils.startsWithCaseInsensitive( contentType, "application/x-www-form-urlencoded") && request.getMethod().equalsIgnoreCase("post")) {
       return RequestType.FORM_SIMPLE_POST;
     }
-    else if( ServletFileUpload.isMultipartContent(request)) {
+    else if( JakartaServletFileUpload.isMultipartContent(request)) {
       return RequestType.FORM_UPLOAD_POST;
     }
     else if( RequestRouter.isSourceRequest(pathInfo)) {
@@ -654,11 +654,11 @@ public class DirectJNgineServlet extends HttpServlet {
   private void processUploadFormPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     assert request != null;
     assert response != null;
-    
+
     RequestRouter router = getProcessor();
     UploadFormPostRequestProcessor processor = router.createUploadFromProcessor();
     try {
-      final List<FileItem> fileItems = getFileItems(request);
+      final List<FileItem<?>> fileItems = getFileItems(request);
       if (isValidAntiCsrfTokenMatching(request, fileItems)) {
         router.processUploadFormPostRequest(processor, fileItems, response.getWriter());
       } else {
@@ -671,14 +671,14 @@ public class DirectJNgineServlet extends HttpServlet {
   }
 
   @SuppressWarnings("unchecked")
-  private List<FileItem> getFileItems(HttpServletRequest request) throws FileUploadException {
+  private List<FileItem<?>> getFileItems(HttpServletRequest request) throws FileUploadException {
     assert request != null;
 
-    ServletFileUpload uploader = getUploader();
+    JakartaServletFileUpload uploader = getUploader();
     return uploader.parseRequest(request);
   }
 
-  private boolean isValidAntiCsrfTokenMatching(final HttpServletRequest request, final List<FileItem> fileItems) {
+  private boolean isValidAntiCsrfTokenMatching(final HttpServletRequest request, final List<FileItem<?>> fileItems) {
     if (antiCsrfTokenEnabled) {
       String cookie = getAntiCsrfTokenCookie(request);
       String form = getAntiCsrfTokenField(fileItems);
@@ -701,8 +701,8 @@ public class DirectJNgineServlet extends HttpServlet {
     return null;
   }
 
-  private String getAntiCsrfTokenField(final List<FileItem> fileItems) {
-    for (FileItem item : fileItems) {
+  private String getAntiCsrfTokenField(final List<FileItem<?>> fileItems) {
+    for (FileItem<?> item : fileItems) {
       if (item.isFormField() && org.apache.commons.lang.StringUtils.equals(antiCsrfTokenName, item.getFieldName())) {
         return item.getString();
       }
