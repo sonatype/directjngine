@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.sonatype.buildsupport</groupId>
     <artifactId>public-parent</artifactId>
-    <version>28</version>
+    <version>55</version>
   </parent>
 
   <groupId>org.sonatype.directjngine</groupId>
@@ -33,6 +33,7 @@
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+    <buildsupport-bestpractices.skip>true</buildsupport-bestpractices.skip>
   </properties>
   
   <modules>
