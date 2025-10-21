@@ -28,7 +28,7 @@ package com.softwarementors.extjs.djn.demo;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.io.IOUtils;
 
 import com.softwarementors.extjs.djn.StringBuilderUtils;
@@ -42,7 +42,7 @@ public class FormPostDemo {
   }
   
   @DirectFormPostMethod
-  public Result djnform_handleSubmit( Map<String, String> formParameters, Map<String, FileItem> fileFields ) throws IOException  {
+  public Result djnform_handleSubmit( Map<String, String> formParameters, Map<String, FileItem<?>> fileFields ) throws IOException  {
     assert formParameters != null; 
     assert fileFields != null; 
 
@@ -57,9 +57,9 @@ public class FormPostDemo {
     }
     
     fieldNamesAndValues.append( "<p></p><p>FILE fields:</p>" );
-    for( Map.Entry<String,FileItem> entry : fileFields.entrySet() ) {
+    for( Map.Entry<String,FileItem<?>> entry : fileFields.entrySet() ) {
       String fieldName = entry.getKey();
-      FileItem fileItem = entry.getValue();
+      FileItem<?> fileItem = entry.getValue();
       result.fileContents = IOUtils.toString( fileItem.getInputStream() );
       fileItem.getInputStream().close();
       StringBuilderUtils.appendAll( fieldNamesAndValues, "<b>", fieldName, "</b>:" );

@@ -27,13 +27,13 @@ package com.softwarementors.extjs.djn.test;
 
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import com.softwarementors.extjs.djn.config.annotations.DirectFormPostMethod;
 
 public class FormTest {
 
-  public OkResult djnform_test_formPostForNonAnnotatedMethod( Map<String, String> formParameters, Map<String, FileItem> fileFields )  {
+  public OkResult djnform_test_formPostForNonAnnotatedMethod( Map<String, String> formParameters, Map<String, FileItem<?>> fileFields )  {
     assert formParameters != null;
     assert fileFields != null;
 
@@ -50,7 +50,7 @@ public class FormTest {
   }
   
   @DirectFormPostMethod
-  public OkResult djnform_test_handleForm( Map<String, String> formParameters, Map<String, FileItem> fileFields )  {
+  public OkResult djnform_test_handleForm( Map<String, String> formParameters, Map<String, FileItem<?>> fileFields )  {
     assert formParameters != null;
     assert fileFields != null;
 
@@ -64,7 +64,7 @@ public class FormTest {
   }
 
   @DirectFormPostMethod
-  public OkResult test_handleFormWithBaseParams( Map<String, String> formParameters, Map<String, FileItem> fileFields )  {
+  public OkResult test_handleFormWithBaseParams( Map<String, String> formParameters, Map<String, FileItem<?>> fileFields )  {
     assert formParameters != null;
     assert fileFields != null;
 
@@ -81,7 +81,7 @@ public class FormTest {
   @DirectFormPostMethod
   @edu.umd.cs.findbugs.annotations.SuppressWarnings( value="SIC_INNER_SHOULD_BE_STATIC_ANON", 
     justification="MyServerException is never used outside of this method: making it an static inner class will obscure that")
-  public OkResult djnform_test_handleFormCausingServerException( Map<String, String> formParameters, Map<String, FileItem> fileFields ) {
+  public OkResult djnform_test_handleFormCausingServerException( Map<String, String> formParameters, Map<String, FileItem<?>> fileFields ) {
     assert formParameters != null;
     assert fileFields != null;
 
@@ -94,7 +94,7 @@ public class FormTest {
   
 /*  
   @DirectFormPostMethod
-  public int test_handleFormWithMultivaluedItem( Map<String, String> formParameters, Map<String, FileItem> fileFields )  {
+  public int test_handleFormWithMultivaluedItem( Map<String, String> formParameters, Map<String, FileItem<?>> fileFields )  {
     assert formParameters != null;
     assert fileFields != null;
 

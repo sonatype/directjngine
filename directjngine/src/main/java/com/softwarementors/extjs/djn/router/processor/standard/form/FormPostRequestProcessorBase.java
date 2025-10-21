@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +55,7 @@ public abstract class FormPostRequestProcessorBase extends StandardRequestProces
     super( registry, dispatcher, globalConfiguration);
   }
   
-  protected String process(Map<String,String> formParameters, Map<String, FileItem> fileFields) {
+  protected String process(Map<String,String> formParameters, Map<String, FileItem<?>> fileFields) {
     assert formParameters != null;
     assert fileFields != null;
      
@@ -75,7 +75,7 @@ public abstract class FormPostRequestProcessorBase extends StandardRequestProces
     return result;
   }
   
-  private static FormPostRequestData createRequestObject(Map<String, String> formParameters, Map<String, FileItem> fileFields) {
+  private static FormPostRequestData createRequestObject(Map<String, String> formParameters, Map<String, FileItem<?>> fileFields) {
     assert formParameters != null;
     assert fileFields != null;
     
@@ -134,8 +134,12 @@ public abstract class FormPostRequestProcessorBase extends StandardRequestProces
       return response;
     }
     finally {
-      for (FileItem fileItem : request.getFileFields().values()) {
-        fileItem.delete();
+      for (FileItem<?> fileItem : request.getFileFields().values()) {
+        try {
+          fileItem.delete();
+        } catch (java.io.IOException e) {
+          logger.warn("Failed to delete uploaded file: " + e.getMessage());
+        }
       }
     }
   }

@@ -31,10 +31,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,16 +56,16 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     super( registry, dispatcher, globalConfiguration );
   }
 
-  public void process(List<FileItem> fileItems, Writer writer) throws IOException {
+  public void process(List<FileItem<?>> fileItems, Writer writer) throws IOException {
     assert fileItems != null;
     assert writer != null;
-    
+
     Map<String, String> formParameters = new HashMap<String,String>();
-    Map<String, FileItem> fileFields = new HashMap<String,FileItem>();
-    for( FileItem item : fileItems ) {
+    Map<String, FileItem<?>> fileFields = new HashMap<String,FileItem<?>>();
+    for( FileItem<?> item : fileItems ) {
       if (item.isFormField()) {
         formParameters.put( item.getFieldName(), item.getString());
-      } 
+      }
       else {
         fileFields.put( item.getFieldName(), item );
       }
@@ -98,10 +98,10 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     return result.toString();
   }
 
-  private static String getFileParametersLogString(Map<String, FileItem> fileFields) {
+  private static String getFileParametersLogString(Map<String, FileItem<?>> fileFields) {
     StringBuilder result = new StringBuilder();
-    for( Map.Entry<String,FileItem> entry : fileFields.entrySet() ) {
-      FileItem fileItem = entry.getValue();
+    for( Map.Entry<String,FileItem<?>> entry : fileFields.entrySet() ) {
+      FileItem<?> fileItem = entry.getValue();
       String fieldName = entry.getKey();
       result.append( fieldName );
       result.append( "=");
@@ -112,11 +112,11 @@ public class UploadFormPostRequestProcessor extends FormPostRequestProcessorBase
     return result.toString();
   }
 
-  public static ServletFileUpload createFileUploader(final long maxUploadSize) {
+  public static JakartaServletFileUpload createFileUploader(final long maxUploadSize) {
     // Create a factory for disk-based file items
-    DiskFileItemFactory factory = new DiskFileItemFactory();
+    DiskFileItemFactory.Builder builder = DiskFileItemFactory.builder();
     // Create a new file upload handler
-    ServletFileUpload upload = new ServletFileUpload(factory);
+    JakartaServletFileUpload upload = new JakartaServletFileUpload(builder.get());
 
     // Set upload handler limits
     upload.setSizeMax(maxUploadSize);

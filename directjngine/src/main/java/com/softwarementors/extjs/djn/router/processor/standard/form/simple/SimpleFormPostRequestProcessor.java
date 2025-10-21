@@ -31,7 +31,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +60,7 @@ public class SimpleFormPostRequestProcessor extends FormPostRequestProcessorBase
     }
     Map<String, String> formParameters;
     formParameters = RequestProcessorUtils.getDecodedRequestParameters(requestString);    
-    String result = process(formParameters, new HashMap<String,FileItem>());
+    String result = process(formParameters, new HashMap<String,FileItem<?>>());
     writer.write( result );
     if( logger.isDebugEnabled() ) {
       logger.debug( "ResponseData data (SIMPLE FORM)=>" + result );

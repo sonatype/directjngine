@@ -24,7 +24,7 @@
  */
 package com.softwarementors.extjs.djn.router.processor.standard.form;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -35,8 +35,8 @@ public class Util
     //private constructor
   }
 
-  public static FileItem mockFileItem(String name, String value) {
-    FileItem fileItem = mock(FileItem.class);
+  public static FileItem<?> mockFileItem(String name, String value) {
+    FileItem<?> fileItem = mock(FileItem.class);
     when(fileItem.isFormField()).thenReturn(true);
     when(fileItem.getFieldName()).thenReturn(name);
     when(fileItem.getString()).thenReturn(value);

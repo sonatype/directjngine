@@ -31,7 +31,7 @@ import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 import com.softwarementors.extjs.djn.gson.DefaultGsonBuilderConfigurator;
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -60,15 +60,15 @@ public class FormPostRequestProcessorBaseTest
   }
 
   @Test
-  public void validateTempFileRemoved() {
+  public void validateTempFileRemoved() throws Exception {
     Map<String,String> formParameters = new HashMap<String, String>();
     formParameters.put("extAction", "action");
     formParameters.put("extMethod", "method");
     formParameters.put("extType", "type");
     formParameters.put("extTID", "1");
     formParameters.put("extUpload", "true");
-    Map<String,FileItem> fileItems = new HashMap<String,FileItem>();
-    FileItem fileItem = Util.mockFileItem("field", "avalue");
+    Map<String,FileItem<?>> fileItems = new HashMap<String,FileItem<?>>();
+    FileItem<?> fileItem = Util.mockFileItem("field", "avalue");
     fileItems.put("field", fileItem);
     underTest.process(formParameters, fileItems);
     verify(fileItem).delete();

@@ -28,7 +28,7 @@ package com.softwarementors.extjs.djn.router.processor.standard.form;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import com.softwarementors.extjs.djn.router.processor.standard.StandardRequestData;
 
@@ -45,9 +45,9 @@ public class FormPostRequestData extends StandardRequestData {
   // Make transient so that it is not serialized by our json processor
   transient private boolean isUpload;
   @NonNull transient private Map<String,String> formParameters;
-  @NonNull transient private Map<String, FileItem> fileFields; 
-  
-  public FormPostRequestData(String type, String action, String method, Long tid, boolean isUpload, Map<String, String> parameters, Map<String, FileItem> fileFields) {
+  @NonNull transient private Map<String, FileItem<?>> fileFields;
+
+  public FormPostRequestData(String type, String action, String method, Long tid, boolean isUpload, Map<String, String> parameters, Map<String, FileItem<?>> fileFields) {
     super( type, action, method, tid);
     
     assert parameters != null;
@@ -71,7 +71,7 @@ public class FormPostRequestData extends StandardRequestData {
     return this.formParameters;
   }
   
-  public Map<String, FileItem> getFileFields() {
+  public Map<String, FileItem<?>> getFileFields() {
     return this.fileFields;
   }
 }

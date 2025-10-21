@@ -32,8 +32,8 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.List;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +74,7 @@ public class RequestRouter {
     return new UploadFormPostRequestProcessor( this.registry, this.dispatcher, this.globalConfiguration);
   }
   
-  public void processUploadFormPostRequest(UploadFormPostRequestProcessor processor, List<FileItem> fileItems, Writer writer ) throws IOException {
+  public void processUploadFormPostRequest(UploadFormPostRequestProcessor processor, List<FileItem<?>> fileItems, Writer writer ) throws IOException {
     assert processor != null;
     
     processor.process( fileItems, writer );
