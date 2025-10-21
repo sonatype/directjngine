@@ -678,7 +678,7 @@ public class DirectJNgineServlet extends HttpServlet {
     return uploader.parseRequest(request);
   }
 
-  private boolean isValidAntiCsrfTokenMatching(final HttpServletRequest request, final List<FileItem<?>> fileItems) {
+  private boolean isValidAntiCsrfTokenMatching(final HttpServletRequest request, final List<FileItem<?>> fileItems) throws IOException {
     if (antiCsrfTokenEnabled) {
       String cookie = getAntiCsrfTokenCookie(request);
       String form = getAntiCsrfTokenField(fileItems);
@@ -701,7 +701,7 @@ public class DirectJNgineServlet extends HttpServlet {
     return null;
   }
 
-  private String getAntiCsrfTokenField(final List<FileItem<?>> fileItems) {
+  private String getAntiCsrfTokenField(final List<FileItem<?>> fileItems) throws IOException {
     for (FileItem<?> item : fileItems) {
       if (item.isFormField() && org.apache.commons.lang.StringUtils.equals(antiCsrfTokenName, item.getFieldName())) {
         return item.getString();
