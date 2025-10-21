@@ -5,7 +5,7 @@ mavenReleasePipeline(
     deployBranch: 'main',
     mavenVersion: 'Maven 3.9.x',
     mavenSettingsFile: 'rsc-private-settings', // internal publishing to rsc
-    additionalReleaseProfiles: ['publish-central'], // public publishing to central
+    additionalReleaseProfiles: ['publish-central', 'release'], // public publishing to central
     onSuccess: { build, env ->
       notifyChat(env: env, currentBuild: build, room: 'nxrm-notifications')
     },
