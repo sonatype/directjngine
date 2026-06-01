@@ -30,11 +30,11 @@ import java.text.DecimalFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class Timer {
-  @NonNull public static final Logger logger = LoggerFactory.getLogger( Timer.class );
-  @NonNull private static final DecimalFormat numberFormatter = new DecimalFormat("#.##");
+  @Nonnull public static final Logger logger = LoggerFactory.getLogger( Timer.class );
+  @Nonnull private static final DecimalFormat numberFormatter = new DecimalFormat("#.##");
 
   private boolean running;  
   private long startNanos;

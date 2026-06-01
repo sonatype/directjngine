@@ -28,13 +28,13 @@ package com.softwarementors.extjs.djn.router.processor.standard;
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.router.processor.ErrorResponseData;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 
 public class StandardErrorResponseData extends ErrorResponseData {
-  @NonNull private Long tid;
-  @NonNull private String action;
-  @NonNull private String method;
+  @Nonnull private Long tid;
+  @Nonnull private String action;
+  @Nonnull private String method;
   
   public StandardErrorResponseData( Long tid, String action, String method, Throwable exception, boolean debugOn ) {
     super( exception, debugOn);

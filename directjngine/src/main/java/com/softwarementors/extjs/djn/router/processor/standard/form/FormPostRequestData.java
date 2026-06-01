@@ -32,7 +32,7 @@ import org.apache.commons.fileupload.FileItem;
 
 import com.softwarementors.extjs.djn.router.processor.standard.StandardRequestData;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class FormPostRequestData extends StandardRequestData {
   
@@ -44,8 +44,8 @@ public class FormPostRequestData extends StandardRequestData {
   
   // Make transient so that it is not serialized by our json processor
   transient private boolean isUpload;
-  @NonNull transient private Map<String,String> formParameters;
-  @NonNull transient private Map<String, FileItem> fileFields; 
+  @Nonnull transient private Map<String,String> formParameters;
+  @Nonnull transient private Map<String, FileItem> fileFields; 
   
   public FormPostRequestData(String type, String action, String method, Long tid, boolean isUpload, Map<String, String> parameters, Map<String, FileItem> fileFields) {
     super( type, action, method, tid);

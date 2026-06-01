@@ -27,10 +27,10 @@ package com.softwarementors.extjs.djn.router.processor;
 
 import com.softwarementors.extjs.djn.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public abstract class ResponseData {
-  @NonNull private String type;
+  @Nonnull private String type;
 
   protected ResponseData(String type) {
     assert !StringUtils.isEmpty(type);

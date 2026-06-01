@@ -50,7 +50,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class ParallelTask<V> implements Future<Collection<V>> {
 
@@ -64,11 +64,11 @@ public class ParallelTask<V> implements Future<Collection<V>> {
   }
 
   //List of submitted tasks
-  @NonNull private final List<BoundedFuture> submittedQueue;         
+  @Nonnull private final List<BoundedFuture> submittedQueue;         
   //List of completed tasks: must be thread safe, for different BoundedFuture tasks will attempt to add themselves here as they finish, concurrently  
-  @NonNull private final BlockingQueue<BoundedFuture> completedQueue; 
-  @NonNull private final Semaphore semaphore;
-  @NonNull private final Executor executor;
+  @Nonnull private final BlockingQueue<BoundedFuture> completedQueue; 
+  @Nonnull private final Semaphore semaphore;
+  @Nonnull private final Executor executor;
   private final int size;
   private boolean cancelled = false;
 

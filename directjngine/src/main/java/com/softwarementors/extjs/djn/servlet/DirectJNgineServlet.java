@@ -1,6 +1,6 @@
 /*
  * Copyright © 2008, 2012 Pedro Agulló Soliveres.
- * 
+ *
  * This file is part of DirectJNgine.
  *
  * DirectJNgine is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with DirectJNgine.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * This software uses the ExtJs library (http://extjs.com), which is 
+ *
+ * This software uses the ExtJs library (http://extjs.com), which is
  * distributed under the GPL v3 license (see http://extjs.com/license).
  */
 
@@ -31,19 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.NDC;
 
 import com.softwarementors.extjs.djn.EncodingUtils;
 import com.softwarementors.extjs.djn.StringUtils;
@@ -66,15 +61,19 @@ import com.softwarementors.extjs.djn.servlet.config.RegistryConfigurationExcepti
 import com.softwarementors.extjs.djn.servlet.ssm.SsmDispatcher;
 import com.softwarementors.extjs.djn.servlet.ssm.SsmJsonRequestProcessorThread;
 import com.softwarementors.extjs.djn.servlet.ssm.WebContextManager;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang3.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.NDC;
 
 public class DirectJNgineServlet extends HttpServlet {
 
   private static final long serialVersionUID = -5621879599626932408L;
 
-  @NonNull
+  @Nonnull
   private static final Logger logger = LoggerFactory.getLogger( DirectJNgineServlet.class);
 
   /*********************************************************  
@@ -96,51 +95,51 @@ public class DirectJNgineServlet extends HttpServlet {
      The solution was to have static maps, keyed by servlet name, which is always
      unique in a web application.
   */
-  @NonNull private static Map<String,RequestRouter> processors = new HashMap<String,RequestRouter>();
-  @NonNull private static Map<String,ServletFileUpload> uploaders = new HashMap<String,ServletFileUpload>();
+  @Nonnull private static Map<String,RequestRouter> processors = new HashMap<String,RequestRouter>();
+  @Nonnull private static Map<String,ServletFileUpload> uploaders = new HashMap<String,ServletFileUpload>();
   
   // Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
   protected RequestRouter getProcessor() {
     assert processors.containsKey(getServletName());
-    
+
     return processors.get(getServletName());
   }
-  
+
   // Non-mutable => no need to worry about thread-safety => can be an 'instance' variable
   protected ServletFileUpload getUploader() {
     assert uploaders.containsKey(getServletName());
     
     return uploaders.get(getServletName());
   }
-  
-  // This can be static: we do not worry if we get the same id 
+
+  // This can be static: we do not worry if we get the same id
   // in a load-balanced system
   private static long id = 1000; // It is good for formatting to get lots of ids with the same number of digits...
 
   public static class GlobalParameters {
-    @NonNull public static final String PROVIDERS_URL = "providersUrl";
-    @NonNull public static final String DEBUG = "debug";
-    
-    @NonNull private static final String APIS_PARAMETER = "apis";
-    @NonNull private static final String MINIFY = "minify";
+    @Nonnull public static final String PROVIDERS_URL = "providersUrl";
+    @Nonnull public static final String DEBUG = "debug";
 
-    @NonNull public static final String BATCH_REQUESTS_MULTITHREADING_ENABLED = "batchRequestsMultithreadingEnabled";
-    @NonNull public static final String BATCH_REQUESTS_MIN_THREADS_POOOL_SIZE = "batchRequestsMinThreadsPoolSize";
-    @NonNull public static final String BATCH_REQUESTS_MAX_THREADS_POOOL_SIZE = "batchRequestsMaxThreadsPoolSize";
-    @NonNull public static final String BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS = "batchRequestsMaxThreadKeepAliveSeconds";
-    @NonNull public static final String BATCH_REQUESTS_MAX_THREADS_PER_REQUEST = "batchRequestsMaxThreadsPerRequest";
-    @NonNull public static final String GSON_BUILDER_CONFIGURATOR_CLASS = "gsonBuilderConfiguratorClass";
-    @NonNull public static final String DISPATCHER_CLASS = "dispatcherClass";
-    @NonNull public static final String JSON_REQUEST_PROCESSOR_THREAD_CLASS = "jsonRequestProcessorThreadClass";
-    @NonNull public static final String CONTEXT_PATH = "contextPath";
-    @NonNull public static final String CREATE_SOURCE_FILES="createSourceFiles";
+    @Nonnull private static final String APIS_PARAMETER = "apis";
+    @Nonnull private static final String MINIFY = "minify";
+
+    @Nonnull public static final String BATCH_REQUESTS_MULTITHREADING_ENABLED = "batchRequestsMultithreadingEnabled";
+    @Nonnull public static final String BATCH_REQUESTS_MIN_THREADS_POOOL_SIZE = "batchRequestsMinThreadsPoolSize";
+    @Nonnull public static final String BATCH_REQUESTS_MAX_THREADS_POOOL_SIZE = "batchRequestsMaxThreadsPoolSize";
+    @Nonnull public static final String BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS = "batchRequestsMaxThreadKeepAliveSeconds";
+    @Nonnull public static final String BATCH_REQUESTS_MAX_THREADS_PER_REQUEST = "batchRequestsMaxThreadsPerRequest";
+    @Nonnull public static final String GSON_BUILDER_CONFIGURATOR_CLASS = "gsonBuilderConfiguratorClass";
+    @Nonnull public static final String DISPATCHER_CLASS = "dispatcherClass";
+    @Nonnull public static final String JSON_REQUEST_PROCESSOR_THREAD_CLASS = "jsonRequestProcessorThreadClass";
+    @Nonnull public static final String CONTEXT_PATH = "contextPath";
+    @Nonnull public static final String CREATE_SOURCE_FILES="createSourceFiles";
   }
 
   public static class ApiParameters {
-    @NonNull public static final String API_FILE = "apiFile";
-    @NonNull public static final String API_NAMESPACE = "apiNamespace";
-    @NonNull public static final String ACTIONS_NAMESPACE = "actionsNamespace";
-    @NonNull public static final String CLASSES = "classes";
+    @Nonnull public static final String API_FILE = "apiFile";
+    @Nonnull public static final String API_NAMESPACE = "apiNamespace";
+    @Nonnull public static final String ACTIONS_NAMESPACE = "actionsNamespace";
+    @Nonnull public static final String CLASSES = "classes";
   }
 
   private static synchronized long getUniqueRequestId() {
@@ -583,7 +582,7 @@ public class DirectJNgineServlet extends HttpServlet {
           if( logger.isTraceEnabled()) {
             String requestInfo = ServletUtils.getDetailedRequestInformation(request);
             logger.trace( "Request info: " + requestInfo);
-          }        
+          }
 
           String requestEncoding = request.getCharacterEncoding();
           // If we don't know what the request encoding is, assume it to be UTF-8
@@ -693,7 +692,7 @@ public class DirectJNgineServlet extends HttpServlet {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie cookie : cookies) {
-        if (org.apache.commons.lang.StringUtils.equals(antiCsrfTokenName, cookie.getName())) {
+        if (Strings.CS.equals(antiCsrfTokenName, cookie.getName())) {
           return cookie.getValue();
         }
       }
@@ -703,7 +702,7 @@ public class DirectJNgineServlet extends HttpServlet {
 
   private String getAntiCsrfTokenField(final List<FileItem> fileItems) {
     for (FileItem item : fileItems) {
-      if (item.isFormField() && org.apache.commons.lang.StringUtils.equals(antiCsrfTokenName, item.getFieldName())) {
+      if (item.isFormField() && Strings.CS.equals(antiCsrfTokenName, item.getFieldName())) {
         return item.getString();
       }
     }
