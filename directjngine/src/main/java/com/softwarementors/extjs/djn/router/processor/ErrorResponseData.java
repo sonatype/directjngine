@@ -28,19 +28,19 @@ package com.softwarementors.extjs.djn.router.processor;
 import com.softwarementors.extjs.djn.ExceptionUtils;
 import com.softwarementors.extjs.djn.router.TransferType;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public abstract class ErrorResponseData extends ResponseData {
   @edu.umd.cs.findbugs.annotations.SuppressWarnings( value="URF_UNREAD_FIELD", justification="Passed to JSON side only")
-  @NonNull public String message;
+  @Nonnull public String message;
   @edu.umd.cs.findbugs.annotations.SuppressWarnings( value="URF_UNREAD_FIELD", justification="Passed to JSON side only")
-  @NonNull public String where;
+  @Nonnull public String where;
   @edu.umd.cs.findbugs.annotations.SuppressWarnings( value="URF_UNREAD_FIELD", justification="Passed to JSON side only")
-  @NonNull public ServerExceptionInformation serverException;
+  @Nonnull public ServerExceptionInformation serverException;
   /*
-  @NonNull private String serverExceptionMessage;
-  @NonNull private String serverExceptionType;
-  @NonNull private List<ExceptionInformation> exceptionsInformation = new ArrayList<ExceptionInformation>();
+  @Nonnull private String serverExceptionMessage;
+  @Nonnull private String serverExceptionType;
+  @Nonnull private List<ExceptionInformation> exceptionsInformation = new ArrayList<ExceptionInformation>();
   */
 
   protected ErrorResponseData( Throwable exception, boolean debugOn ) {

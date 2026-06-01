@@ -32,17 +32,17 @@ import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
 import com.softwarementors.extjs.djn.router.processor.standard.json.DefaultJsonRequestProcessorThread;
 import com.softwarementors.extjs.djn.router.processor.standard.json.JsonRequestProcessorThread;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public class GlobalConfiguration {
   public static final boolean DEFAULT_DEBUG_VALUE = false;
   @CheckForNull private String contextPath;
-  @NonNull private String providersUrl;
+  @Nonnull private String providersUrl;
   private boolean debug;
-  @NonNull private Class<? extends GsonBuilderConfigurator> gsonBuilderConfiguratorClass;
-  @NonNull private Class<? extends JsonRequestProcessorThread> jsonRequestProcessorThreadClass;
-  @NonNull private Class<? extends Dispatcher> dispatcherClass;
+  @Nonnull private Class<? extends GsonBuilderConfigurator> gsonBuilderConfiguratorClass;
+  @Nonnull private Class<? extends JsonRequestProcessorThread> jsonRequestProcessorThreadClass;
+  @Nonnull private Class<? extends Dispatcher> dispatcherClass;
   private boolean batchRequestsMultithreadingEnabled;
   private int batchRequestsMinThreadsPoolSize;
   private int batchRequestsMaxThreadsPoolSize; 
@@ -63,8 +63,8 @@ public class GlobalConfiguration {
   public static final int DEFAULT_BATCH_REQUESTS_THREAD_KEEP_ALIVE_SECONDS = 60;
   public static final boolean DEFAULT_MINIFY_VALUE = true;
   public static final boolean DEFAULT_CREATE_SOURCE_FILES = true;
-  @NonNull public static final Class<? extends GsonBuilderConfigurator> DEFAULT_GSON_BUILDER_CONFIGURATOR_CLASS = DefaultGsonBuilderConfigurator.class;
-  @NonNull public static final Class<? extends JsonRequestProcessorThread> DEFAULT_JSON_REQUEST_PROCESSOR_THREAD_CLASS = DefaultJsonRequestProcessorThread.class;
+  @Nonnull public static final Class<? extends GsonBuilderConfigurator> DEFAULT_GSON_BUILDER_CONFIGURATOR_CLASS = DefaultGsonBuilderConfigurator.class;
+  @Nonnull public static final Class<? extends JsonRequestProcessorThread> DEFAULT_JSON_REQUEST_PROCESSOR_THREAD_CLASS = DefaultJsonRequestProcessorThread.class;
 
   public GlobalConfiguration( String contextPath, String providersUrl, boolean debug, 
       Class<? extends GsonBuilderConfigurator> gsonBuilderConfiguratorClass,

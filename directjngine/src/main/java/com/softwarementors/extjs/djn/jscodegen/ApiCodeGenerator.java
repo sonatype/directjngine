@@ -36,13 +36,13 @@ import com.softwarementors.extjs.djn.api.RegisteredStandardMethod;
 import com.softwarementors.extjs.djn.config.GlobalConfiguration;
 import com.softwarementors.extjs.djn.router.processor.poll.PollRequestProcessor;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class ApiCodeGenerator {
   
   private static final String REMOTING_TYPE = "remoting";
-  @NonNull private RegisteredApi api;
-  @NonNull private GlobalConfiguration globalConfiguration;
+  @Nonnull private RegisteredApi api;
+  @Nonnull private GlobalConfiguration globalConfiguration;
   
   public ApiCodeGenerator( GlobalConfiguration globalConfiguration, RegisteredApi api ) {
     assert globalConfiguration != null;

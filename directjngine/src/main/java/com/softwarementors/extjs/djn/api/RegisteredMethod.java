@@ -4,12 +4,12 @@ import java.lang.reflect.Method;
 
 import com.softwarementors.extjs.djn.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public abstract class RegisteredMethod {
-  @NonNull private RegisteredAction action;
-  @NonNull private Method method;
-  @NonNull private String name;
+  @Nonnull private RegisteredAction action;
+  @Nonnull private Method method;
+  @Nonnull private String name;
   
   protected RegisteredMethod( RegisteredAction action, Method method, String name ) {
     assert action != null;

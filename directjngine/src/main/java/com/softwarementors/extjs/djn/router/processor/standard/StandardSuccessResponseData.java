@@ -29,13 +29,13 @@ import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.router.TransferType;
 import com.softwarementors.extjs.djn.router.processor.SuccessResponseData;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class StandardSuccessResponseData extends SuccessResponseData {
-  @NonNull private Long tid;
-  @NonNull private String action;
-  @NonNull private String method;
-  @NonNull private Object result;
+  @Nonnull private Long tid;
+  @Nonnull private String action;
+  @Nonnull private String method;
+  @Nonnull private Object result;
 
   public  StandardSuccessResponseData( Long tid, String action, String method ) {
     super( TransferType.RPC );

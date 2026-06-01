@@ -29,18 +29,18 @@ import java.util.List;
 
 import com.softwarementors.extjs.djn.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class ApiConfiguration {
   
   public static final String DEFAULT_NAMESPACE_PREFIX = "Djn.";
   public static final String DEFAULT_API_FILE_SUFFIX = "-api.js";
-  @NonNull private String name;
-  @NonNull private String fullApiFileName;
-  @NonNull private String apiNamespace;
-  @NonNull private String actionsNamespace;
-  @NonNull private List<Class<?>> classes;
-  @NonNull private String apiFile;
+  @Nonnull private String name;
+  @Nonnull private String fullApiFileName;
+  @Nonnull private String apiNamespace;
+  @Nonnull private String actionsNamespace;
+  @Nonnull private List<Class<?>> classes;
+  @Nonnull private String apiFile;
   
   public ApiConfiguration( String name, String apiFile, String fullApiFileName, 
       String apiNamespace, String actionsNamespace, List<Class<?>> classes ) 

@@ -43,9 +43,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -68,22 +67,17 @@ import com.softwarementors.extjs.djn.router.processor.RequestException;
 import com.softwarementors.extjs.djn.router.processor.standard.StandardErrorResponseData;
 import com.softwarementors.extjs.djn.router.processor.standard.StandardRequestProcessorBase;
 import com.softwarementors.extjs.djn.router.processor.standard.StandardSuccessResponseData;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JsonRequestProcessor extends StandardRequestProcessorBase {
   /* Will not release this until extensive testings is performed */
   private final static boolean SUPPORTS_OBJECT_TYPE_PARAMETER = false;
 
-  @NonNull private static final Logger logger = LoggerFactory.getLogger( JsonRequestProcessor.class);
+  @Nonnull private static final Logger logger = LoggerFactory.getLogger( JsonRequestProcessor.class);
   // We need a globally unique thread-pool, not a pool per processor!
   @CheckForNull private static volatile ExecutorService individualRequestsThreadPool; 
-  @NonNull private JsonParser parser = new JsonParser(); 
-
-  protected JsonParser getJsonParser() {
-    return this.parser;
-  }
 
   @edu.umd.cs.findbugs.annotations.SuppressWarnings( value="NP_NONNULL_RETURN_VIOLATION", 
       justification="This method will never return null, because if the value it should return is null on entry, it assigns it first")
@@ -209,7 +203,7 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
   private JsonRequestData[] getIndividualJsonRequests( String requestString ) {
     assert !StringUtils.isEmpty(requestString);
 
-    JsonObject[] individualJsonRequests = parseIndividualJsonRequests(requestString, getJsonParser());
+    JsonObject[] individualJsonRequests = parseIndividualJsonRequests(requestString);
     JsonRequestData[] individualRequests = new JsonRequestData[individualJsonRequests.length];
 
     int i = 0;
@@ -536,12 +530,11 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
     }
   }
 
-  private static JsonObject[] parseIndividualJsonRequests(String requestString, JsonParser parser) {
+  private static JsonObject[] parseIndividualJsonRequests(String requestString) {
     assert !StringUtils.isEmpty(requestString);
-    assert parser != null;
 
     JsonObject[] individualRequests;
-    JsonElement root = parser.parse( requestString );
+    JsonElement root = JsonParser.parseString(requestString);
     if( root.isJsonArray() ) {
       JsonArray rootArray = (JsonArray)root;
       if( rootArray.size() == 0 ) {
