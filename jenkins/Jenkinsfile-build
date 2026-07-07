@@ -5,10 +5,15 @@ mavenSnapshotPipeline(performSonarAnalysis: true,
     deployBranch: 'main',
     mavenVersion: 'Maven 3.9.x',
     onSuccess: { build, env ->
-      notifyChat(env: env, currentBuild: build, room: 'nxrm-notifications')
+      if ((env.BRANCH_NAME == 'main' || env.BRANCH_NAME.startsWith('gh-readonly-queue')) &&
+          currentBuild?.previousBuild?.result =~ /FAILURE|UNSTABLE/) {
+        notifyChat(env: env, currentBuild: build, room: 'nxrm-notifications')
+      }
     },
     onFailure: { build, env ->
-      notifyChat(env: env, currentBuild: build, room: 'nxrm-notifications')
+      if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME.startsWith('gh-readonly-queue')) {
+        notifyChat(env: env, currentBuild: build, room: 'nxrm-notifications')
+      }
     },
     iqPolicyEvaluation: { stage ->
         nexusPolicyEvaluation iqStage: stage, iqApplication: 'directjngine',
