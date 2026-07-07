@@ -556,7 +556,7 @@ public class DirectJNgineServlet extends HttpServlet {
     else {
       String requestInfo = ServletUtils.getDetailedRequestInformation(request);      
       RequestException ex = RequestException.forRequestFormatNotRecognized();
-      logger.error( "Error during file uploader: " + ex.getMessage() + "\nAdditional request information: " + requestInfo, ex );
+      logger.debug( "Error during file uploader: " + ex.getMessage() + "\nAdditional request information: " + requestInfo, ex );
       throw ex;
     }
   }
