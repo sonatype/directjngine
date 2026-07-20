@@ -30,11 +30,11 @@ import java.util.Map;
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.router.processor.RequestData;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class PollRequestData extends RequestData {
-  @NonNull private String eventName;
-  @NonNull private Map<String, String> parameters;
+  @Nonnull private String eventName;
+  @Nonnull private Map<String, String> parameters;
 
   public PollRequestData( String eventName, Map<String,String> parameters) {
     assert !StringUtils.isEmpty(eventName);

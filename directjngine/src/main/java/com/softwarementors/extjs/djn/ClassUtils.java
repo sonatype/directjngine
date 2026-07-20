@@ -27,7 +27,7 @@ package com.softwarementors.extjs.djn;
 
 import java.lang.reflect.Field;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 
 
 public final class ClassUtils {

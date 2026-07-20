@@ -29,10 +29,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class WebContextManager {
-  @NonNull private static ThreadLocal<WebContext> webContext = new ThreadLocal<WebContext>();
+  @Nonnull private static ThreadLocal<WebContext> webContext = new ThreadLocal<WebContext>();
   
   public static WebContext get() {
     assert isWebContextAttachedToCurrentThread();

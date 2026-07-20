@@ -25,8 +25,8 @@
 
 package com.softwarementors.extjs.djn.router.processor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,16 +37,15 @@ import com.softwarementors.extjs.djn.gson.GsonBuilderConfigurator;
 import com.softwarementors.extjs.djn.gson.GsonBuilderConfiguratorException;
 import com.softwarementors.extjs.djn.gson.JsonException;
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
-
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class RequestProcessorBase {
   
-  @NonNull private static Logger logger = LoggerFactory.getLogger(RequestProcessorBase.class);  
-  @NonNull private Dispatcher dispatcher;
-  @NonNull private Registry registry;
-  @NonNull private GlobalConfiguration globalConfiguration;
+  @Nonnull private static Logger logger = LoggerFactory.getLogger(RequestProcessorBase.class);  
+  @Nonnull private Dispatcher dispatcher;
+  @Nonnull private Registry registry;
+  @Nonnull private GlobalConfiguration globalConfiguration;
   /************************ Per-thread */
   @CheckForNull private static Gson gson; // = new ThreadLocal<Gson>();
   /************************ Per-thread: end */
@@ -119,18 +118,12 @@ public abstract class RequestProcessorBase {
   private GsonBuilderConfigurator createGsonBuilderConfigurator() {
     Class<? extends GsonBuilderConfigurator> configuratorClass = getGlobalConfiguration().getGsonBuilderConfiguratorClass(); 
     try {
-      return configuratorClass.newInstance();
+      return configuratorClass.getConstructor().newInstance();
     }
-    catch (InstantiationException e) {
+    catch (Exception e) {
       GsonBuilderConfiguratorException ex = GsonBuilderConfiguratorException.forUnableToInstantiateGsonBuilder(configuratorClass, e);
       logger.error( ex.getMessage(), ex);
       throw ex;
     }
-    catch (IllegalAccessException e) {
-      GsonBuilderConfiguratorException ex = GsonBuilderConfiguratorException.forUnableToInstantiateGsonBuilder(configuratorClass, e);
-      logger.error( ex.getMessage(), ex);
-      throw ex;
-    }     
   }
-  
 }

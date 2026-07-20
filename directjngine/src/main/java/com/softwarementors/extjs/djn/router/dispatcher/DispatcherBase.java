@@ -36,8 +36,8 @@ import com.softwarementors.extjs.djn.Timer;
 import com.softwarementors.extjs.djn.api.RegisteredMethod;
 import com.softwarementors.extjs.djn.router.processor.RequestException;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public abstract class DispatcherBase implements Dispatcher {
   public Object dispatch( RegisteredMethod method, Object[] parameters ) {
@@ -108,9 +108,9 @@ public abstract class DispatcherBase implements Dispatcher {
   // 'the correct way' according to FindBugs: it flags direct usage as dangerous.
   private static class MethodVisibilityModifier implements PrivilegedAction<Object> {
     private boolean accessible;
-    private @NonNull Method method;
+    private @Nonnull Method method;
 
-    public MethodVisibilityModifier(@NonNull Method method) {
+    public MethodVisibilityModifier(@Nonnull Method method) {
       assert method != null;
       this.method = method;
     }
@@ -133,7 +133,7 @@ public abstract class DispatcherBase implements Dispatcher {
     return invokeJavaMethod( actionInstance, javaMethod, parameters );
   }
 
-  protected static final Object invokeJavaMethod(Object instance, @NonNull Method method, @NonNull Object[] parameters) throws Exception {
+  protected static final Object invokeJavaMethod(Object instance, @Nonnull Method method, @Nonnull Object[] parameters) throws Exception {
     boolean accessible = method.isAccessible();
     MethodVisibilityModifier visibilityModifier = new MethodVisibilityModifier(method);
     try {

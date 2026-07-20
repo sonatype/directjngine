@@ -1,6 +1,6 @@
 /*
  * Copyright © 2008, 2012 Pedro Agulló Soliveres.
- * 
+ *
  * This file is part of DirectJNgine.
  *
  * DirectJNgine is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with DirectJNgine.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * This software uses the ExtJs library (http://extjs.com), which is 
+ *
+ * This software uses the ExtJs library (http://extjs.com), which is
  * distributed under the GPL v3 license (see http://extjs.com/license).
  */
 
@@ -27,21 +27,21 @@ package com.softwarementors.extjs.djn;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 public final class EncodingUtils {
   private EncodingUtils() {
     // Avoid instantiatin
   }
-  
+
   public static final String UTF8 = "UTF-8";
 
   @Nullable
-  public static String htmlEncode(@Nullable String value) {
+  public static String htmlEncode(@Nullable final String value) {
     if (value == null) {
       return value;
     }
 
-    return StringEscapeUtils.escapeHtml(value);
+    return StringEscapeUtils.escapeHtml4(value);
   }
 }

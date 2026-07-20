@@ -6,20 +6,20 @@ import org.slf4j.LoggerFactory;
 import com.softwarementors.extjs.djn.StringUtils;
 import com.softwarementors.extjs.djn.jscodegen.Minifier;
 
-import edu.umd.cs.findbugs.annotations.CheckForNull;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public class RegisteredCode {
-  public @NonNull static final Logger logger = LoggerFactory.getLogger( RegisteredCode.class );
+  public @Nonnull static final Logger logger = LoggerFactory.getLogger( RegisteredCode.class );
   
   private boolean minify;
   private boolean debug;
   private boolean minificationFailed;
   
-  private @NonNull String name;
-  private @NonNull String fullApiFileName;
-  private @NonNull StringBuilder debugCodeBuilder = new StringBuilder();
-  private @NonNull StringBuilder nonCommentsCodeBuilder = new StringBuilder();
+  private @Nonnull String name;
+  private @Nonnull String fullApiFileName;
+  private @Nonnull StringBuilder debugCodeBuilder = new StringBuilder();
+  private @Nonnull StringBuilder nonCommentsCodeBuilder = new StringBuilder();
   private String minifiedCode;
   private String debugCode;
   private String nonCommentsCode;
@@ -42,24 +42,24 @@ public class RegisteredCode {
     this.debug = debug;
   }
   
-  @NonNull
+  @Nonnull
   public String getName() {
     return this.name;
   }
   
-  @NonNull
+  @Nonnull
   public String getFullApiFileName() {
     return this.fullApiFileName;
   }
   
-  @NonNull
+  @Nonnull
   public StringBuilder getDebugCodeBuilder() {
     assert hasDebugCode();
 
     return this.debugCodeBuilder;
   }
   
-  @NonNull
+  @Nonnull
   public String getDebugCode() {
     if( this.debugCode == null ) {
       this.debugCode = this.debugCodeBuilder.toString();
@@ -67,12 +67,12 @@ public class RegisteredCode {
     return this.debugCode;
   }
 
-  @NonNull
+  @Nonnull
   public StringBuilder getNonCommentsCodeBuilder() {
     return this.nonCommentsCodeBuilder;
   }
   
-  @NonNull
+  @Nonnull
   public String getNonCommentsCode() {
     if( this.nonCommentsCode == null ) {
       this.nonCommentsCode = this.nonCommentsCodeBuilder.toString();
@@ -94,7 +94,7 @@ public class RegisteredCode {
     return this.minifiedCode;
   }
 
-  @NonNull
+  @Nonnull
   public String getCode() {
     String code = null;
     if( hasDebugCode() ) {

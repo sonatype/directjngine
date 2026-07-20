@@ -25,12 +25,12 @@
 
 package com.softwarementors.extjs.djn.router;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public enum RequestType {
-  @NonNull JSON,
-  @NonNull FORM_SIMPLE_POST,
-  @NonNull FORM_UPLOAD_POST,
-  @NonNull POLL,
-  @NonNull SOURCE
+  @Nonnull JSON,
+  @Nonnull FORM_SIMPLE_POST,
+  @Nonnull FORM_UPLOAD_POST,
+  @Nonnull POLL,
+  @Nonnull SOURCE
 }

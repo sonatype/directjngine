@@ -33,15 +33,15 @@ import java.util.Map;
 
 import com.softwarementors.extjs.djn.StringUtils;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 public class RegisteredAction {
 
-  @NonNull private Map<String, RegisteredPollMethod> pollMethods = new HashMap<String, RegisteredPollMethod>();
-  @NonNull private Class<?> actionClass;
-  @NonNull private String name;
-  @NonNull private Map<String, RegisteredStandardMethod> standardMethodsByName = new HashMap<String,RegisteredStandardMethod>();
-  @NonNull private RegisteredApi api;
+  @Nonnull private Map<String, RegisteredPollMethod> pollMethods = new HashMap<String, RegisteredPollMethod>();
+  @Nonnull private Class<?> actionClass;
+  @Nonnull private String name;
+  @Nonnull private Map<String, RegisteredStandardMethod> standardMethodsByName = new HashMap<String,RegisteredStandardMethod>();
+  @Nonnull private RegisteredApi api;
   
   /* package */ RegisteredAction( RegisteredApi api, Class<?> actionClass, String name ) {
     assert api != null;
