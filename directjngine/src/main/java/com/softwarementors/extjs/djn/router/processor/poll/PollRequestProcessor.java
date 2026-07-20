@@ -146,11 +146,14 @@ public class PollRequestProcessor extends RequestProcessorBase {
       Object result = getDispatcher().dispatch(method, parameters);
       response = createSuccessResponse(result);
     }
+    catch (RequestException e) {
+      throw e;
+    }
     catch( Exception t ) {
       response = createErrorResponse( t, getDebug());
-      
+
       logErrorResponse( t );
-    }  
+    }
     StringBuilder result = new StringBuilder();
     appendIndividualResponseJsonString(response, result);
     
